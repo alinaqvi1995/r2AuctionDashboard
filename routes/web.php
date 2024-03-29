@@ -18,6 +18,8 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Auth::routes();
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware([
