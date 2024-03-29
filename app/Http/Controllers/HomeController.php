@@ -30,7 +30,7 @@ class HomeController extends Controller
         }
         else
         {
-            return redirect()->route('unauthorized');
+            return redirect()->route('colors.ondex');
         }
         
     }
