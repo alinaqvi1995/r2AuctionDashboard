@@ -1,6 +1,6 @@
 <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
     <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
-        <i class="fe fe-x"><span class="sr-only"></span></i>
+        <i class="fe fe-x"></i><span class="sr-only"></span>
     </a>
     <nav class="vertnav navbar navbar-light mx-n3">
         <!-- nav bar -->
@@ -17,12 +17,15 @@
                 </svg>
             </a>
         </div>
+        <p class="text-muted nav-heading mt-4 mb-2 pl-4">
+            <span>Dashboard</span>
+        </p>
         <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item w-100">
                 <a class="nav-link" href="{{ url('/') }}">
                     <i class="fe fe-home fe-16"></i>
-                    <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
-                    {{-- <span class="badge badge-pill badge-primary">New</span> --}}
+                    <span class="ml-3 item-text">Dashboard</span>
+                    <span class="sr-only">(current)</span>
                 </a>
             </li>
         </ul>
@@ -32,65 +35,39 @@
         <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item dropdown">
                 <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                    <i class="fe fe-box fe-16"></i>
-                    <span class="ml-3 item-text">Roles & Permissions</span>
+                    <i class="fe fe-settings fe-16"></i>
+                    <span class="ml-3 item-text">Settings</span>
                 </a>
                 <ul class="collapse list-unstyled w-100" id="ui-elements">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('roles.index') }}"><span
-                                class="ml-1 item-text">Roles</span></a>
+                        <a class="nav-link" href="{{ route('roles.index') }}">
+                            <i class="fe fe-users fe-16"></i>
+                            <span class="ml-1 item-text">Roles</span>
+                        </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('permissions.index') }}"><span
-                                class="ml-1 item-text">Permissions</span></a>
+                        <a class="nav-link" href="{{ route('permissions.index') }}">
+                            <i class="fe fe-shield fe-16"></i>
+                            <span class="ml-1 item-text">Permissions</span>
+                        </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('role_permissions.index') }}"><span
-                                class="ml-1 item-text">RolesPermissions</span></a>
+                        <a class="nav-link" href="{{ route('role_permissions.index') }}">
+                            <i class="fe fe-shield-off fe-16"></i>
+                            <span class="ml-1 item-text">RolesPermissions</span>
+                        </a>
                     </li>
                 </ul>
             </li>
-        </ul> --}}
-        {{-- <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item dropdown">
-                <a href="#ui-umanagement" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                    <i class="fe fe-box fe-16"></i>
-                    <span class="ml-3 item-text">User Management</span>
-                </a>
-                <ul class="collapse list-unstyled w-100" id="ui-umanagement">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('roles.index') }}"><span
-                                class="ml-1 item-text">Add New User</span></a>
-                    </li>
-                </ul>
-            </li>
-        </ul> --}}
-        {{-- <p class="text-muted nav-heading mt-4 mb-2 pl-4">
-            <span>Colors</span>
-        </p>
-        <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item dropdown">
-                <a href="#ui-category" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                    <i class="fe fe-box fe-16"></i>
-                    <span class="ml-3 item-text">Colors</span>
-                </a>
-                <ul class="collapse list-unstyled w-100" id="ui-category">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('colors.index') }}"><span
-                                class="ml-1 item-text">Colors</span></a>
-                    </li>
-                </ul>
-            </li>
-        </ul> --}}
+        </ul> --> --}}
         <p class="text-muted nav-heading mt-4 mb-2 pl-4">
-            <span>Colors</span>
+            <span>Product Settings</span>
         </p>
         <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item w-100">
                 <a class="nav-link" href="{{ route('colors.index') }}">
                     <i class="fe fe-layers fe-16"></i>
                     <span class="ml-3 item-text">Colors</span>
-                    {{-- <span class="badge badge-pill badge-primary">New</span> --}}
                 </a>
             </li>
             <li class="nav-item w-100">
@@ -109,6 +86,12 @@
                 <a class="nav-link" href="{{ route('categories.index') }}">
                     <i class="fe fe-layers fe-16"></i>
                     <span class="ml-3 item-text">Category</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('subcategories.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Subcategory</span>
                 </a>
             </li>
             <li class="nav-item w-100">
@@ -148,28 +131,5 @@
                 </a>
             </li>
         </ul>
-        {{-- <p class="text-muted nav-heading mt-4 mb-2 pl-4">
-            <span>Events</span>
-        </p>
-        <ul class="navbar-nav flex-fill w-100 mb-2">
-            <li class="nav-item dropdown">
-                <a href="#ui-events" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                    <i class="fe fe-layers fe-16"></i>
-                    <span class="ml-3 item-text">Events</span>
-                </a>
-                <ul class="collapse list-unstyled w-100" id="ui-events">
-                    <li class="nav-item @if(Route::is('events.index')) active @endif">
-                        <a class="nav-link" href="{{ route('events.index') }}"><span
-                                class="ml-1 item-text">Events</span></a>
-                    </li>
-                    <li class="nav-item @if(Route::is('tickets.index')) active @endif">
-                        <a class="nav-link" href="{{ route('tickets.index') }}">
-                            Tickets Types
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul> --}}
-
     </nav>
 </aside>

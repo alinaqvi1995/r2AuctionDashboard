@@ -15,18 +15,12 @@ class CreateSubcategoriesTable extends Migration
     {
         Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('category_id');
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->timestamps();
+            $table->tinyInteger('status')->default(1);
             $table->softDeletes();
-
-            // Foreign key constraints
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

@@ -7,12 +7,13 @@
             <th>Name</th>
             <th>Description</th>
             <th>Status</th>
+            <th>Category</th>
             <th>Action</th>
         </tr>
     </thead>
-    <tbody id="productTableBody">
+    <tbody id="subcategoryTableBody">
         @php $counter = 1 @endphp <!-- Initialize counter -->
-        @foreach ($products as $products)
+        @foreach ($subcategories as $subcategory)
             <tr>
                 <td>
                     <div class="custom-control custom-checkbox">
@@ -21,16 +22,17 @@
                     </div>
                 </td>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
-                <td id="name{{ $products->id }}">{{ $products->name }}</td>
-                <td id="description{{ $products->id }}">{{ $products->description }}</td>
-                <td id="status{{ $products->id }}">{{ $products->status }}</td>
-                <td id="btn{{ $products->id }}">
-                    <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted editProductBtn"
-                        type="button" data-id="{{ $products->id }}">
+                <td id="name{{ $subcategory->id }}">{{ $subcategory->name }}</td>
+                <td id="description{{ $subcategory->id }}">{{ $subcategory->description }}</td>
+                <td id="status{{ $subcategory->id }}">{{ $subcategory->status ? 'Active' : 'Inactive' }}</td>
+                <td id="category{{ $subcategory->id }}">{{ $subcategory->category->name }}</td>
+                <td id="btn{{ $subcategory->id }}">
+                    <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted editSubcategoryBtn"
+                        type="button" data-id="{{ $subcategory->id }}">
                         <span class="text-muted sr-only">Edit</span>
                     </button>
-                    <button class="btn btn-sm rounded text-muted deleteProductBtn" type="button"
-                        data-id="{{ $products->id }}">
+                    <button class="btn btn-sm rounded text-muted deleteSubcategoryBtn" type="button"
+                        data-id="{{ $subcategory->id }}">
                         <span class="fe fe-trash fe-12 mr-3"></span>
                         <span class="text-muted sr-only">Remove</span>
                     </button>

@@ -1,44 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product; // Import the Product model
-use App\Models\Category;
-use App\Models\Manufacturer;
-use App\Models\Color;
-use App\Models\Capacity;
-use App\Models\Region;
-use App\Models\ModelNumber;
-use App\Models\LockStatus;
-use App\Models\Grade;
-use App\Models\Carrier;
-use App\Models\Subcategory;
+use App\Models\Product;
+use App\Http\Resources\ProductResource;
 
-class ProductController extends Controller
+class ProductApiController extends Controller
 {
-    public function index()
-    {
-        $products = Product::all();
-        $categories = Category::get();
-        $capacity = Capacity::get();
-        $colors = Color::get();
-        $manufacturer = Manufacturer::get();
-        $regions = Region::get();
-        $modelNumber = ModelNumber::get();
-        $lockStatus = LockStatus::get();
-        $grade = Grade::get();
-        $carrier = Carrier::get();
-        return view('admin.products.index', compact('products', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier'));
-    }
-
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'required|exists:subcategories,id',
             'manufacturer_id' => 'required|exists:manufacturers,id',
             'condition' => 'required|string|max:255',
         ]);
@@ -53,25 +29,21 @@ class ProductController extends Controller
         $product->carriers()->attach($request->input('carrier_id'));
 
         if ($product) {
-            $products = Product::all();
-            $view = view('admin.products.table', compact('products'))->render();
-            return response()->json(['message' => 'Product created successfully', 'table_html' => $view], 200);
+            return response()->json(['message' => 'Product created successfully', 'product' => new ProductResource($product)], 201);
         } else {
             return response()->json(['error' => 'Failed to create product'], 500);
         }
     }
 
-    public function edit($id)
+    public function index()
     {
-        try {
-            $product = Product::with(['category', 'subcategory', 'manufacturer', 'colors', 'storages', 'regions', 'modelNumbers', 'lockStatuses', 'grades', 'carriers'])->findOrFail($id);
-            $categories = Category::all();
-            $subcategories = Subcategory::where('category_id', $product->category_id)->get();
+        $products = Product::all();
+        return ProductResource::collection($products);
+    }
 
-            return response()->json(['product' => $product, 'categories' => $categories, 'subcategories' => $subcategories], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch product details for editing: ' . $e->getMessage()], 500);
-        }
+    public function show(Product $product)
+    {
+        return new ProductResource($product);
     }
 
     public function update(Request $request, Product $product)
@@ -80,7 +52,6 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'required|exists:subcategories,id',
             'manufacturer_id' => 'required|exists:manufacturers,id',
             'condition' => 'required|string|max:255',
         ]);
@@ -88,7 +59,7 @@ class ProductController extends Controller
         try {
             $product->update($request->all());
 
-            // Sync relationships
+            // Syncing related models
             $product->colors()->sync($request->input('color_id'));
             $product->storages()->sync($request->input('capacity_id'));
             $product->regions()->sync($request->input('region_id'));
@@ -98,9 +69,7 @@ class ProductController extends Controller
             $product->carriers()->sync($request->input('carrier_id'));
 
             if ($product->wasChanged()) {
-                $products = Product::all();
-                $table_html = view('admin.products.table', compact('products'))->render();
-                return response()->json(['message' => 'Product updated successfully', 'table_html' => $table_html], 200);
+                return response()->json(['message' => 'Product updated successfully', 'product' => new ProductResource($product)], 200);
             } else {
                 return response()->json(['error' => 'No changes detected for the product'], 400);
             }
@@ -109,14 +78,11 @@ class ProductController extends Controller
         }
     }
 
-
     public function destroy(Product $product)
     {
         try {
             $product->delete();
-            $products = Product::all();
-            $view = view('admin.products.table', compact('products'))->render();
-            return response()->json(['message' => 'Product deleted successfully', 'products' => $view], 200);
+            return response()->json(['message' => 'Product deleted successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete product: ' . $e->getMessage()], 500);
         }
