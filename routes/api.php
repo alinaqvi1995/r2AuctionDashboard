@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductApiController;
+use App\Http\Controllers\Api\RegisterApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,6 @@ Route::get('/products', [ProductApiController::class, 'index'])->name('products.
 Route::get('/products/{product}', [ProductApiController::class, 'show'])->name('products.show');
 Route::put('/products/{product}', [ProductApiController::class, 'update'])->name('products.update');
 Route::delete('/products/{product}', [ProductApiController::class, 'destroy'])->name('products.destroy');
+
+// Register new user
+Route::post('/register', [RegisterApiController::class, 'register']);

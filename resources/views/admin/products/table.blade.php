@@ -7,12 +7,13 @@
             <th>Name</th>
             <th>Description</th>
             <th>Status</th>
+            <th>Image</th> <!-- New column for the image -->
             <th>Action</th>
         </tr>
     </thead>
     <tbody id="productTableBody">
         @php $counter = 1 @endphp <!-- Initialize counter -->
-        @foreach ($products as $products)
+        @foreach ($products as $product)
             <tr>
                 <td>
                     <div class="custom-control custom-checkbox">
@@ -21,16 +22,23 @@
                     </div>
                 </td>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
-                <td id="name{{ $products->id }}">{{ $products->name }}</td>
-                <td id="description{{ $products->id }}">{{ $products->description }}</td>
-                <td id="status{{ $products->id }}">{{ $products->status }}</td>
-                <td id="btn{{ $products->id }}">
+                <td id="name{{ $product->id }}">{{ $product->name }}</td>
+                <td id="description{{ $product->id }}">{{ $product->description }}</td>
+                <td id="status{{ $product->id }}">{{ $product->status }}</td>
+                <td id="image{{ $product->id }}">
+                    @if($product->image)
+                    <img src="{{ asset('products/' . $product->image) }}" alt="Product Image" style="max-width: 100px;">
+                    @else
+                        No Image Available
+                    @endif
+                </td>
+                <td id="btn{{ $product->id }}">
                     <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted editProductBtn"
-                        type="button" data-id="{{ $products->id }}">
+                        type="button" data-id="{{ $product->id }}">
                         <span class="text-muted sr-only">Edit</span>
                     </button>
                     <button class="btn btn-sm rounded text-muted deleteProductBtn" type="button"
-                        data-id="{{ $products->id }}">
+                        data-id="{{ $product->id }}">
                         <span class="fe fe-trash fe-12 mr-3"></span>
                         <span class="text-muted sr-only">Remove</span>
                     </button>

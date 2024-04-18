@@ -176,14 +176,16 @@
                                     file</label>
                             </div>
                         </div>
-                        {{-- <div class="form-group mb-3">
+
+                        <div class="form-group mb-3">
                             <label for="media">Media</label>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input select2 media" id="media" name="media[]"
+                                <input type="file" class="custom-file-input media" id="media" name="media[]"
                                     multiple>
-                                <label class="custom-file-label media_label" for="media" id="media_label">Choose file</label>
+                                <label class="custom-file-label media_label" for="media" id="media_label">Choose
+                                    file</label>
                             </div>
-                        </div> --}}
+                        </div>
                         <button type="submit" class="btn btn-primary" id="saveProductBtn">Save Product</button>
                     </form>
                 </div>
@@ -397,7 +399,6 @@
                 $('#productModal').modal('show');
             });
 
-            // Show edit product modal
             $(document).on('click', '.editProductBtn', function() {
                 var productId = $(this).data('id');
                 $.ajax({
@@ -405,73 +406,104 @@
                         ':productId', productId),
                     method: "GET",
                     success: function(response) {
+                        console.log('response', response);
+
+                        // Populate product details
                         $('#edit_id').val(response.product.id);
                         $('#edit_name').val(response.product.name);
                         $('#edit_description').val(response.product.description);
                         $('#edit_category_id').val(response.product.category_id).trigger(
                             'change');
                         $('#edit_manufacturer_id').val(response.product.manufacturer_id)
-                            .trigger(
-                                'change');
+                            .trigger('change');
                         $('#edit_status').val(response.product.status).trigger('change');
-
-                        // Set select options for colors
-                        var colorIds = response.product.colors.map(color => color.id);
-                        $('#edit_color_id').val(colorIds).trigger('change');
-
-                        // Set select options for regions
-                        var regionIds = response.product.regions.map(region => region.id);
-                        $('#edit_region_id').val(regionIds).trigger('change');
-
-                        // Set select options for capacities
-                        var capacityIds = response.product.storages.map(storage => storage.id);
-                        $('#edit_capacity_id').val(capacityIds).trigger('change');
-
-                        // Set select options for modelNumbers
-                        var modelNumberIds = response.product.model_numbers.map(modelNumber =>
-                            modelNumber.id);
-                        $('#edit_modelNumber_id').val(modelNumberIds).trigger('change');
-
-                        // Set select options for lockStatuses
-                        var lockStatusIds = response.product.lock_statuses.map(lockStatus =>
-                            lockStatus.id);
-                        $('#edit_lockStatus_id').val(lockStatusIds).trigger('change');
-
-                        // Set select options for grades
-                        var gradeIds = response.product.grades.map(grade => grade.id);
-                        $('#edit_grade_id').val(gradeIds).trigger('change');
-
-                        // Set select options for carriers
-                        var carrierIds = response.product.carriers.map(carrier => carrier.id);
-                        $('#edit_carrier_id').val(carrierIds).trigger('change');
-
                         $('#edit_condition').val(response.product.condition);
-                        populateSubcategories(response.product.category_id,
-                            '#edit_subcategory_id', response.product.subcategory_id);
 
-                        var currentCondition = $('#edit_condition').val();
+                        // Replace select options for colors
+                        var colors = response.product.colors;
+                        $('#edit_color_id').replaceWith(buildSelect('edit_color_id', colors));
 
-                        toggleFieldsBasedOnCondition(response.product.condition);
+                        // Replace select options for regions
+                        var regions = response.product.regions;
+                        $('#edit_region_id').replaceWith(buildSelect('edit_region_id',
+                        regions));
 
+                        // Replace select options for capacities
+                        var capacities = response.product.storages;
+                        $('#edit_capacity_id').replaceWith(buildSelect('edit_capacity_id',
+                            capacities));
+
+                        // Replace select options for model numbers
+                        var modelNumbers = response.product.model_numbers;
+                        $('#edit_modelNumber_id').replaceWith(buildSelect('edit_modelNumber_id',
+                            modelNumbers));
+
+                        // Replace select options for lock statuses
+                        var lockStatuses = response.product.lock_statuses;
+                        $('#edit_lockStatus_id').replaceWith(buildSelect('edit_lockStatus_id',
+                            lockStatuses));
+
+                        // Replace select options for grades
+                        var grades = response.product.grades;
+                        $('#edit_grade_id').replaceWith(buildSelect('edit_grade_id', grades));
+
+                        // Replace select options for carriers
+                        var carriers = response.product.carriers;
+                        $('#edit_carrier_id').replaceWith(buildSelect('edit_carrier_id',
+                            carriers));
+
+                        // Populate subcategories
+                        var subcategories = response.subcategories;
+                        $('#edit_subcategory_id').empty();
+                        subcategories.forEach(function(subcategory) {
+                            $('#edit_subcategory_id').append('<option value="' +
+                                subcategory.id + '">' + subcategory.name +
+                                '</option>');
+                        });
 
                         $('#editProductModal').modal('show');
+
+                        // Initialize Select2 for the new select elements
+                        $('.select2').select2({
+                            theme: 'bootstrap4',
+                        });
                     },
                     error: function(error) {
                         console.error(error);
                         $('#productMessage').html(
                             '<div class="alert alert-danger" role="alert">Failed to fetch product details for editing.</div>'
-                        );
+                            );
                     }
                 });
             });
 
+            // Function to build a select element
+            function buildSelect(id, options) {
+                var select = $('<select>').attr('id', id).addClass('form-control select2');
+                options.forEach(function(option) {
+                    select.append($('<option>').attr('value', option.id).text(option.name));
+                });
+                return select;
+            }
+
             // Handle form submission for creating a new product
             $('#createProductForm').submit(function(e) {
                 e.preventDefault();
+
+                // Create a FormData object
+                var formData = new FormData(this);
+
+                // Append the image file to the FormData object
+                var imageFile = $('#image')[0].files[0];
+                formData.append('image', imageFile);
+
+                // Send the AJAX request with FormData
                 $.ajax({
                     url: "{{ route('products.store') }}",
                     method: "POST",
-                    data: $(this).serialize(),
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the FormData object
+                    contentType: false, // Prevent jQuery from setting contentType
                     success: function(response) {
                         $('#productModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -493,11 +525,21 @@
             $('#editProductForm').submit(function(e) {
                 e.preventDefault();
                 var productId = $('#edit_id').val();
+
+                // Create a FormData object
+                var formData = new FormData(this);
+
+                // Append the image file to the FormData object
+                var imageFile = $('#edit_image')[0].files[0];
+                formData.append('image', imageFile);
+
                 $.ajax({
                     url: "{{ route('products.update', ['product' => ':productId']) }}".replace(
                         ':productId', productId),
                     method: "PUT",
-                    data: $(this).serialize(),
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the FormData object
+                    contentType: false, // Prevent jQuery from setting contentType
                     success: function(response) {
                         $('#editProductModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -561,7 +603,6 @@
 
             // Update label text when files are selected for additional images
             $('.media').on('change', function() {
-                console.log('yessss');
                 // Get the file names
                 var files = $(this)[0].files;
                 var fileNames = '';
@@ -578,7 +619,6 @@
             // Update label text when files are selected for additional images
             $('.image').on('change', function() {
                 // Get the file names
-                console.log('yes');
                 var files = $(this)[0].files;
                 var fileNames = '';
                 for (var i = 0; i < files.length; i++) {

@@ -18,6 +18,7 @@ class Product extends Model
         'manufacturer_id',
         'condition',
         'status',
+        'image',
     ];
     
     public function category()
@@ -75,5 +76,10 @@ class Product extends Model
     public function carriers()
     {
         return $this->belongsToMany(Carrier::class, 'pivot_product_carrier', 'product_id', 'carrier_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }
