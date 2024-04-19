@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\RegisterApiController;
+use App\Http\Controllers\Api\LoginApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,6 @@ Route::delete('/products/{product}', [ProductApiController::class, 'destroy']);
 
 // Register new user
 Route::post('/register', [RegisterApiController::class, 'register']);
+
+// Login new user
+Route::post('/login', [LoginApiController::class, 'login']);
