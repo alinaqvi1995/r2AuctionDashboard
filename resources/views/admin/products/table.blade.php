@@ -33,10 +33,10 @@
                     @endif
                 </td>
                 <td id="btn{{ $product->id }}">
-                    <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted editProductBtn"
+                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm rounded dropdown-toggle more-horizontal text-mute"
                         type="button" data-id="{{ $product->id }}">
                         <span class="text-muted sr-only">Edit</span>
-                    </button>
+                    </a>
                     <button class="btn btn-sm rounded text-muted deleteProductBtn" type="button"
                         data-id="{{ $product->id }}">
                         <span class="fe fe-trash fe-12 mr-3"></span>

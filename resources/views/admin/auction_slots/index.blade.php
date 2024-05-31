@@ -2,19 +2,19 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mb-2 page-title">Grades</h2>
-        <p class="card-text">Grades table.</p>
+        <h2 class="mb-2 page-title">Time Slots</h2>
+        <p class="card-text">Time Slots table.</p>
         <div class="row my-4">
             <div class="col-md-12">
-                <button type="button" class="btn btn-primary" id="openGradeModal"><span
-                        class="fe fe-plus fe-16 mr-3"></span>New Grade</button>
+                <button type="button" class="btn btn-primary" id="openTimeSlotModal"><span
+                        class="fe fe-plus fe-16 mr-3"></span>New Time Slot</button>
                 <div class="card shadow">
                     <div class="card-body">
-                        <!-- Grade Messages -->
-                        <div id="gradeMessage"></div>
+                        <!-- Time Slot Messages -->
+                        <div id="timeSlotMessage"></div>
                         <!-- Table Data -->
                         <div id="tableData">
-                            @include('admin.grades.table')
+                            @include('admin.auction_slots.table')
                         </div>
                     </div>
                 </div>
@@ -22,74 +22,68 @@
         </div>
     </div>
 
-    <!-- New Grade modal -->
-    <div class="modal fade" id="gradeModal" tabindex="-1" role="dialog" aria-labelledby="gradeModalLabel"
+    <!-- New Time Slot modal -->
+    <div class="modal fade" id="timeSlotModal" tabindex="-1" role="dialog" aria-labelledby="timeSlotModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="gradeModalLabel">New Grade</h5>
+                    <h5 class="modal-title" id="timeSlotModalLabel">New Time Slot</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="createGradeForm">
+                    <form id="createTimeSlotForm">
                         @csrf
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="auction_date">Start Time</label>
+                            <input type="date" class="form-control" id="auction_date" name="auction_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="auction_date_end">End Time</label>
+                            <input type="date" class="form-control" id="auction_date_end" name="auction_date_end" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" required></textarea>
+                            <input type="text" class="form-control" id="description" name="description">
                         </div>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status" required>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="saveGradeBtn">Save Grade</button>
+                        <button type="submit" class="btn btn-primary" id="saveTimeSlotBtn">Save Time Slot</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Grade modal -->
-    <div class="modal fade" id="editGradeModal" tabindex="-1" role="dialog" aria-labelledby="editGradeModalLabel"
+    <!-- Edit Time Slot modal -->
+    <div class="modal fade" id="editSlotModal" tabindex="-1" role="dialog" aria-labelledby="editSlotModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editGradeModalLabel">Edit Grade</h5>
+                    <h5 class="modal-title" id="editSlotModalLabel">Edit Time Slot</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editGradeForm" method="POST">
+                    <form id="editSlotForm" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="edit_id" name="edit_id">
                         <div class="form-group">
-                            <label for="edit_name">Name</label>
-                            <input type="text" class="form-control" id="edit_name" name="name" required>
+                            <label for="edit_auction_date">Start Time</label>
+                            <input type="date" class="form-control" id="edit_auction_date" name="auction_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_auction_date_end">End Time</label>
+                            <input type="date" class="form-control" id="edit_auction_date_end" name="auction_date_end" required>
                         </div>
                         <div class="form-group">
                             <label for="edit_description">Description</label>
-                            <textarea class="form-control" id="edit_description" name="description" required></textarea>
+                            <input type="text" class="form-control" id="edit_description" name="description">
                         </div>
-                        <div class="form-group">
-                            <label for="edit_status">Status</label>
-                            <select class="form-control" id="edit_status" name="status" required>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="updateGradeBtn">Update Grade</button>
+                        <button type="submit" class="btn btn-primary" id="updateTimeSlotBtn">Update Time Slot</button>
                     </form>
                 </div>
             </div>
@@ -100,21 +94,21 @@
 @section('bottom_script')
     <script>
         $(document).ready(function() {
-            $('#openGradeModal').click(function() {
-                $('#gradeModal').modal('show');
+            $('#openTimeSlotModal').click(function() {
+                $('#timeSlotModal').modal('show');
             });
 
-            $('#createGradeForm').submit(function(e) {
+            $('#createTimeSlotForm').submit(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('grades.store') }}",
+                    url: "{{ route('auction_slots.store') }}",
                     method: "POST",
                     data: $(this).serialize(),
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        $('#gradeModal').modal('hide');
+                        $('#timeSlotModal').modal('hide');
                         $('#tableData').html(response.table_html);
 
                         $('#dataTable-1').DataTable({
@@ -125,46 +119,47 @@
                             ]
                         });
 
-                        $('#gradeMessage').html(
-                            '<div class="alert alert-success" role="alert">Grade created successfully.</div>'
+                        $('#timeSlotMessage').html(
+                            '<div class="alert alert-success" role="alert">Time Slot created successfully.</div>'
                         );
                     },
                     error: function(error) {
                         console.error(error);
-                        $('#gradeMessage').html(
-                            '<div class="alert alert-danger" role="alert">Failed to create grade.</div>'
+                        $('#timeSlotMessage').html(
+                            '<div class="alert alert-danger" role="alert">Failed to create time slot.</div>'
                         );
                     }
                 });
             });
 
-            $(document).on('click', '.editGradeBtn', function() {
-                var gradeId = $(this).data('id');
+            $(document).on('click', '.editSlotBtn', function() {
+                var timeSlotId = $(this).data('id');
                 $.ajax({
-                    url: "{{ route('grades.edit', ['grade' => ':gradeId']) }}".replace(':gradeId',
-                        gradeId),
+                    url: "{{ route('auction_slots.edit', ['auction_slot' => ':timeSlotId']) }}"
+                        .replace(':timeSlotId', timeSlotId),
                     method: "GET",
                     success: function(response) {
-                        $('#edit_id').val(response.grade.id);
-                        $('#edit_name').val(response.grade.name);
-                        $('#edit_description').val(response.grade.description);
-                        $('#edit_status').val(response.grade.status);
-                        $('#editGradeModal').modal('show');
+                        $('#edit_id').val(response.auction_slot.id);
+                        $('#edit_auction_date').val(response.auction_slot.auction_date);
+                        $('#edit_auction_date_end').val(response.auction_slot.auction_date_end);
+                        $('#edit_description').val(response.auction_slot.description);
 
-                        $('#editGradeForm').attr('action',
-                            "{{ route('grades.update', ['grade' => ':gradeId']) }}".replace(
-                                ':gradeId', gradeId));
+                        $('#editSlotModal').modal('show');
+
+                        $('#editSlotForm').attr('action',
+                            "{{ route('auction_slots.update', ['auction_slot' => ':timeSlotId']) }}"
+                            .replace(':timeSlotId', timeSlotId));
                     },
                     error: function(error) {
                         console.error(error);
-                        $('#gradeMessage').html(
-                            '<div class="alert alert-danger" role="alert">Failed to fetch grade details for editing.</div>'
+                        $('#timeSlotMessage').html(
+                            '<div class="alert alert-danger" role="alert">Failed to fetch time slot details for editing.</div>'
                         );
                     }
                 });
             });
 
-            $('#editGradeForm').submit(function(e) {
+            $('#editSlotForm').submit(function(e) {
                 e.preventDefault();
                 var formData = new FormData(this);
                 var actionUrl = $(this).attr('action');
@@ -178,13 +173,12 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        $('#editGradeModal').modal('hide');
+                        $('#editSlotModal').modal('hide');
 
-                        $('#tableData').html(response
-                            .table_html);
+                        $('#tableData').html(response.table_html);
 
-                        $('#gradeMessage').html(
-                            '<div class="alert alert-success" role="alert">Grade updated successfully.</div>'
+                        $('#timeSlotMessage').html(
+                            '<div class="alert alert-success" role="alert">Time Slot updated successfully.</div>'
                         );
 
                         $('#dataTable-1').DataTable({
@@ -197,30 +191,28 @@
                     },
                     error: function(error) {
                         console.error(error);
-                        $('#gradeMessage').html(
-                            '<div class="alert alert-danger" role="alert">Failed to update grade.</div>'
+                        $('#timeSlotMessage').html(
+                            '<div class="alert alert-danger" role="alert">Failed to update time slot.</div>'
                         );
                     }
                 });
             });
 
-            $(document).on('click', '.deleteGradeBtn', function() {
-                var gradeId = $(this).data('id');
-                if (confirm("Are you sure you want to delete this grade?")) {
+            $(document).on('click', '.deleteSlotBtn', function() {
+                var timeSlotId = $(this).data('id');
+                if (confirm("Are you sure you want to delete this time slot?")) {
                     $.ajax({
-                        url: "{{ route('grades.destroy', ['grade' => ':gradeId']) }}".replace(
-                            ':gradeId', gradeId),
+                        url: "{{ route('auction_slots.destroy', ['auction_slot' => ':timeSlotId']) }}"
+                            .replace(':timeSlotId', timeSlotId),
                         method: "DELETE",
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
+                            $('#tableData').html(response.table_html);
 
-                            $('#tableData').html(response
-                                .table_html);
-
-                            $('#gradeMessage').html(
-                                '<div class="alert alert-success" role="alert">Grade deleted successfully.</div>'
+                            $('#timeSlotMessage').html(
+                                '<div class="alert alert-success" role="alert">Time Slot deleted successfully.</div>'
                             );
 
                             $('#dataTable-1').DataTable({
@@ -233,8 +225,8 @@
                         },
                         error: function(error) {
                             console.error(error);
-                            $('#gradeMessage').html(
-                                '<div class="alert alert-danger" role="alert">Failed to delete grade.</div>'
+                            $('#timeSlotMessage').html(
+                                '<div class="alert alert-danger" role="alert">Failed to delete time slot.</div>'
                             );
                         }
                     });

@@ -41,6 +41,15 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="brand_id">Manufacturer</label>
+                            <select class="form-control" id="brand_id" name="brand_id" required>
+                                <option value="" selected disabled>Select Manufacturer</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
@@ -79,6 +88,15 @@
                             <input type="text" class="form-control" id="edit_name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="edit_brand_id">Manufacturer</label>
+                            <select class="form-control" id="edit_brand_id" name="brand_id" required>
+                                <option value="" selected disabled>Select Manufacturer</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="edit_description">Description</label>
                             <textarea class="form-control" id="edit_description" name="description" required></textarea>
                         </div>
@@ -112,6 +130,9 @@
                     url: "{{ route('capacities.store') }}",
                     method: "POST",
                     data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#capacityModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -142,10 +163,15 @@
             $('#editCapacityForm').submit(function(e) {
                 e.preventDefault();
                 var capacityId = $('#edit_id').val();
+                var url = "{{ route('capacities.update', ['capacity' => ':capacity']) }}".replace(
+                    ':capacity', capacityId);
                 $.ajax({
-                    url: "/capacities/" + capacityId,
+                    url: url,
                     method: "PUT",
                     data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#editCapacityModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -164,13 +190,13 @@
 
                         $('#capacityMessage').html(
                             '<div class="alert alert-success" role="alert">Capacity updated successfully.</div>'
-                            );
+                        );
                     },
                     error: function(error) {
                         console.error(error);
                         $('#capacityMessage').html(
                             '<div class="alert alert-danger" role="alert">Failed to update capacity.</div>'
-                            );
+                        );
                     }
                 });
             });
@@ -178,12 +204,18 @@
             // Show edit capacity modal
             $(document).on('click', '.editCapacityBtn', function() {
                 var capacityId = $(this).data('id');
+                var url = "{{ route('capacities.edit', ['capacity' => ':capacity']) }}".replace(':capacity',
+                    capacityId);
                 $.ajax({
-                    url: "/capacities/" + capacityId + "/edit",
+                    url: url,
                     method: "GET",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#edit_id').val(response.capacity.id);
                         $('#edit_name').val(response.capacity.name);
+                        $('#edit_brand_id').val(response.capacity.brand_id);
                         $('#edit_description').val(response.capacity.description);
                         $('#edit_status').val(response.capacity.status);
                         $('#editCapacityModal').modal('show');
@@ -200,21 +232,27 @@
             // Delete capacity
             $(document).on('click', '.deleteCapacityBtn', function() {
                 var capacityId = $(this).data('id');
+                var url = "{{ route('capacities.destroy', ['capacity' => ':capacity']) }}".replace(
+                    ':capacity', capacityId);
                 if (confirm("Are you sure you want to delete this capacity?")) {
                     $.ajax({
-                        url: "/capacities/" + capacityId,
+                        url: url,
                         method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(response) {
-                            $('#tableData').html(response.table_html);
+                        $('#tableData').html(response.table_html);
 
-                            // Reinitialize DataTables after updating table content
-                            $('#dataTable-1').DataTable({
-                                autoWidth: true,
-                                "lengthMenu": [
-                                    [16, 32, 64, -1],
-                                    [16, 32, 64, "All"]
-                                ]
-                            });
+                        $('#dataTable-1').DataTable().destroy();
+
+                        $('#dataTable-1').DataTable({
+                            autoWidth: true,
+                            "lengthMenu": [
+                                [16, 32, 64, -1],
+                                [16, 32, 64, "All"]
+                            ]
+                        });
 
                             $('#capacityMessage').html(
                                 '<div class="alert alert-success" role="alert">Capacity deleted successfully.</div>'

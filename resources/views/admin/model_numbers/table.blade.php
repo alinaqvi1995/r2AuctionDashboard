@@ -5,6 +5,7 @@
             <th></th>
             <th>Sr#</th>
             <th>Name</th>
+            <th>Manufacturer</th>
             <th>Description</th>
             <th>Status</th>
             <th>Action</th>
@@ -22,6 +23,7 @@
                 </td>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
                 <td id="name{{ $modelNumber->id }}">{{ $modelNumber->name }}</td>
+                <td id="name{{ $modelNumber->id }}">{{ isset($modelNumber->brand) ? $modelNumber->brand->name : null }}</td>
                 <td id="description{{ $modelNumber->id }}">{{ $modelNumber->description }}</td>
                 <td id="status{{ $modelNumber->id }}">{{ $modelNumber->status }}</td>
                 <td id="btn{{ $modelNumber->id }}">

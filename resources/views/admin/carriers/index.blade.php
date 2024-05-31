@@ -112,6 +112,9 @@
                     url: "{{ route('carriers.store') }}",
                     method: "POST",
                     data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#carrierModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -142,10 +145,10 @@
             $(document).on('click', '.editCarrierBtn', function() {
                 var carrierId = $(this).data('id');
                 $.ajax({
-                    url: "/carriers/" + carrierId + "/edit",
+                    url: "{{ route('carriers.edit', ':carrierId') }}".replace(':carrierId',
+                        carrierId),
                     method: "GET",
                     success: function(response) {
-                        console.log('response', response);
                         $('#edit_id').val(response.carrier.id);
                         $('#edit_name').val(response.carrier.name);
                         $('#edit_description').val(response.carrier.description);
@@ -154,16 +157,53 @@
 
                         // Set the action attribute of the form to include the carrierId parameter
                         $('#editCarrierForm').attr('action',
-                            "{{ route('carriers.update', ['carrier' => ':carrierId']) }}".replace(
+                            "{{ route('carriers.update', ':carrierId') }}".replace(
                                 ':carrierId', carrierId));
                     },
                     error: function(error) {
                         console.error(error);
                         $('#carrierMessage').html(
                             '<div class="alert alert-danger" role="alert">Failed to fetch carrier details for editing.</div>'
-                            );
+                        );
                     }
                 });
+            });
+
+            // Handle delete carrier
+            $(document).on('click', '.deleteCarrierBtn', function() {
+                var carrierId = $(this).data('id');
+                if (confirm("Are you sure you want to delete this carrier?")) {
+                    $.ajax({
+                        url: "{{ route('carriers.destroy', ':carrierId') }}".replace(':carrierId',
+                            carrierId),
+                        method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            $('#tableData').html(response.table_html);
+
+                            // Reinitialize DataTables after updating table content
+                            $('#dataTable-1').DataTable({
+                                autoWidth: true,
+                                "lengthMenu": [
+                                    [16, 32, 64, -1],
+                                    [16, 32, 64, "All"]
+                                ]
+                            });
+
+                            $('#carrierMessage').html(
+                                '<div class="alert alert-success" role="alert">Carrier deleted successfully.</div>'
+                            );
+                        },
+                        error: function(error) {
+                            console.error(error);
+                            $('#carrierMessage').html(
+                                '<div class="alert alert-danger" role="alert">Failed to delete carrier.</div>'
+                            );
+                        }
+                    });
+                }
             });
         });
     </script>

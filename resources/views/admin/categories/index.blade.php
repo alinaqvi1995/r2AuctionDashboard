@@ -59,8 +59,8 @@
     </div>
 
     <!-- Edit Category modal -->
-    <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog"
-        aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -117,6 +117,9 @@
                     data: formData,
                     contentType: false,
                     processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#categoryModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -134,42 +137,11 @@
                 });
             });
 
-            // Handle form submission for updating a category
-            // $('#editCategoryForm').submit(function(e) {
-            // e.preventDefault();
-            // var categoryId = $('#edit_id').val(); // Ensure this is getting the correct value
-
-            // $.ajax({
-            //     url: "{{ route('categories.update', ['category' => ':categoryId']) }}"
-            //         .replace(':categoryId', categoryId),
-            //     method: "POST",
-            //     enctype: 'multipart/form-data',
-            //     data: new FormData(this),
-            //     contentType: false,
-            //     processData: false,
-            //     success: function(response) {
-            //         $('#editCategoryModal').modal('hide');
-            //         $('#tableData').html(response.categories);
-            //         $('#categoryMessage').html(
-            //             '<div class="alert alert-success" role="alert">Category updated successfully.</div>'
-            //         );
-            //     },
-            //     error: function(error) {
-            //         console.error(error);
-            //         $('#categoryMessage').html(
-            //             '<div class="alert alert-danger" role="alert">Failed to update category.</div>'
-            //         );
-            //     }
-            // });
-            // });
-
-
-            // Show edit category modal
             $(document).on('click', '.editCategoryBtn', function() {
                 var categoryId = $(this).data('id');
                 $.ajax({
-                    url: "{{ route('categories.edit', ['category' => ':categoryId']) }}"
-                        .replace(':categoryId', categoryId),
+                    url: "{{ route('categories.edit', ['category' => ':categoryId']) }}".replace(
+                        ':categoryId', categoryId),
                     method: "GET",
                     success: function(response) {
                         $('#edit_id').val(response.category.id);
@@ -191,6 +163,37 @@
                 });
             });
 
+            // Handle form submission for updating a category
+            $('#editCategoryForm').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                var actionUrl = $(this).attr('action');
+                $.ajax({
+                    url: actionUrl,
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#editCategoryModal').modal('hide');
+                        $('#tableData').html(response.table_html);
+
+                        $('#categoryMessage').html(
+                            '<div class="alert alert-success" role="alert">Category updated successfully.</div>'
+                        );
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        $('#categoryMessage').html(
+                            '<div class="alert alert-danger" role="alert">Failed to update category.</div>'
+                        );
+                    }
+                });
+            });
+
             // Delete category
             $(document).on('click', '.deleteCategoryBtn', function() {
                 var categoryId = $(this).data('id');
@@ -199,6 +202,9 @@
                         url: "{{ route('categories.destroy', ['category' => ':categoryId']) }}"
                             .replace(':categoryId', categoryId),
                         method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(response) {
                             $('#tableData').html(response.table_html);
 
@@ -216,9 +222,8 @@
                 }
             });
 
-            // Update label text when files are selected for additional icon
+            // Update file input label for new category
             $('#icon').on('change', function() {
-                // Get the file names
                 var files = $(this)[0].files;
                 var fileNames = '';
                 for (var i = 0; i < files.length; i++) {
@@ -227,13 +232,11 @@
                         fileNames += ', ';
                     }
                 }
-                // Update the label text
                 $('#icon_label').text(fileNames);
             });
 
-            // Update label text when files are selected for additional icon
+            // Update file input label for editing category
             $('#edit_icon').on('change', function() {
-                // Get the file names
                 var files = $(this)[0].files;
                 var fileNames = '';
                 for (var i = 0; i < files.length; i++) {
@@ -242,11 +245,7 @@
                         fileNames += ', ';
                     }
                 }
-                // Update the label text
                 $('#edit_icon_label').text(fileNames);
-
-                // Debug: Log the files array to see if the file data is captured
-                console.log('Selected files:', files);
             });
         });
     </script>

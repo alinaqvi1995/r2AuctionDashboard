@@ -6,8 +6,10 @@
         <p class="card-text">Products table.</p>
         <div class="row my-4">
             <div class="col-md-12">
-                <button type="button" class="btn btn-primary" id="openProductModal"><span
-                        class="fe fe-plus fe-16 mr-3"></span>New Product</button>
+                <a href="{{ route('products.create') }}" type="button" class="btn btn-primary"><span
+                        class="fe fe-plus fe-16 mr-3"></span>New Product</a>
+                {{-- <button type="button" class="btn btn-primary" id="openProductModal"><span
+                        class="fe fe-plus fe-16 mr-3"></span>New Product</button> --}}
                 <div class="card shadow">
                     <div class="card-body">
                         <!-- Product Messages -->
@@ -426,7 +428,7 @@
                         // Replace select options for regions
                         var regions = response.product.regions;
                         $('#edit_region_id').replaceWith(buildSelect('edit_region_id',
-                        regions));
+                            regions));
 
                         // Replace select options for capacities
                         var capacities = response.product.storages;
@@ -472,7 +474,7 @@
                         console.error(error);
                         $('#productMessage').html(
                             '<div class="alert alert-danger" role="alert">Failed to fetch product details for editing.</div>'
-                            );
+                        );
                     }
                 });
             });

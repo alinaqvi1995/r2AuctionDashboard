@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ModelNumber;
+use App\Models\Manufacturer;
 
 class ModelNumberController extends Controller
 {
     public function index()
     {
-        $modelnumbers = ModelNumber::all();
-        return view('admin.model_numbers.index', compact('modelnumbers'));
+        $brands = Manufacturer::all();
+        $modelnumbers = ModelNumber::with('brand')->get();
+        return view('admin.model_numbers.index', compact('modelnumbers', 'brands'));
     }
 
     public function store(Request $request)
@@ -19,6 +21,7 @@ class ModelNumberController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'brand_id' => 'required',
         ]);
 
         $modelnumber = ModelNumber::create($request->all());
@@ -48,6 +51,7 @@ class ModelNumberController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'brand_id' => 'required',
         ]);
 
         try {

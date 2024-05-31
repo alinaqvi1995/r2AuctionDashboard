@@ -117,12 +117,10 @@
 @section('bottom_script')
     <script>
         $(document).ready(function() {
-            // Open the new subcategory modal
             $('#openSubcategoryModal').click(function() {
                 $('#subcategoryModal').modal('show');
             });
 
-            // Handle form submission for creating a new subcategory
             $('#createSubcategoryForm').submit(function(e) {
                 e.preventDefault();
                 $.ajax({
@@ -133,7 +131,6 @@
                         $('#subcategoryModal').modal('hide');
                         $('#tableData').html(response.table_html);
 
-                        // Reinitialize DataTables after updating table content
                         $('#dataTable-1').DataTable({
                             autoWidth: true,
                             "lengthMenu": [
@@ -155,7 +152,6 @@
                 });
             });
 
-            // Handle form submission for updating a subcategory
             $('#editSubcategoryForm').submit(function(e) {
                 e.preventDefault();
                 var subcategoryId = $('#edit_id').val();
@@ -164,15 +160,17 @@
                         subcategoryId),
                     method: "PUT",
                     data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#editSubcategoryModal').modal('hide');
                         $('#tableData').html(response
-                            .subcategories); // Corrected key for table HTML
+                            .subcategories);
                         $('#subcategoryMessage').html(
                             '<div class="alert alert-success" role="alert">Subcategory updated successfully.</div>'
                         );
 
-                        // Reinitialize DataTables after updating table content
                         $('#dataTable-1').DataTable({
                             autoWidth: true,
                             "lengthMenu": [
@@ -217,16 +215,24 @@
             // Delete subcategory
             $(document).on('click', '.deleteSubcategoryBtn', function() {
                 var subcategoryId = $(this).data('id');
-                var url = "{{ route('subcategories.edit', ':id') }}".replace(':id', subcategoryId);
+                var url = "{{ route('subcategories.destroy', ':id') }}".replace(':id', subcategoryId);
 
                 if (confirm("Are you sure you want to delete this subcategory?")) {
                     $.ajax({
                         url: url,
                         method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(response) {
-                            $('#tableData').html(response.table_html);
 
-                            // Reinitialize DataTables after updating table content
+                            $('#tableData').html(response
+                                .subcategories);
+
+                            $('#subcategoryMessage').html(
+                                '<div class="alert alert-success" role="alert">Subcategory deleted successfully.</div>'
+                            );
+
                             $('#dataTable-1').DataTable({
                                 autoWidth: true,
                                 "lengthMenu": [
@@ -234,10 +240,6 @@
                                     [16, 32, 64, "All"]
                                 ]
                             });
-
-                            $('#subcategoryMessage').html(
-                                '<div class="alert alert-success" role="alert">Subcategory deleted successfully.</div>'
-                            );
                         },
                         error: function(error) {
                             console.error(error);

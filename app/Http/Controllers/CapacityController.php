@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Capacity;
+use App\Models\Manufacturer;
 
 class CapacityController extends Controller
 {
     public function index()
     {
-        $capacities = Capacity::all();
-        return view('admin.capacities.index', compact('capacities'));
+        $brands = Manufacturer::all();
+        $capacities = Capacity::with('brand')->get();
+        return view('admin.capacities.index', compact('capacities', 'brands'));
     }
 
     public function store(Request $request)
@@ -19,6 +21,7 @@ class CapacityController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'brand_id' => 'required',
         ]);
 
         $capacity = Capacity::create($request->all());
@@ -48,6 +51,7 @@ class CapacityController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'brand_id' => 'required',
         ]);
 
         try {
@@ -70,8 +74,8 @@ class CapacityController extends Controller
         try {
             $capacity->delete();
             $capacities = Capacity::all();
-            $view = view('admin.capacities.table', compact('capacities'))->render();
-            return response()->json(['message' => 'Capacity deleted successfully', 'capacities' => $view], 200);
+            $table_html = view('admin.capacities.table', compact('capacities'))->render();
+            return response()->json(['message' => 'Capacity deleted successfully', 'table_html' => $table_html], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete capacity: ' . $e->getMessage()], 500);
         }

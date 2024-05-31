@@ -71,9 +71,10 @@ class CarrierController extends Controller
             $carrier->delete();
             $carriers = Carrier::all();
             $view = view('admin.carriers.table', compact('carriers'))->render();
-            return response()->json(['message' => 'Carrier deleted successfully', 'carriers' => $view], 200);
+            return response()->json(['message' => 'Carrier deleted successfully', 'table_html' => $view], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete carrier: ' . $e->getMessage()], 500);
         }
     }
+
 }

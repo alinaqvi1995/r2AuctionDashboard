@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Str;
 
 class ProductApiController extends Controller
 {
@@ -19,7 +20,11 @@ class ProductApiController extends Controller
             'condition' => 'required|string|max:255',
         ]);
 
-        $product = Product::create($request->all());
+        $lotNo = Str::random(6);
+        $requestData = $request->except(['image', 'media']);
+        $requestData['lot_no'] = $lotNo;
+
+        $product = Product::create($requestData->all());
         $product->colors()->attach($request->input('color_id'));
         $product->storages()->attach($request->input('capacity_id'));
         $product->regions()->attach($request->input('region_id'));
@@ -56,6 +61,11 @@ class ProductApiController extends Controller
             'condition' => 'required|string|max:255',
         ]);
 
+        if (empty($product->lot_no)) {
+            $lotNo = Str::random(6);
+            $request->merge(['lot_no' => $lotNo]);
+        }
+        
         try {
             $product->update($request->all());
 

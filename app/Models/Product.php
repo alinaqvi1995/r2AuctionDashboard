@@ -19,6 +19,9 @@ class Product extends Model
         'condition',
         'status',
         'image',
+        'auction_slot_id',
+        'lot_no',
+        'screens',
     ];
     
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
@@ -83,5 +86,10 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function auctionSlot()
+    {
+        return $this->belongsTo(AuctionSlot::class, 'auction_slot_id', 'id');
     }
 }

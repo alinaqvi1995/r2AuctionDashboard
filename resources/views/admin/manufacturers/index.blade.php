@@ -70,8 +70,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editManufacturerForm" enctype="multipart/form-data" method="POST"
-                        action="{{ route('manufacturers.update', ['manufacturer' => ':manufacturerId']) }}">
+                    <form id="editManufacturerForm" enctype="multipart/form-data" method="POST" action="">
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="edit_id" name="edit_id">
@@ -117,54 +116,36 @@
                     data: formData,
                     contentType: false,
                     processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#manufacturerModal').modal('hide');
                         $('#tableData').html(response.table_html);
 
+                        // Reinitialize DataTable
+                        $('#dataTable-1').DataTable().destroy();
+                        $('#dataTable-1').DataTable({
+                            autoWidth: true,
+                            "lengthMenu": [
+                                [16, 32, 64, -1],
+                                [16, 32, 64, "All"]
+                            ]
+                        });
+
                         $('#manufacturerMessage').html(
                             '<div class="alert alert-success" role="alert">Manufacturer created successfully.</div>'
-                        );
+                            );
                     },
                     error: function(error) {
                         console.error(error);
                         $('#manufacturerMessage').html(
                             '<div class="alert alert-danger" role="alert">Failed to create manufacturer.</div>'
-                        );
+                            );
                     }
                 });
             });
 
-            // Handle form submission for updating a manufacturer
-            // $('#editManufacturerForm').submit(function(e) {
-            // e.preventDefault();
-            // var manufacturerId = $('#edit_id').val(); // Ensure this is getting the correct value
-
-            // $.ajax({
-            //     url: "{{ route('manufacturers.update', ['manufacturer' => ':manufacturerId']) }}"
-            //         .replace(':manufacturerId', manufacturerId),
-            //     method: "POST",
-            //     enctype: 'multipart/form-data',
-            //     data: new FormData(this),
-            //     contentType: false,
-            //     processData: false,
-            //     success: function(response) {
-            //         $('#editManufacturerModal').modal('hide');
-            //         $('#tableData').html(response.manufacturers);
-            //         $('#manufacturerMessage').html(
-            //             '<div class="alert alert-success" role="alert">Manufacturer updated successfully.</div>'
-            //         );
-            //     },
-            //     error: function(error) {
-            //         console.error(error);
-            //         $('#manufacturerMessage').html(
-            //             '<div class="alert alert-danger" role="alert">Failed to update manufacturer.</div>'
-            //         );
-            //     }
-            // });
-            // });
-
-
-            // Show edit manufacturer modal
             $(document).on('click', '.editManufacturerBtn', function() {
                 var manufacturerId = $(this).data('id');
                 $.ajax({
@@ -186,7 +167,48 @@
                         console.error(error);
                         $('#manufacturerMessage').html(
                             '<div class="alert alert-danger" role="alert">Failed to fetch manufacturer details for editing.</div>'
-                        );
+                            );
+                    }
+                });
+            });
+
+            // Handle form submission for updating a manufacturer
+            $('#editManufacturerForm').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                var actionUrl = $(this).attr('action');
+                $.ajax({
+                    url: actionUrl,
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#editManufacturerModal').modal('hide');
+                        $('#tableData').html(response.table_html);
+
+                        // Reinitialize DataTable
+                        $('#dataTable-1').DataTable().destroy();
+                        $('#dataTable-1').DataTable({
+                            autoWidth: true,
+                            "lengthMenu": [
+                                [16, 32, 64, -1],
+                                [16, 32, 64, "All"]
+                            ]
+                        });
+
+                        $('#manufacturerMessage').html(
+                            '<div class="alert alert-success" role="alert">Manufacturer updated successfully.</div>'
+                            );
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        $('#manufacturerMessage').html(
+                            '<div class="alert alert-danger" role="alert">Failed to update manufacturer.</div>'
+                            );
                     }
                 });
             });
@@ -194,31 +216,44 @@
             // Delete manufacturer
             $(document).on('click', '.deleteManufacturerBtn', function() {
                 var manufacturerId = $(this).data('id');
+                var url = "{{ route('manufacturers.destroy', ['manufacturer' => ':manufacturer']) }}"
+                    .replace(':manufacturer', manufacturerId);
                 if (confirm("Are you sure you want to delete this manufacturer?")) {
                     $.ajax({
-                        url: "{{ route('manufacturers.destroy', ['manufacturer' => ':manufacturerId']) }}"
-                            .replace(':manufacturerId', manufacturerId),
+                        url: url,
                         method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(response) {
                             $('#tableData').html(response.table_html);
 
+                            // Reinitialize DataTable
+                            $('#dataTable-1').DataTable().destroy();
+                            $('#dataTable-1').DataTable({
+                                autoWidth: true,
+                                "lengthMenu": [
+                                    [16, 32, 64, -1],
+                                    [16, 32, 64, "All"]
+                                ]
+                            });
+
                             $('#manufacturerMessage').html(
                                 '<div class="alert alert-success" role="alert">Manufacturer deleted successfully.</div>'
-                            );
+                                );
                         },
                         error: function(error) {
                             console.error(error);
                             $('#manufacturerMessage').html(
                                 '<div class="alert alert-danger" role="alert">Failed to delete manufacturer.</div>'
-                            );
+                                );
                         }
                     });
                 }
             });
 
-            // Update label text when files are selected for additional icon
+            // Update file input label for new manufacturer
             $('#icon').on('change', function() {
-                // Get the file names
                 var files = $(this)[0].files;
                 var fileNames = '';
                 for (var i = 0; i < files.length; i++) {
@@ -227,13 +262,11 @@
                         fileNames += ', ';
                     }
                 }
-                // Update the label text
                 $('#icon_label').text(fileNames);
             });
 
-            // Update label text when files are selected for additional icon
+            // Update file input label for editing manufacturer
             $('#edit_icon').on('change', function() {
-                // Get the file names
                 var files = $(this)[0].files;
                 var fileNames = '';
                 for (var i = 0; i < files.length; i++) {
@@ -242,11 +275,7 @@
                         fileNames += ', ';
                     }
                 }
-                // Update the label text
                 $('#edit_icon_label').text(fileNames);
-
-                // Debug: Log the files array to see if the file data is captured
-                console.log('Selected files:', files);
             });
         });
     </script>

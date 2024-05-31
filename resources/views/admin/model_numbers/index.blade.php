@@ -41,6 +41,15 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="brand_id">Manufacturer</label>
+                            <select class="form-control" id="brand_id" name="brand_id" required>
+                                <option value="" selected disabled>Select Manufacturer</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
@@ -79,6 +88,15 @@
                             <input type="text" class="form-control" id="edit_name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="edit_brand_id">Manufacturer</label>
+                            <select class="form-control" id="edit_brand_id" name="brand_id" required>
+                                <option value="" selected disabled>Select Manufacturer</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="edit_description">Description</label>
                             <textarea class="form-control" id="edit_description" name="description" required></textarea>
                         </div>
@@ -102,6 +120,7 @@
     <script>
         $(document).ready(function() {
             // Open the new model number modal
+            // Open the new model number modal
             $('#openModelNumberModal').click(function() {
                 $('#modelNumberModal').modal('show');
             });
@@ -113,6 +132,9 @@
                     url: "{{ route('modelnumbers.store') }}",
                     method: "POST",
                     data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#modelNumberModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -130,15 +152,16 @@
                 });
             });
 
-            // Show edit model number modal
             $(document).on('click', '.editModelNumberBtn', function() {
                 var modelNumberId = $(this).data('id');
                 $.ajax({
-                    url: "/model_numbers/" + modelNumberId + "/edit",
+                    url: "{{ route('modelnumbers.edit', ':modelNumberId') }}".replace(
+                        ':modelNumberId', modelNumberId),
                     method: "GET",
                     success: function(response) {
                         $('#edit_id').val(response.modelnumber.id);
                         $('#edit_name').val(response.modelnumber.name);
+                        $('#edit_brand_id').val(response.modelnumber.brand_id);
                         $('#edit_description').val(response.modelnumber.description);
                         $('#edit_status').val(response.modelnumber.status);
                         $('#editModelNumberModal').modal('show');
@@ -158,44 +181,22 @@
                 });
             });
 
-            // Handle form submission for updating a model number
-            // $('#editModelNumberForm').submit(function(e) {
-            //     e.preventDefault();
-            //     var modelNumberId = $('#edit_id').val();
-            //     $.ajax({
-            //         url: "/model_numbers/" + modelNumberId,
-            //         method: "PUT",
-            //         data: $(this).serialize(),
-            //         success: function(response) {
-            //             $('#editModelNumberModal').modal('hide');
-            //             $('#tableData').html(response.table_html);
-
-            //             $('#modelNumberMessage').html(
-            //                 '<div class="alert alert-success" role="alert">Model Number updated successfully.</div>'
-            //             );
-            //         },
-            //         error: function(error) {
-            //             console.error(error);
-            //             $('#modelNumberMessage').html(
-            //                 '<div class="alert alert-danger" role="alert">Failed to update Model Number.</div>'
-            //             );
-            //         }
-            //     });
-            // });
-
             // Delete model number
             $(document).on('click', '.deleteModelNumberBtn', function() {
                 var modelNumberId = $(this).data('id');
                 if (confirm("Are you sure you want to delete this Model Number?")) {
                     $.ajax({
-                        url: "/model_numbers/" + modelNumberId,
+                        url: "{{ route('modelnumbers.destroy', ':modelNumberId') }}".replace(
+                            ':modelNumberId', modelNumberId),
                         method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(response) {
-                            $('#tableData').html(response.table_html);
-
-                            $('#modelNumberMessage').html(
-                                '<div class="alert alert-success" role="alert">Model Number deleted successfully.</div>'
-                            );
+                            location.reload();
+                            // $('#modelNumberMessage').html(
+                            //     '<div class="alert alert-success" role="alert">Model Number deleted successfully.</div>'
+                            // );
                         },
                         error: function(error) {
                             console.error(error);

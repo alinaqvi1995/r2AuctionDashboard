@@ -5,6 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\RegisterApiController;
 use App\Http\Controllers\Api\LoginApiController;
+use App\Http\Controllers\Api\SocialLoginController;
+use App\Http\Controllers\Api\ManufacturerApiController;
+use App\Http\Controllers\Api\CapacityApiController;
+use App\Http\Controllers\Api\ColorApiController;
+use App\Http\Controllers\Api\UserApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +35,32 @@ Route::delete('/products/{product}', [ProductApiController::class, 'destroy']);
 
 // Register new user
 Route::post('/register', [RegisterApiController::class, 'register']);
+Route::post('/update', [RegisterApiController::class, 'update']);
 
 // Login new user
 Route::post('/login', [LoginApiController::class, 'login']);
+
+// Social logins
+Route::get('/login/{provider}', [SocialLoginController::class, 'redirectToProvider']);
+Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback']);
+
+// manufacturers
+Route::get('/manufacturers', [ManufacturerApiController::class, 'index']);
+Route::get('/manufacturers/{manufacturer}', [ManufacturerApiController::class, 'show']);
+
+// capacities
+Route::get('/capacities', [CapacityApiController::class, 'index']);
+Route::get('/capacities/{capacity}', [CapacityApiController::class, 'show']);
+
+// colors
+Route::get('/colors', [ColorApiController::class, 'index']);
+Route::get('/colors/{color}', [ColorApiController::class, 'show']);
+
+// user
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserApiController::class, 'index']);
+    Route::get('/{id}', [UserApiController::class, 'show']);
+    Route::post('/', [UserApiController::class, 'store']);
+    Route::put('/{id}', [UserApiController::class, 'update']);
+    Route::delete('/{id}', [UserApiController::class, 'destroy']);
+});

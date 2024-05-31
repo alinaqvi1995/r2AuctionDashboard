@@ -56,7 +56,7 @@ class GradeController extends Controller
             if ($grade->wasChanged()) {
                 $grades = Grade::all();
                 $table_html = view('admin.grades.table', compact('grades'))->render();
-                return back()->with(['message' => 'Grade updated successfully', 'table_html' => $table_html], 200);
+                return response()->json(['message' => 'Grade updated successfully', 'table_html' => $table_html], 200);
             } else {
                 return response()->json(['error' => 'No changes detected for the grade'], 400);
             }
@@ -71,7 +71,7 @@ class GradeController extends Controller
             $grade->delete();
             $grades = Grade::all();
             $view = view('admin.grades.table', compact('grades'))->render();
-            return response()->json(['message' => 'Grade deleted successfully', 'grades' => $view], 200);
+            return response()->json(['message' => 'Grade deleted successfully', 'table_html' => $view], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete grade: ' . $e->getMessage()], 500);
         }

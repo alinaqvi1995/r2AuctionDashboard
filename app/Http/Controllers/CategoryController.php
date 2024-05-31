@@ -84,29 +84,27 @@ class CategoryController extends Controller
 
             $category->update($data);
 
-            if ($category->wasChanged()) {
-                $categories = Category::all();
-                $view = view('admin.categories.table', compact('categories'))->render();
-                return back()->with(['message' => 'Category updated successfully', 'categories' => $view], 200);
-            } else {
-                return back()->with(['error' => 'No changes detected for the category'], 400);
-            }
+            $categories = Category::all();
+            $view = view('admin.categories.table', compact('categories'))->render();
+
+            return response()->json(['message' => 'Category updated successfully', 'table_html' => $view], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to update category: ' . $e->getMessage()], 500);
         }
     }
 
-    public function destroy(Category $categories)
+    public function destroy(Category $category)
     {
         try {
-            // Delete the category's icon file before deleting the category
-            if ($categories->icon) {
-                \Storage::delete($categories->icon);
+            if ($category->icon) {
+                \Storage::delete($category->icon);
             }
-            $categories->delete();
+            $category->delete();
+
             $categories = Category::all();
             $view = view('admin.categories.table', compact('categories'))->render();
-            return response()->json(['message' => 'Category deleted successfully', 'categories' => $view], 200);
+
+            return response()->json(['message' => 'Category deleted successfully', 'table_html' => $view], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete category: ' . $e->getMessage()], 500);
         }

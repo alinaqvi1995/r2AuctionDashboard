@@ -9,5 +9,10 @@ class Color extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'color_code', 'status'];
+    protected $fillable = ['name', 'model_id', 'description', 'color_code', 'status'];
+
+    public function model()
+    {
+        return $this->belongsTo(ModelNumber::class, 'model_id');
+    }
 }

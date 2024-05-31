@@ -41,6 +41,15 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="model_id">Models</label>
+                            <select class="form-control" id="model_id" name="model_id" required>
+                                <option value="" selected disabled>Select Manufacturer</option>
+                                @foreach ($models as $model)
+                                    <option value="{{ $model->id }}">{{ $model->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
@@ -83,6 +92,15 @@
                             <input type="text" class="form-control" id="edit_name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="edit_model_id">Models</label>
+                            <select class="form-control" id="edit_model_id" name="model_id" required>
+                                <option value="" selected disabled>Select Manufacturer</option>
+                                @foreach ($models as $model)
+                                    <option value="{{ $model->id }}">{{ $model->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="edit_description">Description</label>
                             <textarea class="form-control" id="edit_description" name="description" required></textarea>
                         </div>
@@ -108,24 +126,24 @@
 @section('bottom_script')
     <script>
         $(document).ready(function() {
-            // Open the new color modal
             $('#openColorModal').click(function() {
                 $('#colorModal').modal('show');
             });
 
-            // Handle form submission for creating a new color
             $('#createColorForm').submit(function(e) {
                 e.preventDefault();
                 $.ajax({
                     url: "{{ route('colors.store') }}",
                     method: "POST",
                     data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#colorModal').modal('hide');
                         $('#tableData').html(response
                             .table_html);
 
-                        // Reinitialize DataTables after updating table content
                         $('#dataTable-1').DataTable({
                             autoWidth: true,
                             "lengthMenu": [
@@ -147,21 +165,23 @@
                 });
             });
 
-            // Handle form submission for updating a color
             $('#editColorForm').submit(function(e) {
                 e.preventDefault();
                 var colorId = $('#edit_id').val();
+                var url = "{{ route('colors.update', ['color' => ':color']) }}".replace(':color', colorId);
                 $.ajax({
-                    url: "/colors/" + colorId,
+                    url: url,
                     method: "PUT",
                     data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#editColorModal').modal('hide');
-                        $('#tableData').html(response.colors); // Corrected key for table HTML
+                        $('#tableData').html(response.colors);
                         $('#colorMessage').html(
                             '<div class="alert alert-success" role="alert">Color updated successfully.</div>'
                         );
-                        // Reinitialize DataTables after updating table content
                         $('#dataTable-1').DataTable({
                             autoWidth: true,
                             "lengthMenu": [
@@ -179,15 +199,17 @@
                 });
             });
 
-            // Show edit color modal
             $(document).on('click', '.editColorBtn', function() {
                 var colorId = $(this).data('id');
+                var url = "{{ route('colors.edit', ['color' => ':color']) }}".replace(':color', colorId);
+
                 $.ajax({
-                    url: "/colors/" + colorId + "/edit",
+                    url: url,
                     method: "GET",
                     success: function(response) {
                         $('#edit_id').val(response.color.id);
                         $('#edit_name').val(response.color.name);
+                        $('#edit_model_id').val(response.color.model_id);
                         $('#edit_description').val(response.color.description);
                         $('#edit_color_code').val(response.color.color_code);
                         $('#edit_status').val(response.color.status);
@@ -205,15 +227,20 @@
             // Delete color
             $(document).on('click', '.deleteColorBtn', function() {
                 var colorId = $(this).data('id');
+                var url = "{{ route('colors.destroy', ['color' => ':color']) }}".replace(':color', colorId);
                 if (confirm("Are you sure you want to delete this color?")) {
                     $.ajax({
-                        url: "/colors/" + colorId,
+                        url: url,
                         method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(response) {
                             $('#tableData').html(response
-                                .table_html);
-
-                            // Reinitialize DataTables after updating table content
+                                .colors);
+                            $('#colorMessage').html(
+                                '<div class="alert alert-success" role="alert">Color updated successfully.</div>'
+                            );
                             $('#dataTable-1').DataTable({
                                 autoWidth: true,
                                 "lengthMenu": [

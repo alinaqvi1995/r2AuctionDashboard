@@ -9,7 +9,12 @@ class Capacity extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'status'];
+    protected $fillable = ['name', 'brand_id', 'description', 'status'];
 
     protected $dates = ['deleted_at'];
+
+    public function brand()
+    {
+        return $this->belongsTo(Manufacturer::class);
+    }
 }

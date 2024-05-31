@@ -54,4 +54,38 @@ class RegisterApiController extends Controller
         // Return success response with user data
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
+
+    public function update(Request $request, User $user)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['sometimes', 'string', 'max:255'],
+            'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
+            'middle_name' => ['sometimes', 'string', 'max:255'],
+            'last_name' => ['sometimes', 'string', 'max:255'],
+            'phone' => ['sometimes', 'string', 'max:255'],
+            'state' => ['sometimes', 'string', 'max:255'],
+            'city' => ['sometimes', 'string', 'max:255'],
+            'address' => ['sometimes', 'string', 'max:255'],
+            'business_name' => ['sometimes', 'string', 'max:255'],
+            'business_email' => ['sometimes', 'string', 'email', 'max:255'],
+            'designation' => ['sometimes', 'string', 'max:255'],
+            'business_website' => ['sometimes', 'string', 'max:255'],
+            'business_desc' => ['sometimes', 'string', 'max:255'],
+            'role' => ['sometimes', 'string', 'in:buyer,seller'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = $request->except('password');
+        if ($request->has('password')) {
+            $data['password'] = bcrypt($request->input('password'));
+        }
+
+        $user->update($data);
+
+        return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
+    }
 }

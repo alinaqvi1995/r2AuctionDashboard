@@ -14,6 +14,8 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ModelNumberController;
 use App\Http\Controllers\LockStatusController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\AuctionSlotController;
 
 Route::get('/', function () {
     // return view('login');
@@ -43,12 +45,15 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Colors
     Route::get('/colors', [ColorController::class, 'index'])->name('colors.index');
     Route::post('/colors', [ColorController::class, 'store'])->name('colors.store');
-    Route::get('/colors/{color}/edit', [ColorController::class, 'edit']);
+    Route::get('/colors/{color}/edit', [ColorController::class, 'edit'])->name('colors.edit');
     Route::put('/colors/{color}', [ColorController::class, 'update'])->name('colors.update');
     Route::delete('/colors/{color}', [ColorController::class, 'destroy'])->name('colors.destroy');
     
     // Capacity
     Route::resource('capacities', CapacityController::class);
+    
+    // Auction slots
+    Route::resource('auction_slots', AuctionSlotController::class);
     
     // Manufacturer
     Route::get('manufacturers', [ManufacturerController::class, 'index'])->name('manufacturers.index');
@@ -108,6 +113,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     
     // Products
     Route::get('products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('products/add', [ProductController::class, 'create'])->name('products.create');
     Route::post('products', [ProductController::class, 'store'])->name('products.store');
     Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');
@@ -115,5 +121,12 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     // Subcategories related to category
     Route::get('subcategories/by_category', [SubcategoryController::class, 'getByCategory'])->name('subcategories.by_category');
+    
+    // User Management
+    Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
+    Route::get('users/{product}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
+    Route::put('users/{product}', [UserManagementController::class, 'update'])->name('users.update');
+    // Route::post('users', [UserManagementController::class, 'store'])->name('users.store');
+    // Route::delete('users/{product}', [UserManagementController::class, 'destroy'])->name('users.destroy');
 
 });

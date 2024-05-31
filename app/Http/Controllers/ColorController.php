@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Color;
+use App\Models\ModelNumber;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller
 {
     public function index()
     {
-        $colors = Color::all();
-        return view('admin.colors.index', compact('colors'));
+        $models = ModelNumber::all();
+        $colors = Color::with('model')->get();
+        return view('admin.colors.index', compact('colors', 'models'));
     }
 
     public function store(Request $request)
@@ -20,6 +22,7 @@ class ColorController extends Controller
             'description' => 'required|string|max:255',
             'color_code' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'model_id' => 'required',
         ]);
 
         $color = Color::create($request->all());
@@ -50,6 +53,7 @@ class ColorController extends Controller
             'description' => 'required|string|max:255',
             'color_code' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'model_id' => 'required',
         ]);
 
         try {
