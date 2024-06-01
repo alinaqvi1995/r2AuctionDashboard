@@ -183,6 +183,15 @@
                 </select>
             </div>
 
+            <!-- admin_approval Field -->
+            <div class="form-group">
+                <label for="admin_approval">Approve</label>
+                <select class="form-control" id="admin_approval" name="admin_approval" required>
+                    <option value="1" {{ $product->admin_approval == 1 ? 'selected' : '' }}>Approve</option>
+                    <option value="0" {{ $product->admin_approval == 0 ? 'selected' : '' }}>Not Approve</option>
+                </select>
+            </div>
+
             <!-- Image Field -->
             <div class="form-group mb-3">
                 <label for="image">Image</label>

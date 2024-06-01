@@ -38,7 +38,8 @@ Route::middleware([
 
 
 // Admin Routes
-Route::middleware('admin')->prefix('admin')->group(function () {
+// Route::middleware('admin')->prefix('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     
     Route::get('/', [AdminController::class, 'index'])->name('admin');;
 
@@ -121,6 +122,12 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     // Subcategories related to category
     Route::get('subcategories/by_category', [SubcategoryController::class, 'getByCategory'])->name('subcategories.by_category');
+
+    // Manufacturers Relations
+    Route::get('get/ManufacturersRelations/{id}', [ProductController::class, 'getManufacturersRelations'])->name('get.manufacturers.relations');
+
+    // Model Relations
+    Route::get('get/ModelRelations/{id}', [ProductController::class, 'getModelRelations'])->name('get.model.relations');
     
     // User Management
     Route::get('users', [UserManagementController::class, 'index'])->name('users.index');

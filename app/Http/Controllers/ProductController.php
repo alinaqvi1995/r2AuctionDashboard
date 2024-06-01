@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('user')->get();
         $categories = Category::get();
         $capacity = Capacity::get();
         $colors = Color::get();
@@ -208,7 +208,6 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product updated successfully', 'table_html' => $table_html], 200);
     }
 
-
     public function destroy(Product $product)
     {
         try {
@@ -218,6 +217,50 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product deleted successfully', 'products' => $view], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete product: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function getManufacturersRelations($id)
+    {
+        try {
+            $id = intval($id);
+
+            $capacities = Capacity::where('brand_id', $id)->get();
+            $models = ModelNumber::where('brand_id', $id)->get();
+
+            return response()->json([
+                'success' => true,
+                'capacities' => $capacities,
+                'models' => $models,
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch manufacturer relations',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getModelRelations($id)
+    {
+        try {
+            $id = intval($id);
+
+            $colors = Color::where('model_id', $id)->get();
+
+            return response()->json([
+                'success' => true,
+                'colors' => $colors,
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch model relations',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 }

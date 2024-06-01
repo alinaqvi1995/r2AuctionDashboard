@@ -12,6 +12,7 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
         'description',
         'category_id',
         'subcategory_id',
@@ -22,9 +23,15 @@ class Product extends Model
         'auction_slot_id',
         'lot_no',
         'screens',
+        'admin_approval',
     ];
     
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id','id');
+    }
 
     public function category()
     {

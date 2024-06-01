@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
                 <label for="manufacturer_id" class="form-label fs-14 text-theme-primary fw-bold">Manufacturer</label>
-                <select class="form-control fs-14 h-50px" name="manufacturer_id" required>
+                <select class="form-control fs-14 h-50px" name="manufacturer_id" required id="manufacturer_id">
                     <option value="">Select Manufacturer</option>
                     @foreach ($manufacturer as $row)
                         <option value="{{ $row->id }}">{{ $row->name }}</option>
@@ -291,24 +291,20 @@
                 return select;
             }
 
-            // Handle form submission for creating a new product
             $('#createProductForm').submit(function(e) {
                 e.preventDefault();
 
-                // Create a FormData object
                 var formData = new FormData(this);
 
-                // Append the image file to the FormData object
                 var imageFile = $('#image')[0].files[0];
                 formData.append('image', imageFile);
 
-                // Send the AJAX request with FormData
                 $.ajax({
                     url: "{{ route('products.store') }}",
                     method: "POST",
                     data: formData,
-                    processData: false, // Prevent jQuery from processing the FormData object
-                    contentType: false, // Prevent jQuery from setting contentType
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         $('#productModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -326,15 +322,12 @@
                 });
             });
 
-            // Handle form submission for updating a product
             $('#editProductForm').submit(function(e) {
                 e.preventDefault();
                 var productId = $('#edit_id').val();
 
-                // Create a FormData object
                 var formData = new FormData(this);
 
-                // Append the image file to the FormData object
                 var imageFile = $('#edit_image')[0].files[0];
                 formData.append('image', imageFile);
 
@@ -343,8 +336,8 @@
                         ':productId', productId),
                     method: "PUT",
                     data: formData,
-                    processData: false, // Prevent jQuery from processing the FormData object
-                    contentType: false, // Prevent jQuery from setting contentType
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         $('#editProductModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -362,7 +355,6 @@
                 });
             });
 
-            // Function to fetch and populate subcategories based on the selected category
             function populateSubcategories(categoryId, targetDropdown, selectedSubcategoryId = null) {
                 $.ajax({
                     url: "{{ route('subcategories.by_category') }}",
@@ -389,26 +381,21 @@
                     },
                     error: function(error) {
                         console.error(error);
-                        // Handle error
                     }
                 });
             }
 
-            // Handle change event on the category dropdown to fetch and populate subcategories
             $('#category_id').change(function() {
                 var categoryId = $(this).val();
                 populateSubcategories(categoryId, '#subcategory_id');
             });
 
-            // Handle change event on the category dropdown in the edit modal to fetch and populate subcategories
             $('#edit_category_id').change(function() {
                 var categoryId = $(this).val();
                 populateSubcategories(categoryId, '#edit_subcategory_id');
             });
 
-            // Update label text when files are selected for additional images
             $('.media').on('change', function() {
-                // Get the file names
                 var files = $(this)[0].files;
                 var fileNames = '';
                 for (var i = 0; i < files.length; i++) {
@@ -417,13 +404,10 @@
                         fileNames += ', ';
                     }
                 }
-                // Update the label text
                 $('.media_label').text(fileNames);
             });
 
-            // Update label text when files are selected for additional images
             $('.image').on('change', function() {
-                // Get the file names
                 var files = $(this)[0].files;
                 var fileNames = '';
                 for (var i = 0; i < files.length; i++) {
@@ -434,6 +418,56 @@
                 }
                 // Update the label text
                 $('.image_label').text(fileNames);
+            });
+
+            $('#manufacturer_id').change(function() {
+                var manufacturerId = $(this).val();
+                $.ajax({
+                    url: "{{ route('get.manufacturers.relations', ':manufacturerId') }}".replace(
+                        ':manufacturerId', manufacturerId),
+                    type: 'GET',
+                    success: function(response) {
+                        var capacities = response.capacities;
+                        var models = response.models;
+                        var capacitiesOptions = '<option value="">Select Capacities</option>';
+                        $.each(capacities, function(index, capacity) {
+                            capacitiesOptions += '<option value="' + capacity.id +
+                                '">' + capacity.name + '</option>';
+                        });
+                        $('#capacity_id').html(capacitiesOptions);
+
+                        var modelsOptions = '<option value="">Select models</option>';
+                        $.each(models, function(index, model) {
+                            modelsOptions += '<option value="' + model.id + '">' + model
+                                .name + '</option>';
+                        });
+                        $('#modelNumber_id').html(modelsOptions);
+                    },
+                    error: function(xhr) {
+                        console.log('Error:', xhr.responseText);
+                    }
+                });
+            });
+
+            $('#modelNumber_id').change(function() {
+                var modelNumberId = $(this).val();
+                $.ajax({
+                    url: "{{ route('get.model.relations', ':modelNumberId') }}".replace(
+                        ':modelNumberId', modelNumberId),
+                    type: 'GET',
+                    success: function(response) {
+                        var colors = response.colors;
+                        var colorsOptions = '<option value="">Select Colors</option>';
+                        $.each(colors, function(index, color) {
+                            colorsOptions += '<option value="' + color.id + '">' + color
+                                .name + '</option>';
+                        });
+                        $('#color_id').html(colorsOptions);
+                    },
+                    error: function(xhr) {
+                        console.log('Error:', xhr.responseText);
+                    }
+                });
             });
 
         });
