@@ -18,12 +18,12 @@ class Product extends Model
         'subcategory_id',
         'manufacturer_id',
         'condition',
-        'status',
+        'status',   // 1 active, 0 inactive
         'image',
         'auction_slot_id',
         'lot_no',
         'screens',
-        'admin_approval',
+        'admin_approval',   // 0 waiting for approval ,1 approved, 2 not approved
     ];
     
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
