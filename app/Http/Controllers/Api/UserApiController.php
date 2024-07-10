@@ -6,28 +6,25 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserApiController extends Controller
 {
-    // Get all users
     public function index()
     {
         $users = User::all();
         return response()->json($users, 200);
     }
 
-    // Get a single user
     public function show($id)
     {
         $user = User::findOrFail($id);
         return response()->json($user, 200);
     }
 
-    // Store a new user
     public function store(Request $request)
     {
-        // Validate the request
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'nullable|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
@@ -46,56 +43,60 @@ class UserApiController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'full_name' => $request->name . ' ' . $request->middle_name . ' ' . $request->last_name,
-            'phone' => $request->phone,
-            'state' => $request->state,
-            'city' => $request->city,
-            'address' => $request->address,
-            'business_name' => $request->business_name,
-            'business_email' => $request->business_email,
-            'designation' => $request->designation,
-            'business_website' => $request->business_website,
-            'business_desc' => $request->business_desc,
-            'role' => $request->role,
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'middle_name' => $validatedData['middle_name'],
+            'last_name' => $validatedData['last_name'],
+            'full_name' => $validatedData['name'] . ' ' . $validatedData['middle_name'] . ' ' . $validatedData['last_name'],
+            'phone' => $validatedData['phone'],
+            'state' => $validatedData['state'],
+            'city' => $validatedData['city'],
+            'address' => $validatedData['address'],
+            'business_name' => $validatedData['business_name'],
+            'business_email' => $validatedData['business_email'],
+            'designation' => $validatedData['designation'],
+            'business_website' => $validatedData['business_website'],
+            'business_desc' => $validatedData['business_desc'],
+            'role' => $validatedData['role'],
         ]);
 
         return response()->json($user, 201);
     }
 
-    // Update a user
     public function update(Request $request, $id)
     {
-        // Validate the request
-        $request->validate([
-            'name' => 'sometimes|required|string|max:255',
+        $validatedData = $request->validate([
+            'name' => 'sometimes|nullable|string|max:255',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'sometimes|required|string|min:8|confirmed',
-            'middle_name' => 'sometimes|required|string|max:255',
-            'last_name' => 'sometimes|required|string|max:255',
-            'phone' => 'sometimes|required|string|max:20',
-            'state' => 'sometimes|required|string|max:255',
-            'city' => 'sometimes|required|string|max:255',
-            'address' => 'sometimes|required|string|max:255',
-            'business_name' => 'sometimes|required|string|max:255',
-            'business_email' => 'sometimes|required|string|email|max:255',
-            'designation' => 'sometimes|required|string|max:255',
-            'business_website' => 'sometimes|required|string|max:255',
-            'business_desc' => 'sometimes|required|string|max:500',
-            'role' => 'sometimes|required|string|max:50',
+            'password' => 'sometimes|nullable|string|min:8|confirmed',
+            'middle_name' => 'sometimes|nullable|string|max:255',
+            'last_name' => 'sometimes|nullable|string|max:255',
+            'phone' => 'sometimes|nullable|string|max:20',
+            'state' => 'sometimes|nullable|string|max:255',
+            'city' => 'sometimes|nullable|string|max:255',
+            'address' => 'sometimes|nullable|string|max:255',
+            'business_name' => 'sometimes|nullable|string|max:255',
+            'business_email' => 'sometimes|nullable|string|email|max:255',
+            'designation' => 'sometimes|nullable|string|max:255',
+            'business_website' => 'sometimes|nullable|string|max:255',
+            'business_desc' => 'sometimes|nullable|string|max:500',
+            'role' => 'sometimes|nullable|string|max:50',
         ]);
 
         $user = User::findOrFail($id);
-        $user->update($request->all());
+
+        $user->fill($validatedData);
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
 
         return response()->json($user, 200);
     }
 
-    // Delete a user
     public function destroy($id)
     {
         $user = User::findOrFail($id);
