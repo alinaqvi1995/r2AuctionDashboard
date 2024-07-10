@@ -28,21 +28,21 @@ class UserApiController extends Controller
     {
         // Validate the request
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'middle_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'state' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'business_name' => 'required|string|max:255',
-            'business_email' => 'required|string|email|max:255',
-            'designation' => 'required|string|max:255',
-            'business_website' => 'required|string|max:255',
-            'business_desc' => 'required|string|max:500',
-            'role' => 'required|string|max:50',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'state' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'business_name' => 'nullable|string|max:255',
+            'business_email' => 'nullable|string|email|max:255',
+            'designation' => 'nullable|string|max:255',
+            'business_website' => 'nullable|string|max:255',
+            'business_desc' => 'nullable|string|max:500',
+            'role' => 'nullable|string|max:50',
         ]);
 
         $user = User::create([
