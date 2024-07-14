@@ -11,44 +11,41 @@ class RegisterApiController extends Controller
 {
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'middle_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'business_name' => ['required', 'string', 'max:255'],
-            'business_email' => ['required', 'string', 'email', 'max:255'],
-            'designation' => ['required', 'string', 'max:255'],
-            'business_website' => ['required', 'string', 'max:255'],
-            'business_desc' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'in:buyer,seller'],
+        $validatedData = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'state' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'business_name' => 'nullable|string|max:255',
+            'business_email' => 'nullable|string|email|max:255',
+            'designation' => 'nullable|string|max:255',
+            'business_website' => 'nullable|string|max:255',
+            'business_desc' => 'nullable|string|max:500',
+            'role' => 'nullable|string|max:50',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'middle_name' => $request->input('middle_name'),
-            'last_name' => $request->input('last_name'),
-            'phone' => $request->input('phone'),
-            'state' => $request->input('state'),
-            'city' => $request->input('city'),
-            'address' => $request->input('address'),
-            'business_name' => $request->input('business_name'),
-            'business_email' => $request->input('business_email'),
-            'designation' => $request->input('designation'),
-            'business_website' => $request->input('business_website'),
-            'business_desc' => $request->input('business_desc'),
-            'role' => $request->input('role'),
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'middle_name' => $validatedData['middle_name'],
+            'last_name' => $validatedData['last_name'],
+            'full_name' => $validatedData['name'] . ' ' . $validatedData['middle_name'] . ' ' . $validatedData['last_name'],
+            'phone' => $validatedData['phone'],
+            'state' => $validatedData['state'],
+            'city' => $validatedData['city'],
+            'address' => $validatedData['address'],
+            'business_name' => $validatedData['business_name'],
+            'business_email' => $validatedData['business_email'],
+            'designation' => $validatedData['designation'],
+            'business_website' => $validatedData['business_website'],
+            'business_desc' => $validatedData['business_desc'],
+            'role' => $validatedData['role'],
         ]);
 
         // Return success response with user data
