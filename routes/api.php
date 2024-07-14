@@ -67,7 +67,7 @@ Route::prefix('users')->group(function () {
 });
 
 // Manufacturers Relations
-Route::get('get/ManufacturersRelations/{id}', [ProductController::class, 'getManufacturersRelations'])->name('get.manufacturers.relations');
+Route::get('get/ManufacturersRelations/{id}', [ProductController::class, 'getManufacturersRelations']);
 
 // Model Relations
-Route::get('get/ModelRelations/{id}', [ProductController::class, 'getModelRelations'])->name('get.model.relations');
+Route::get('get/ModelRelations/{id}', [ProductController::class, 'getModelRelations']);
