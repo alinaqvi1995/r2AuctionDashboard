@@ -27,27 +27,26 @@ class RegisterApiController extends Controller
             'designation' => 'nullable|string|max:255',
             'business_website' => 'nullable|string|max:255',
             'business_desc' => 'nullable|string|max:500',
-            'role' => 'nullable|string|max:50',
+            'role' => 'nullable|string|in:admin,buyer,seller,user|max:50',
         ]);
 
-        
         $user = User::create([
-            'name' => $validatedData['name'],
+            'name' => $validatedData['name'] ?? '',
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
-            'middle_name' => $validatedData['middle_name'],
-            'last_name' => $validatedData['last_name'],
-            'full_name' => $validatedData['name'] . ' ' . $validatedData['middle_name'] . ' ' . $validatedData['last_name'],
-            'phone' => $validatedData['phone'],
-            'state' => $validatedData['state'],
-            'city' => $validatedData['city'],
-            'address' => $validatedData['address'],
-            'business_name' => $validatedData['business_name'],
-            'business_email' => $validatedData['business_email'],
-            'designation' => $validatedData['designation'],
-            'business_website' => $validatedData['business_website'],
-            'business_desc' => $validatedData['business_desc'],
-            'role' => $validatedData['role'],
+            'middle_name' => $validatedData['middle_name'] ?? '',
+            'last_name' => $validatedData['last_name'] ?? '',
+            'full_name' => trim(($validatedData['name'] ?? '') . ' ' . ($validatedData['middle_name'] ?? '') . ' ' . ($validatedData['last_name'] ?? '')),
+            'phone' => $validatedData['phone'] ?? '',
+            'state' => $validatedData['state'] ?? '',
+            'city' => $validatedData['city'] ?? '',
+            'address' => $validatedData['address'] ?? '',
+            'business_name' => $validatedData['business_name'] ?? '',
+            'business_email' => $validatedData['business_email'] ?? '',
+            'designation' => $validatedData['designation'] ?? '',
+            'business_website' => $validatedData['business_website'] ?? '',
+            'business_desc' => $validatedData['business_desc'] ?? '',
+            'role' => $validatedData['role'] ?? 'user',
         ]);
 
         // Return success response with user data
