@@ -33,7 +33,7 @@ class RegisterApiController extends Controller
         $user = User::create([
             // 'name' => $validatedData['name'] ?? '',
             'email' => $validatedData['email'],
-            // 'password' => Hash::make($validatedData['password']),
+            'password' => Hash::make($validatedData['password']),
             // 'middle_name' => $validatedData['middle_name'] ?? '',
             // 'last_name' => $validatedData['last_name'] ?? '',
             // 'full_name' => trim(($validatedData['name'] ?? '') . ' ' . ($validatedData['middle_name'] ?? '') . ' ' . ($validatedData['last_name'] ?? '')),
