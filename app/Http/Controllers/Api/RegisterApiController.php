@@ -30,6 +30,7 @@ class RegisterApiController extends Controller
             'role' => 'nullable|string|max:50',
         ]);
 
+        
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
