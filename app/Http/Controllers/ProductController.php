@@ -16,6 +16,9 @@ use App\Models\Carrier;
 use App\Models\Subcategory;
 use App\Models\AuctionSlot;
 use App\Models\ProductImage;
+use App\Models\Ram;
+use App\Models\Size;
+use App\Models\ModelName;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 
@@ -50,33 +53,12 @@ class ProductController extends Controller
         $lockStatus = LockStatus::get();
         $grade = Grade::get();
         $carrier = Carrier::get();
-        return view('admin.products.create', compact('products', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier'));
+        $rams = Ram::get();
+        $sizes = Size::get();
+        $modelNames = ModelName::get();
+        return view('admin.products.create', compact('products', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier', 'rams', 'sizes', 'modelNames'));
     }
 
-    // public function edit($id)
-    // {
-    //     // try {
-    //     $product = Product::with(['category', 'subcategory', 'manufacturer', 'colors', 'storages', 'regions', 'modelNumbers', 'lockStatuses', 'grades', 'carriers'])->findOrFail($id);
-    //     $categories = Category::all();
-    //     $subcategories = Subcategory::where('category_id', $product->category_id)->get();
-    //     $categories = Category::get();
-    //     $capacity = Capacity::get();
-    //     $colors = Color::get();
-    //     $manufacturer = Manufacturer::get();
-    //     $regions = Region::get();
-    //     $modelNumber = ModelNumber::get();
-    //     $lockStatus = LockStatus::get();
-    //     $grade = Grade::get();
-    //     $carrier = Carrier::get();
-
-    //     // dd($product->toArray());
-    //     return view('admin.products.edit', compact('product', 'categories', 'subcategories', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier'));
-    //     // return response()->json(['product' => $product, 'categories' => $categories, 'subcategories' => $subcategories], 200);
-    //     // } 
-    //     // catch (\Exception $e) {
-    //     //     return response()->json(['error' => 'Failed to fetch product details for editing: ' . $e->getMessage()], 500);
-    //     // }
-    // }
     public function edit($id)
     {
         $product = Product::with([
@@ -123,7 +105,6 @@ class ProductController extends Controller
         );
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
@@ -133,15 +114,26 @@ class ProductController extends Controller
             'subcategory_id' => 'required|exists:subcategories,id',
             'manufacturer_id' => 'required|exists:manufacturers,id',
             'condition' => 'required|string|max:255',
+            'auction_slot_id' => 'nullable|exists:auction_slots,id',
+            'color_id' => 'nullable|array',
+            'color_id.*' => 'exists:colors,id',
+            'region_id' => 'nullable|array',
+            'region_id.*' => 'exists:regions,id',
+            'capacity_id' => 'nullable|array',
+            'capacity_id.*' => 'exists:capacities,id',
+            'modelNumber_id' => 'nullable|array',
+            'modelNumber_id.*' => 'exists:model_numbers,id',
+            'carrier_id' => 'nullable|array',
+            'carrier_id.*' => 'exists:carriers,id',
+            'status' => 'required|integer',
+            'admin_approval' => 'required|integer',
             'image' => 'nullable|image|max:2048',
-            'media.*' => 'nullable|image|max:2048'
+            'media.*' => 'nullable|image|max:2048',
         ]);
 
         $lotNo = Str::random(6);
 
-        // $product = Product::create($request->except(['image', 'media']));
         $product = Product::create(array_merge($request->except(['image', 'media']), ['lot_no' => $lotNo]));
-
 
         if ($request->hasFile('image')) {
             $imagePath = $this->uploadImage($request->file('image'), 'products');
@@ -158,6 +150,18 @@ class ProductController extends Controller
                 ]);
             }
         }
+
+        // Syncing relationships
+        $product->colors()->sync($request->input('color_id', []));
+        $product->storages()->sync($request->input('capacity_id', []));
+        $product->regions()->sync($request->input('region_id', []));
+        $product->modelNumbers()->sync($request->input('modelNumber_id', []));
+        $product->lockStatuses()->sync($request->input('lock_status_id', []));
+        $product->grades()->sync($request->input('grade_id', []));
+        $product->carriers()->sync($request->input('carrier_id', []));
+        $product->rams()->sync($request->input('ram_id', []));
+        $product->sizes()->sync($request->input('size_id', []));
+        $product->modelNames()->sync($request->input('model_name_id', []));
 
         $products = Product::all();
         $table_html = view('admin.products.table', compact('products'))->render();
@@ -202,6 +206,17 @@ class ProductController extends Controller
                 ]);
             }
         }
+
+        $product->colors()->sync($request->input('color_id', []));
+        $product->storages()->sync($request->input('capacity_id', []));
+        $product->regions()->sync($request->input('region_id', []));
+        $product->modelNumbers()->sync($request->input('modelNumber_id', []));
+        $product->lockStatuses()->sync($request->input('lock_status_id', []));
+        $product->grades()->sync($request->input('grade_id', []));
+        $product->carriers()->sync($request->input('carrier_id', []));
+        $product->rams()->sync($request->input('ram_id', []));
+        $product->sizes()->sync($request->input('size_id', []));
+        $product->modelNames()->sync($request->input('model_name_id', []));
 
         $products = Product::all();
         $table_html = view('admin.products.table', compact('products'))->render();

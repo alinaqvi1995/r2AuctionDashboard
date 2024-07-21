@@ -6,9 +6,158 @@
         <form id="createProductForm">
             @csrf
             <div class="form-group">
-                <label for="name" class="form-label fs-14 text-theme-primary fw-bold">Name</label>
+                <label for="name" class="form-label fs-14 text-theme-primary fw-bold">Product Title</label>
                 <input type="text" class="form-control fs-14 h-50px" name="name" value="" placeholder="Product Name"
                     required>
+            </div>
+            <div class="form-group">
+                <label for="reference" class="form-label fs-14 text-theme-primary fw-bold">Reference</label>
+                <input type="text" class="form-control fs-14 h-50px" name="reference" value=""
+                    placeholder="Product Reference" required>
+            </div>
+            <div class="form-group">
+                <label for="listing_type" class="form-label fs-14 text-theme-primary fw-bold">Listing Type</label>
+                <select class="form-control fs-14 h-50px" name="listing_type" id="listing_type" required>
+                    <option value="">Select Listing Type</option>
+                    <option value="One">One</option>
+                    <option value="Two">Two</option>
+                    <option value="Three">Three</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="material" class="form-label fs-14 text-theme-primary fw-bold">Material</label>
+                <select class="form-control fs-14 h-50px" name="material" id="material" required>
+                    <option value="">Select Material</option>
+                    <option value="Stainless Steel">Stainless Steel</option>
+                    <option value="Plastic">Plastic</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="generation" class="form-label fs-14 text-theme-primary fw-bold">Generation</label>
+                <select class="form-control fs-14 h-50px" name="generation" id="generation" required>
+                    <option value="">Select Generation</option>
+                    <option value="1st Generation">1st Generation</option>
+                    <option value="2nd Generation">2nd Generation</option>
+                    <option value="3rd Generation">3rd Generation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="connectivity" class="form-label fs-14 text-theme-primary fw-bold">Connectivity</label>
+                <select class="form-control fs-14 h-50px" name="connectivity" id="connectivity" required>
+                    <option value="">Select Connectivity</option>
+                    <option value="Wi-Fi">Wi-Fi</option>
+                    <option value="Cable">Cable</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity" class="form-label fs-14 text-theme-primary fw-bold">Quantity</label>
+                <input type="number" class="form-control fs-14 h-50px" name="quantity" value=""
+                    placeholder="Product quantity" required>
+            </div>
+            <div class="form-group">
+                <label for="auction_name" class="form-label fs-14 text-theme-primary fw-bold">Auction Name</label>
+                <input type="text" class="form-control fs-14 h-50px" name="auction_name" value=""
+                    placeholder="Product auction_name" required>
+            </div>
+            <div class="form-group">
+                <label for="lot_address" class="form-label fs-14 text-theme-primary fw-bold">Lot Address</label>
+                <input type="text" class="form-control fs-14 h-50px" name="lot_address" value=""
+                    placeholder="Product Lot Address" required>
+            </div>
+            <div class="form-group">
+                <label for="lot_city" class="form-label fs-14 text-theme-primary fw-bold">Lot City</label>
+                <input type="text" class="form-control fs-14 h-50px" name="lot_city" value=""
+                    placeholder="Product Lot City" required>
+            </div>
+            <div class="form-group">
+                <label for="lot_state" class="form-label fs-14 text-theme-primary fw-bold">Lot State</label>
+                <input type="text" class="form-control fs-14 h-50px" name="lot_state" value=""
+                    placeholder="Product Lot State" required>
+            </div>
+            <div class="form-group">
+                <label for="lot_zip" class="form-label fs-14 text-theme-primary fw-bold">Lot Zip</label>
+                <input type="text" class="form-control fs-14 h-50px" name="lot_zip" value=""
+                    placeholder="Product Lot Zip" required>
+            </div>
+            <div class="form-group">
+                <label for="lot_country" class="form-label fs-14 text-theme-primary fw-bold">Lot Country</label>
+                <input type="text" class="form-control fs-14 h-50px" name="lot_country" value=""
+                    placeholder="Product Lot Country" required>
+            </div>
+            <div class="form-group">
+                <label for="international_buyers" class="form-label fs-14 text-theme-primary fw-bold">International
+                    Buyers</label>
+                <select class="form-control fs-14 h-50px" name="international_buyers" id="international_buyers" required>
+                    <option value="">Select</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="shipping_requirements"
+                    class="form-label fs-14 text-theme-primary fw-bold">shipping_requirements</label>
+                <select class="form-control fs-14 h-50px" name="shipping_requirements" id="shipping_requirements"
+                    required>
+                    <option value="">Select</option>
+                    <option value="Buyer responsible for packaging materials and shipping costs.">Buyer responsible for
+                        packaging materials and shipping costs.</option>
+                    <option value="Shipper responsible for packaging materials and shipping costs.">Shipper responsible for
+                        packaging materials and shipping costs.</option>
+                    <option value="Buyer responsible for shipping costs. Seller responsible for packaging materials.">Buyer
+                        responsible for shipping costs. Seller responsible for packaging materials.</option>
+                </select>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="certificate_data_erasure" class="form-check-input"
+                    name="certificate_data_erasure">
+                <label for="certificate_data_erasure" class="form-label fs-14 text-theme-primary fw-bold">Certificate Data
+                    Erasure</label>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" id="certificate_hardware_destruction" class="form-check-input"
+                    name="certificate_hardware_destruction">
+                <label for="certificate_hardware_destruction"
+                    class="form-label fs-14 text-theme-primary fw-bold">Certificate Hardware Destruction</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="lot_sold_as_is" class="form-check-input" name="lot_sold_as_is">
+                <label for="lot_sold_as_is" class="form-label fs-14 text-theme-primary fw-bold">Lot Sold As Is</label>
+            </div>
+            <div class="form-group">
+                <label for="notes" class="form-label fs-14 text-theme-primary fw-bold">Notes</label>
+                <textarea class="form-control fs-14 h-50px" name="notes" required placeholder="Write notes"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="bidding_close_time" class="form-label fs-14 text-theme-primary fw-bold">Bidding Close
+                    Time</label>
+                <input type="date" class="form-control fs-14 h-50px" name="bidding_close_time" value=""
+                    placeholder="Product bidding_close_time" required>
+            </div>
+            <div class="form-group">
+                <label for="processing_time" class="form-label fs-14 text-theme-primary fw-bold">Processing Time</label>
+                <input type="number" class="form-control fs-14 h-50px" name="processing_time" value=""
+                    placeholder="Product Days" required>
+            </div>
+            <div class="form-group">
+                <label for="minimum_bid_price" class="form-label fs-14 text-theme-primary fw-bold">Minimum Bid
+                    Price</label>
+                <input type="text" class="form-control fs-14 h-50px" name="minimum_bid_price" value=""
+                    placeholder="Product Minimum Bid Price" required>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="buy_now" class="form-check-input form-check-input" name="buy_now">
+                <label for="buy_now" class="form-label fs-14 text-theme-primary fw-bold">Buy Now</label>
+            </div>
+            <div class="form-group">
+                <label for="buy_now_price" class="form-label fs-14 text-theme-primary fw-bold">Buy Now Price</label>
+                <input type="number" class="form-control fs-14 h-50px" name="buy_now_price" value=""
+                    placeholder="Product Buy Now Price" required>
+            </div>
+            <div class="form-group">
+                <label for="reserve_price" class="form-label fs-14 text-theme-primary fw-bold">Reserve Price</label>
+                <input type="number" class="form-control fs-14 h-50px" name="reserve_price" value=""
+                    placeholder="Product Reserve Price" required>
             </div>
             <div class="form-group">
                 <label for="description" class="form-label fs-14 text-theme-primary fw-bold">Description</label>
@@ -119,6 +268,42 @@
                 <div id="selectcarrier">
                     <select id="carrier_id" name="carrier_id[]" class="form-control select2" multiple required>
                         @foreach ($carrier as $row)
+                            <option value="{{ $row->id }}">
+                                {{ $row->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="rams">Ram</label>
+                <div id="selectrams">
+                    <select id="rams" name="rams[]" class="form-control select2" multiple required>
+                        @foreach ($rams as $row)
+                            <option value="{{ $row->id }}">
+                                {{ $row->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="sizes">Size</label>
+                <div id="selectsizes">
+                    <select id="sizes" name="sizes[]" class="form-control select2" multiple required>
+                        @foreach ($sizes as $row)
+                            <option value="{{ $row->id }}">
+                                {{ $row->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="modelNames">Model Name</label>
+                <div id="selectmodelNames">
+                    <select id="modelNames" name="modelNames[]" class="form-control select2" multiple required>
+                        @foreach ($modelNames as $row)
                             <option value="{{ $row->id }}">
                                 {{ $row->name }}
                             </option>

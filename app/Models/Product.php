@@ -18,12 +18,36 @@ class Product extends Model
         'subcategory_id',
         'manufacturer_id',
         'condition',
-        'status',   // 1 active, 0 inactive
+        'status',   // 1 active, 0   inactive
         'image',
         'auction_slot_id',
         'lot_no',
         'screens',
         'admin_approval',   // 0 waiting for approval ,1 approved, 2 not approved
+        'reference',
+        'listing_type',
+        'material',
+        'generation',
+        'connectivity',
+        'quantity',
+        'auction_name',
+        'lot_address',
+        'lot_city',
+        'lot_state',
+        'lot_zip',
+        'lot_country',
+        'international_buyers',     // 1/0
+        'shipping_requirements',
+        'certificate_data_erasure',
+        'certificate_hardware_destruction',
+        'lot_sold_as_is',
+        'notes',
+        'bidding_close_time',
+        'processing_time',
+        'minimum_bid_price',
+        'buy_now',
+        'buy_now_price',
+        'reserve_price',
     ];
     
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
@@ -98,5 +122,20 @@ class Product extends Model
     public function auctionSlot()
     {
         return $this->belongsTo(AuctionSlot::class, 'auction_slot_id', 'id');
+    }
+
+    public function rams()
+    {
+        return $this->belongsToMany(Ram::class, 'pivot_product_ram', 'product_id', 'ram_id');
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class, 'pivot_product_size', 'product_id', 'size_id');
+    }
+
+    public function modelNames()
+    {
+        return $this->belongsToMany(ModelName::class, 'pivot_product_model_name', 'product_id', 'model_name_id');
     }
 }

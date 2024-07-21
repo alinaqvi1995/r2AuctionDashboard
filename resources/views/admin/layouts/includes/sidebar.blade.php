@@ -77,6 +77,12 @@
         </p>
         <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('products.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Products</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
                 <a class="nav-link" href="{{ route('colors.index') }}">
                     <i class="fe fe-layers fe-16"></i>
                     <span class="ml-3 item-text">Colors</span>
@@ -137,9 +143,21 @@
                 </a>
             </li>
             <li class="nav-item w-100">
-                <a class="nav-link" href="{{ route('products.index') }}">
+                <a class="nav-link" href="{{ route('rams.index') }}">
                     <i class="fe fe-layers fe-16"></i>
-                    <span class="ml-3 item-text">Products</span>
+                    <span class="ml-3 item-text">Rams</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('sizes.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">sizes</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('modelNames.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Model Name</span>
                 </a>
             </li>
         </ul>
