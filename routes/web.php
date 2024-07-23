@@ -19,6 +19,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\AuctionSlotController;
 use App\Http\Controllers\ModelNameController;
+use App\Http\Controllers\BidController;
 
 Route::get('/', function () {
     // return view('login');
@@ -132,6 +133,9 @@ Route::prefix('admin')->group(function () {
 
     // Model Relations
     Route::get('get/ModelRelations/{id}', [ProductController::class, 'getModelRelations'])->name('get.model.relations');
+
+    // Model Relations
+    Route::get('all-bids', [BidController::class, 'index'])->name('bids.index');
 
     // User Management
     Route::get('users', [UserManagementController::class, 'index'])->name('users.index');

@@ -41,6 +41,18 @@
                 </a>
             </li>
         </ul>
+        <p class="text-muted nav-heading mt-4 mb-2 pl-4">
+            <span>Bids</span>
+        </p>
+        <ul class="navbar-nav flex-fill w-100 mb-2">
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('bids.index') }}">
+                    <i class="fe fe-home fe-16"></i>
+                    <span class="ml-3 item-text">Live Bids</span>
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+        </ul>
         {{-- <p class="text-muted nav-heading mt-4 mb-2 pl-4">
             <span>System Settings</span>
         </p>
@@ -158,6 +170,12 @@
                 <a class="nav-link" href="{{ route('modelNames.index') }}">
                     <i class="fe fe-layers fe-16"></i>
                     <span class="ml-3 item-text">Model Name</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('auction_slots.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Auction Slots</span>
                 </a>
             </li>
         </ul>

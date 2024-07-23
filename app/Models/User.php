@@ -59,4 +59,32 @@ class User extends Authenticatable
     {
         return $this->role == 'admin';
     }
+
+    public function user_type()
+    {
+        if ($this->buyer) {
+            return $this->buyer->user_type;
+        }
+
+        if ($this->seller) {
+            return $this->seller->user_type;
+        }
+
+        return null;
+    }
+
+    public function buyer()
+    {
+        return $this->hasOne(Buyer::class);
+    }
+
+    public function seller()
+    {
+        return $this->hasOne(Seller::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

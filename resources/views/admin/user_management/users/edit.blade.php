@@ -2,13 +2,34 @@
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="text-theme-primary text-uppercase mb-0 text-center fs-18 fw-bold">Edit Profile</h1>
+        <h1 class="text-theme-primary text-uppercase mb-0 text-center fs-18 fw-bold">Edit Profile @if ($user->role == 'buyer')
+                Buyer
+            @elseif ($user->role == 'seller')
+                Seller
+            @endif
+        </h1>
         <div class="m-5">
             <div class="col d-flex justify-content-center align-items-center">
                 <div class="p-x-70 p-y-20">
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('users.update', $user->id) }}" class="row g-3">
                         @csrf
                         @method('PUT')
+
+                        <!-- Basic Details -->
+                        <div class="col-12">
+                            <h4 class="text-theme-primary fs-16 fw-bold">Basic Details</h4>
+                        </div>
 
                         <div class="col-md-4">
                             <label for="name"
@@ -37,6 +58,11 @@
                             <input id="last_name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="last_name"
                                 value="{{ $user->last_name }}" required>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="col-12 mt-4">
+                            <h4 class="text-theme-primary fs-16 fw-bold">Contact Information</h4>
                         </div>
 
                         <div class="col-6">
@@ -80,40 +106,342 @@
                                 name="address" value="{{ $user->address }}" required>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="business_name"
-                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business Name') }}</label>
-                            <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="business_name" value="{{ $user->business_name }}" required>
-                        </div>
+                        @if ($user->role == 'seller')
+                            <!-- Seller Business Details -->
+                            <div class="col-12 mt-4">
+                                <h4 class="text-theme-primary fs-16 fw-bold">Seller Business Details</h4>
+                            </div>
 
-                        <div class="col-md-6">
-                            <label for="business_email"
-                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business Email') }}</label>
-                            <input type="email" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="business_email" value="{{ $user->business_email }}" required>
-                        </div>
+                            <div class="col-md-6">
+                                <label for="company_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_name" value="{{ old('company_name', $user->seller->company_name) }}">
+                            </div>
 
-                        <div class="col-md-4">
-                            <label for="designation"
-                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('Designation') }}</label>
-                            <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="designation" value="{{ $user->designation }}" required>
-                        </div>
+                            {{-- <div class="col-md-6">
+                                <label for="contact_phone"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Contact Phone') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="contact_phone" value="{{ old('contact_phone', $user->seller->contact_phone) }}">
+                            </div> --}}
 
-                        <div class="col-md-4">
-                            <label for="business_website"
-                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business Website') }}</label>
-                            <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="business_website" value="{{ $user->business_website }}" required>
-                        </div>
+                            <div class="col-md-4">
+                                <label for="linkedIn"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('LinkedIn') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="linkedIn" value="{{ old('linkedIn', $user->seller->linkedIn) }}">
+                            </div>
 
-                        <div class="col-md-4">
-                            <label for="business_desc"
-                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business Description') }}</label>
-                            <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="business_desc" value="{{ $user->business_desc }}" required>
-                        </div>
+                            <div class="col-md-4">
+                                <label for="whatsapp"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('WhatsApp') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="whatsapp" value="{{ old('whatsapp', $user->seller->whatsapp) }}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="website"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Website') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="website" value="{{ old('website', $user->seller->website) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="hear_about_us"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('How did you hear about us?') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="hear_about_us"
+                                    value="{{ old('hear_about_us', $user->seller->hear_about_us) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_address"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company Address') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_address"
+                                    value="{{ old('company_address', $user->seller->company_address) }}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="company_city"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company City') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_city" value="{{ old('company_city', $user->seller->company_city) }}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="company_state"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company State') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_state"
+                                    value="{{ old('company_state', $user->seller->company_state) }}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="company_zip"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company ZIP') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_zip" value="{{ old('company_zip', $user->seller->company_zip) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_country"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company Country') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_country"
+                                    value="{{ old('company_country', $user->seller->company_country) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bank_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="bank_name" value="{{ old('bank_name', $user->seller->bank_name) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bank_address"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank Address') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="bank_address" value="{{ old('bank_address', $user->seller->bank_address) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bank_benificiary_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank Beneficiary Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="bank_benificiary_name"
+                                    value="{{ old('bank_benificiary_name', $user->seller->bank_benificiary_name) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="account_number"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Account Number') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="account_number"
+                                    value="{{ old('account_number', $user->seller->account_number) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="iban_number"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('IBAN Number') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="iban_number" value="{{ old('iban_number', $user->seller->iban_number) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="swift_code"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('SWIFT Code') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="swift_code" value="{{ old('swift_code', $user->seller->swift_code) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="business_type"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business Type') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="business_type"
+                                    value="{{ old('business_type', $user->seller->business_type) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="business_license"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business License') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="business_license"
+                                    value="{{ old('business_license', $user->seller->business_license) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="address_proof"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Address Proof') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="address_proof"
+                                    value="{{ old('address_proof', $user->seller->address_proof) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="owner_eid"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Owner EID') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="owner_eid" value="{{ old('owner_eid', $user->seller->owner_eid) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="tra_certificate"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('TRA Certificate') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="tra_certificate"
+                                    value="{{ old('tra_certificate', $user->seller->tra_certificate) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bank_swift_letter"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank SWIFT Letter') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="bank_swift_letter"
+                                    value="{{ old('bank_swift_letter', $user->seller->bank_swift_letter) }}">
+                            </div>
+                        @elseif($user->role == 'buyer')
+                            <!-- Buyer Details -->
+                            <div class="col-12 mt-4">
+                                <h4 class="text-theme-primary fs-16 fw-bold">Buyer Details</h4>
+                            </div>
+
+                            {{-- <div class="col-md-6">
+                                <label for="buyer_type"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Buyer Type') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="buyer_type" value="{{ old('buyer_type', $user->buyer->buyer_type) }}" >
+                            </div> --}}
+
+                            {{-- <div class="col-md-6">
+                                <label for="first_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('First Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="first_name" value="{{ old('first_name', $user->buyer->first_name) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="last_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Last Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="last_name" value="{{ old('last_name', $user->buyer->last_name) }}">
+                            </div> --}}
+
+                            <div class="col-md-6">
+                                <label for="business_type"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business Type') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="business_type" value="{{ old('business_type', $user->buyer->business_type) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_legal_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company Legal Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_legal_name"
+                                    value="{{ old('company_legal_name', $user->buyer->company_legal_name) }}">
+                            </div>
+
+                            {{-- <div class="col-md-6">
+                                <label for="phone"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Phone') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="phone" value="{{ old('phone', $user->buyer->phone) }}">
+                            </div> --}}
+
+                            <div class="col-md-6">
+                                <label for="whatsapp"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('WhatsApp') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="whatsapp" value="{{ old('whatsapp', $user->buyer->whatsapp) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="website"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Website') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="website" value="{{ old('website', $user->buyer->website) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="resale_business_type"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Resale Business Type') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="resale_business_type"
+                                    value="{{ old('resale_business_type', $user->buyer->resale_business_type) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="hear_about_us"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('How did you hear about us?') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="hear_about_us" value="{{ old('hear_about_us', $user->buyer->hear_about_us) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_address"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company Address') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_address"
+                                    value="{{ old('company_address', $user->buyer->company_address) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_city"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company City') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_city" value="{{ old('company_city', $user->buyer->company_city) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_state"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company State') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_state" value="{{ old('company_state', $user->buyer->company_state) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_zip"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company ZIP') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_zip" value="{{ old('company_zip', $user->buyer->company_zip) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="company_country"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Company Country') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="company_country"
+                                    value="{{ old('company_country', $user->buyer->company_country) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bank_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="bank_name" value="{{ old('bank_name', $user->buyer->bank_name) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bank_address"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank Address') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="bank_address" value="{{ old('bank_address', $user->buyer->bank_address) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bank_benificiary_name"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank Beneficiary Name') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="bank_benificiary_name"
+                                    value="{{ old('bank_benificiary_name', $user->buyer->bank_benificiary_name) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="account_number"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('Account Number') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="account_number"
+                                    value="{{ old('account_number', $user->buyer->account_number) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="iban_number"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('IBAN Number') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="iban_number" value="{{ old('iban_number', $user->buyer->iban_number) }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="swift_code"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('SWIFT Code') }}</label>
+                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
+                                    name="swift_code" value="{{ old('swift_code', $user->buyer->swift_code) }}">
+                            </div>
+                        @endif
 
                         <div class="col-12">
                             <label for="status"
@@ -124,37 +452,9 @@
                             </select>
                         </div>
 
-                        <div class="col-12">
-                            <label for="password"
-                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('New Password') }}</label>
-                            <input id="password" type="password"
-                                class="form-control fs-14 bg-theme-secondary border-0 h-50px @error('password') is-invalid @enderror"
-                                name="password" autocomplete="new-password">
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div class="col-12">
-                            <label for="password-confirm"
-                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('Confirm New Password') }}</label>
-                            <input id="password-confirm" type="password"
-                                class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="password_confirmation"
-                                autocomplete="new-password">
-                        </div>
-
-                        <div class="col-12">
-                            <button type="submit" class="btn w-100 py-3 fs-14 text-uppercase fw-bold default-btn">Update
-                                Password</button>
-                        </div>
-
-                        <div class="col-12 text-center">
-                            <label class="form-check-label text-grey text-center fs-14" for="gridCheck">
-                                <a href="{{ route('users.index') }}"
-                                    class="text-theme-primary text-decoration-underline"> Back to Users</a>
-                            </label>
+                        <!-- Submit Button -->
+                        <div class="col-12 mt-5 text-center">
+                            <button type="submit" class="btn btn-primary">{{ __('Update Profile') }}</button>
                         </div>
                     </form>
                 </div>

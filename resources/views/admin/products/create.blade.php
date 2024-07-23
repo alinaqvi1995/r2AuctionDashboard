@@ -131,8 +131,19 @@
             <div class="form-group">
                 <label for="bidding_close_time" class="form-label fs-14 text-theme-primary fw-bold">Bidding Close
                     Time</label>
-                <input type="date" class="form-control fs-14 h-50px" name="bidding_close_time" value=""
+                <input type="datetime-local" class="form-control fs-14 h-50px" name="bidding_close_time" value=""
                     placeholder="Product bidding_close_time" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="auction_slot_id">Auction Slots</label>
+                <select id="auction_slot_id" name="auction_slot_id" class="form-control" required>
+                    <option value="" selected disabled>Select Auction Date</option>
+                    @foreach ($auctionSlots as $row)
+                        <option value="{{ $row->id }}">
+                            {{ $row->auction_date . ' - ' . $row->auction_date_end }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <label for="processing_time" class="form-label fs-14 text-theme-primary fw-bold">Processing Time</label>
@@ -614,14 +625,12 @@
                     success: function(response) {
                         var capacities = response.capacities;
                         var models = response.models;
-                        var capacitiesOptions = '<option value="">Select Capacities</option>';
                         $.each(capacities, function(index, capacity) {
                             capacitiesOptions += '<option value="' + capacity.id +
                                 '">' + capacity.name + '</option>';
                         });
                         $('#capacity_id').html(capacitiesOptions);
 
-                        var modelsOptions = '<option value="">Select models</option>';
                         $.each(models, function(index, model) {
                             modelsOptions += '<option value="' + model.id + '">' + model
                                 .name + '</option>';

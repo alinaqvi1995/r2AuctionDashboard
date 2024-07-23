@@ -3,19 +3,13 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-12">
-            <h2 class="mb-2 page-title">Users</h2>
-            <p class="card-text">Users table.</p>
+            <h2 class="mb-2 page-title">Live Bids</h2>
             <div class="row my-4">
                 <div class="col-md-12">
                     <div class="card shadow">
-                        @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                        @endif
                         <div class="card-body">
                             <!-- Filters -->
-                            <div class="row mb-3">
+                            {{-- <div class="row mb-3">
                                 <div class="col-md-3">
                                     <select id="filter-role" class="form-control">
                                         <option value="">Filter by Role</option>
@@ -38,48 +32,46 @@
                                         <option value="0">Inactive</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- table -->
                             <table class="table datatables" id="dataTable-1">
                                 <thead>
                                     <tr>
-                                        <th></th>
                                         <th>Sr#</th>
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        {{-- <th>Business Type</th> --}}
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Action</th>
+                                        <th>Lot #.</th>
+                                        <th>Listing Type</th>
+                                        <th>Price</th>
+                                        <th>Seller</th>
+                                        <th>Start Date/Time</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php $counter = 1 @endphp
-                                    @foreach ($users as $user)
-                                        @if ($user->role != 'admin')
+                                    @foreach ($products as $products)
+                                        @if ($products->role != 'admin')
                                             <tr>
-                                                <td>
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input">
-                                                        <label class="custom-control-label"></label>
-                                                    </div>
-                                                </td>
                                                 <td>{{ $counter++ }}</td>
-                                                <td>{{ $user->name . ' ' . $user->middle_name . ' ' . $user->last_name }}
+                                                <td>{{ $products->name }}
                                                 </td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->role }}</td>
-                                                {{-- <td>{{ $user->business_type }}</td> --}}
+                                                <td>{{ $products->lot_no }}</td>
+                                                <td>{{ $products->listing_type }}</td>
                                                 <td>
-                                                    @if ($user->status == 1)
+                                                    <b>Minimum bid price:</b> {{ $products->minimum_bid_price }} <br>
+                                                    <b>Buy now price:</b> {{ $products->buy_now_price }} <br>
+                                                    <b>Reserve price: </b>{{ $products->reserve_price }}
+                                                </td>
+                                                {{-- <td>
+                                                    @if ($products->status == 1)
                                                         <span class="badge badge-success">Active</span>
                                                     @else
                                                         <span class="badge badge-danger">Inactive</span>
                                                     @endif
-                                                </td>
-                                                <td>{{ $user->created_at }}</td>
-                                                <td>
+                                                </td> --}}
+                                                <td>{{ $products->user->name . ' ' . $products->user->last_name }}</td>
+                                                <td>{{ $products->created_at }}</td>
+                                                {{-- <td>
                                                     <button
                                                         class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted"
                                                         type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -88,17 +80,17 @@
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right shadow">
                                                         <a class="dropdown-item"
-                                                            href="{{ route('users.edit', $user->id) }}"><i
+                                                            href="{{ route('users.edit', $products->id) }}"><i
                                                                 class="fe fe-edit-2 fe-12 mr-3 text-muted"></i>Edit</a>
-                                                        {{-- <form action="{{ route('users.destroy', $user->id) }}"
+                                                        <form action="{{ route('users.destroy', $products->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="dropdown-item"><i
                                                                 class="fe fe-trash fe-12 mr-3 text-muted"></i>Remove</button>
-                                                    </form> --}}
+                                                    </form>
                                                     </div>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endif
                                     @endforeach
@@ -114,25 +106,25 @@
 
 @section('bottom_script')
     <script>
-        $(document).ready(function() {
-            var table = $('#dataTable-1').DataTable();
+        // $(document).ready(function() {
+        //     var table = $('#dataTable-1').DataTable();
 
-            $('#filter-role').on('change', function() {
-                var selectedRole = $(this).val();
-                table.column(4).search(selectedRole).draw();
-            });
+        //     $('#filter-role').on('change', function() {
+        //         var selectedRole = $(this).val();
+        //         table.column(4).search(selectedRole).draw();
+        //     });
 
-            $('#filter-business_type').on('change', function() {
-                var selectedRole = $(this).val();
-                table.column(5).search(selectedRole).draw();
-            });
+        //     $('#filter-business_type').on('change', function() {
+        //         var selectedRole = $(this).val();
+        //         table.column(5).search(selectedRole).draw();
+        //     });
 
-            $('#filter-status').on('change', function() {
-                var selectedStatus = $(this).val();
-                var statusText = selectedStatus == '1' ? '^Active$' : selectedStatus == '0' ? '^Inactive$' :
-                    '';
-                table.column(6).search(statusText, true, false).draw();
-            });
-        });
+        //     $('#filter-status').on('change', function() {
+        //         var selectedStatus = $(this).val();
+        //         var statusText = selectedStatus == '1' ? '^Active$' : selectedStatus == '0' ? '^Inactive$' :
+        //             '';
+        //         table.column(6).search(statusText, true, false).draw();
+        //     });
+        // });
     </script>
 @endsection

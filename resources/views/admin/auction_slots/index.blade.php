@@ -38,11 +38,11 @@
                         @csrf
                         <div class="form-group">
                             <label for="auction_date">Start Time</label>
-                            <input type="date" class="form-control" id="auction_date" name="auction_date" required>
+                            <input type="datetime-local" class="form-control" id="auction_date" name="auction_date" required>
                         </div>
                         <div class="form-group">
                             <label for="auction_date_end">End Time</label>
-                            <input type="date" class="form-control" id="auction_date_end" name="auction_date_end" required>
+                            <input type="datetime-local" class="form-control" id="auction_date_end" name="auction_date_end" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
@@ -73,11 +73,11 @@
                         <input type="hidden" id="edit_id" name="edit_id">
                         <div class="form-group">
                             <label for="edit_auction_date">Start Time</label>
-                            <input type="date" class="form-control" id="edit_auction_date" name="auction_date" required>
+                            <input type="datetime-local" class="form-control" id="edit_auction_date" name="auction_date" required>
                         </div>
                         <div class="form-group">
                             <label for="edit_auction_date_end">End Time</label>
-                            <input type="date" class="form-control" id="edit_auction_date_end" name="auction_date_end" required>
+                            <input type="datetime-local" class="form-control" id="edit_auction_date_end" name="auction_date_end" required>
                         </div>
                         <div class="form-group">
                             <label for="edit_description">Description</label>

@@ -56,7 +56,8 @@ class ProductController extends Controller
         $rams = Ram::get();
         $sizes = Size::get();
         $modelNames = ModelName::get();
-        return view('admin.products.create', compact('products', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier', 'rams', 'sizes', 'modelNames'));
+        $auctionSlots = AuctionSlot::get();
+        return view('admin.products.create', compact('products', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier', 'rams', 'sizes', 'modelNames', 'auctionSlots'));
     }
 
     public function edit($id)
@@ -108,8 +109,29 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            // 'name' => 'required|string|max:255',
+            // 'description' => 'nullable|string|max:255',
+            // 'category_id' => 'required|exists:categories,id',
+            // 'subcategory_id' => 'required|exists:subcategories,id',
+            // 'manufacturer_id' => 'required|exists:manufacturers,id',
+            // 'condition' => 'required|string|max:255',
+            // 'auction_slot_id' => 'nullable|exists:auction_slots,id',
+            // 'color_id' => 'nullable|array',
+            // 'color_id.*' => 'exists:colors,id',
+            // 'region_id' => 'nullable|array',
+            // 'region_id.*' => 'exists:regions,id',
+            // 'capacity_id' => 'nullable|array',
+            // 'capacity_id.*' => 'exists:capacities,id',
+            // 'modelNumber_id' => 'nullable|array',
+            // 'modelNumber_id.*' => 'exists:model_numbers,id',
+            // 'carrier_id' => 'nullable|array',
+            // 'carrier_id.*' => 'exists:carriers,id',
+            // 'status' => 'required|integer',
+            // 'admin_approval' => 'required|integer',
+            // 'image' => 'nullable|image|max:2048',
+            // 'media.*' => 'nullable|image|max:2048',
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
             'manufacturer_id' => 'required|exists:manufacturers,id',
@@ -131,7 +153,10 @@ class ProductController extends Controller
             'media.*' => 'nullable|image|max:2048',
         ]);
 
-        $lotNo = Str::random(6);
+        // $lotNo = Str::random(6);
+        do {
+            $lotNo = strtoupper(Str::random(8));
+        } while (Product::where('lot_no', $lotNo)->exists());
 
         $product = Product::create(array_merge($request->except(['image', 'media']), ['lot_no' => $lotNo]));
 
@@ -171,18 +196,41 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
+            // 'name' => 'required|string|max:255',
+            // 'description' => 'nullable|string|max:255',
+            // 'category_id' => 'required|exists:categories,id',
+            // 'subcategory_id' => 'required|exists:subcategories,id',
+            // 'manufacturer_id' => 'required|exists:manufacturers,id',
+            // 'condition' => 'required|string|max:255',
+            // 'image' => 'nullable|image|max:2048',
+            // 'media.*' => 'nullable|image|max:2048'
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
             'manufacturer_id' => 'required|exists:manufacturers,id',
             'condition' => 'required|string|max:255',
+            'auction_slot_id' => 'nullable|exists:auction_slots,id',
+            'color_id' => 'nullable|array',
+            'color_id.*' => 'exists:colors,id',
+            'region_id' => 'nullable|array',
+            'region_id.*' => 'exists:regions,id',
+            'capacity_id' => 'nullable|array',
+            'capacity_id.*' => 'exists:capacities,id',
+            'modelNumber_id' => 'nullable|array',
+            'modelNumber_id.*' => 'exists:model_numbers,id',
+            'carrier_id' => 'nullable|array',
+            'carrier_id.*' => 'exists:carriers,id',
+            'status' => 'required|integer',
+            'admin_approval' => 'required|integer',
             'image' => 'nullable|image|max:2048',
-            'media.*' => 'nullable|image|max:2048'
+            'media.*' => 'nullable|image|max:2048',
         ]);
 
         if (empty($product->lot_no)) {
-            $lotNo = Str::random(6);
+            do {
+                $lotNo = strtoupper(Str::random(8));
+            } while (Product::where('lot_no', $lotNo)->exists());
             $request->merge(['lot_no' => $lotNo]);
         }
 

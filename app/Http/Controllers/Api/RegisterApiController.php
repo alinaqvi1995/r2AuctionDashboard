@@ -49,6 +49,7 @@ class RegisterApiController extends Controller
             'business_website' => $validatedData['business_website'] ?? '',
             'business_desc' => $validatedData['business_desc'] ?? '',
             'role' => $validatedData['role'] ?? 'user',
+            'business_type' => $validatedData['business_type'] ?? null,
         ]);
 
         if ($validatedData['role'] === 'buyer') {
