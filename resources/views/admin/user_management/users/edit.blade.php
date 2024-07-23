@@ -65,7 +65,7 @@
                             <h4 class="text-theme-primary fs-16 fw-bold">Contact Information</h4>
                         </div>
 
-                        <div class="col-6">
+                        {{-- <div class="col-6">
                             <label for="email"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('E-Mail Address') }}</label>
                             <input id="email" type="email"
@@ -76,7 +76,7 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-6">
                             <label for="phone"
