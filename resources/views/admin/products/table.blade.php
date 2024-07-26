@@ -8,7 +8,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Status</th>
-            <th>Admin Approval`</th>
+            <th>Admin Approval</th>
             <th>Image</th>
             <th>Action</th>
         </tr>
@@ -59,11 +59,16 @@
                         data-id="{{ $product->id }}">
                         <span class="text-muted sr-only">Edit</span>
                     </a>
-                    <button class="btn btn-sm rounded text-muted deleteProductBtn" type="button"
-                        data-id="{{ $product->id }}">
-                        <span class="fe fe-trash fe-12 mr-3"></span>
-                        <span class="text-muted sr-only">Remove</span>
-                    </button>
+                    <form action="{{ route('products.destroy', $product->id) }}" method="POST"
+                        style="display:inline;" class="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm rounded text-muted deleteProductBtn" type="submit"
+                            data-id="{{ $product->id }}">
+                            <span class="fe fe-trash fe-12 mr-3"></span>
+                            <span class="text-muted sr-only">Remove</span>
+                        </button>
+                    </form>
                 </td>
             </tr>
         @endforeach

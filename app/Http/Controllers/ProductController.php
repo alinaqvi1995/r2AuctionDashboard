@@ -265,7 +265,7 @@ class ProductController extends Controller
             $product->delete();
             $products = Product::all();
             $view = view('admin.products.table', compact('products'))->render();
-            return response()->json(['message' => 'Product deleted successfully', 'products' => $view], 200);
+            return back()->with('message', 'Product deleted successfully');
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete product: ' . $e->getMessage()], 500);
         }

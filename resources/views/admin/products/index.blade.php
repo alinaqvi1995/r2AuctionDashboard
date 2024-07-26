@@ -635,4 +635,18 @@
 
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.deleteProductBtn').on('click', function(e) {
+                e.preventDefault();
+    
+                var $form = $(this).closest('form');
+                var productName = $(this).data('id');
+    
+                if (confirm('Are you sure you want to delete this product?')) {
+                    $form.submit();
+                }
+            });
+        });
+    </script>
 @endsection
