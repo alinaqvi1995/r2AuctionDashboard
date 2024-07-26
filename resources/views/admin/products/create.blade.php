@@ -108,20 +108,20 @@
                 </select>
             </div>
             <div class="form-check">
-                <input type="checkbox" id="certificate_data_erasure" class="form-check-input"
+                <input type="checkbox" id="certificate_data_erasure" class="form-check-input" value="1"
                     name="certificate_data_erasure">
                 <label for="certificate_data_erasure" class="form-label fs-14 text-theme-primary fw-bold">Certificate Data
                     Erasure</label>
             </div>
 
             <div class="form-check">
-                <input type="checkbox" id="certificate_hardware_destruction" class="form-check-input"
+                <input type="checkbox" id="certificate_hardware_destruction" class="form-check-input" value="1"
                     name="certificate_hardware_destruction">
                 <label for="certificate_hardware_destruction"
                     class="form-label fs-14 text-theme-primary fw-bold">Certificate Hardware Destruction</label>
             </div>
             <div class="form-check">
-                <input type="checkbox" id="lot_sold_as_is" class="form-check-input" name="lot_sold_as_is">
+                <input type="checkbox" id="lot_sold_as_is" class="form-check-input" value="1" name="lot_sold_as_is">
                 <label for="lot_sold_as_is" class="form-label fs-14 text-theme-primary fw-bold">Lot Sold As Is</label>
             </div>
             <div class="form-group">
@@ -157,7 +157,7 @@
                     placeholder="Product Minimum Bid Price" required>
             </div>
             <div class="form-check">
-                <input type="checkbox" id="buy_now" class="form-check-input form-check-input" name="buy_now">
+                <input type="checkbox" id="buy_now" class="form-check-input" value="1" name="buy_now">
                 <label for="buy_now" class="form-label fs-14 text-theme-primary fw-bold">Buy Now</label>
             </div>
             <div class="form-group">
@@ -508,6 +508,8 @@
                         $('#productMessage').html(
                             '<div class="alert alert-success" role="alert">Product created successfully.</div>'
                         );
+
+                        window.location.href = "{{ route('products.index') }}";
                     },
                     error: function(error) {
                         console.error(error);
@@ -643,26 +645,26 @@
                 });
             });
 
-            $('#modelNumber_id').change(function() {
-                var modelNumberId = $(this).val();
-                $.ajax({
-                    url: "{{ route('get.model.relations', ':modelNumberId') }}".replace(
-                        ':modelNumberId', modelNumberId),
-                    type: 'GET',
-                    success: function(response) {
-                        var colors = response.colors;
-                        var colorsOptions = '<option value="">Select Colors</option>';
-                        $.each(colors, function(index, color) {
-                            colorsOptions += '<option value="' + color.id + '">' + color
-                                .name + '</option>';
-                        });
-                        $('#color_id').html(colorsOptions);
-                    },
-                    error: function(xhr) {
-                        console.log('Error:', xhr.responseText);
-                    }
-                });
-            });
+            // $('#modelNumber_id').change(function() {
+            //     var modelNumberId = $(this).val();
+            //     $.ajax({
+            //         url: "{{ route('get.model.relations', ':modelNumberId') }}".replace(
+            //             ':modelNumberId', modelNumberId),
+            //         type: 'GET',
+            //         success: function(response) {
+            //             var colors = response.colors;
+            //             var colorsOptions = '<option value="">Select Colors</option>';
+            //             $.each(colors, function(index, color) {
+            //                 colorsOptions += '<option value="' + color.id + '">' + color
+            //                     .name + '</option>';
+            //             });
+            //             $('#color_id').html(colorsOptions);
+            //         },
+            //         error: function(xhr) {
+            //             console.log('Error:', xhr.responseText);
+            //         }
+            //     });
+            // });
 
         });
     </script>

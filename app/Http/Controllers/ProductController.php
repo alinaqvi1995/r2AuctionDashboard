@@ -21,6 +21,7 @@ use App\Models\Size;
 use App\Models\ModelName;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -108,28 +109,10 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request['admin_approval'] = 0;
+        $request['user_id'] = Auth::id();
+
         $request->validate([
-            // 'name' => 'required|string|max:255',
-            // 'description' => 'nullable|string|max:255',
-            // 'category_id' => 'required|exists:categories,id',
-            // 'subcategory_id' => 'required|exists:subcategories,id',
-            // 'manufacturer_id' => 'required|exists:manufacturers,id',
-            // 'condition' => 'required|string|max:255',
-            // 'auction_slot_id' => 'nullable|exists:auction_slots,id',
-            // 'color_id' => 'nullable|array',
-            // 'color_id.*' => 'exists:colors,id',
-            // 'region_id' => 'nullable|array',
-            // 'region_id.*' => 'exists:regions,id',
-            // 'capacity_id' => 'nullable|array',
-            // 'capacity_id.*' => 'exists:capacities,id',
-            // 'modelNumber_id' => 'nullable|array',
-            // 'modelNumber_id.*' => 'exists:model_numbers,id',
-            // 'carrier_id' => 'nullable|array',
-            // 'carrier_id.*' => 'exists:carriers,id',
-            // 'status' => 'required|integer',
-            // 'admin_approval' => 'required|integer',
-            // 'image' => 'nullable|image|max:2048',
-            // 'media.*' => 'nullable|image|max:2048',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
@@ -153,12 +136,17 @@ class ProductController extends Controller
             'media.*' => 'nullable|image|max:2048',
         ]);
 
-        // $lotNo = Str::random(6);
+        $lotNo = Str::random(6);
         do {
             $lotNo = strtoupper(Str::random(8));
         } while (Product::where('lot_no', $lotNo)->exists());
 
-        $product = Product::create(array_merge($request->except(['image', 'media']), ['lot_no' => $lotNo]));
+        $productData = $request->except(['image', 'media']);
+        $productData['lot_no'] = $lotNo;
+        $productData['certificate_hardware_destruction'] = $request->has('certificate_hardware_destruction') ? 1 : 0;
+        $productData['buy_now'] = $request->has('buy_now') ? 1 : 0;
+
+        $product = Product::create($productData);
 
         if ($request->hasFile('image')) {
             $imagePath = $this->uploadImage($request->file('image'), 'products');
