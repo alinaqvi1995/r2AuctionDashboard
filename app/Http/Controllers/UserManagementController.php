@@ -8,6 +8,7 @@ use App\Models\Buyer;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserManagementController extends Controller
 {
@@ -25,7 +26,6 @@ class UserManagementController extends Controller
 
     public function update(Request $request, $product)
     {
-        // dd($request->toArray());
         $user = User::findOrFail($product);
 
         // Define the validation rules
@@ -49,10 +49,12 @@ class UserManagementController extends Controller
             // Add other validation rules for buyer and seller fields as necessary
         ]);
 
+        
         if ($validator->fails()) {
+            dd($validator);
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+        
         // Update user data
         $data = $request->except('password');
         if ($request->filled('password')) {
@@ -141,6 +143,10 @@ class UserManagementController extends Controller
             $seller = Seller::updateOrCreate(['user_id' => $user->id], $sellerData);
         }
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        if ($user->role == 'admin') {
+            return redirect()->route('admin')->with('success', 'Profile updated successfully');
+        } else {
+            return redirect()->route('users.index')->with('success', 'User updated successfully');
+        }
     }
 }

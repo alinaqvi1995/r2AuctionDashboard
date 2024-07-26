@@ -34,6 +34,7 @@ class User extends Authenticatable
         'business_desc',
         'password',
         'role',
+        'status',
     ];
 
     /**

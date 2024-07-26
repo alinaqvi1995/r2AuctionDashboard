@@ -131,46 +131,60 @@
                         </div>
                         <div class="modal-body px-5">
                             <div class="row align-items-center">
-                                <div class="col-6 text-center">
+                                {{-- <div class="col-6 text-center">
                                     <div class="squircle bg-success justify-content-center">
                                         <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
                                     </div>
                                     <p>Control area</p>
+                                </div> --}}
+                                <div class="col-6 text-center">
+                                    <a href="{{ route('admin') }}">
+                                        <div class="squircle bg-primary justify-content-center">
+                                            <i class="fe fe-home fe-32 align-self-center text-white"></i>
+                                        </div>
+                                        <p class="text-white">Dashboard</p>
+                                    </a>
                                 </div>
                                 <div class="col-6 text-center">
-                                    <div class="squircle bg-primary justify-content-center">
-                                        <i class="fe fe-activity fe-32 align-self-center text-white"></i>
-                                    </div>
-                                    <p>Activity</p>
+                                    <a href="{{ route('bids.index') }}">
+                                        <div class="squircle bg-primary justify-content-center">
+                                            <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                                        </div>
+                                        <p class="text-white">Products</p>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="row align-items-center">
-                                <div class="col-6 text-center">
-                                    <div class="squircle bg-primary justify-content-center">
-                                        <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                                    </div>
-                                    <p>Droplet</p>
-                                </div>
+                            {{-- <div class="row align-items-center">
                                 <div class="col-6 text-center">
                                     <div class="squircle bg-primary justify-content-center">
                                         <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
                                     </div>
                                     <p>Upload</p>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row align-items-center">
                                 <div class="col-6 text-center">
-                                    <div class="squircle bg-primary justify-content-center">
-                                        <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                                    </div>
-                                    <p>Users</p>
+                                    <a href="{{ route('users.index') }}">
+                                        <div class="squircle bg-primary justify-content-center">
+                                            <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                                        </div>
+                                        <p class="text-white">All Users</p>
+                                    </a>
                                 </div>
                                 <div class="col-6 text-center">
+                                    <a href="{{ route('bids.index') }}">
+                                        <div class="squircle bg-primary justify-content-center">
+                                            <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                                        </div>
+                                        <p class="text-white">Bids</p>
+                                    </a>
+                                </div>
+                                {{-- <div class="col-6 text-center">
                                     <div class="squircle bg-primary justify-content-center">
                                         <i class="fe fe-settings fe-32 align-self-center text-white"></i>
                                     </div>
                                     <p>Settings</p>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
