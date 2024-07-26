@@ -21,12 +21,11 @@ use App\Http\Controllers\AuctionSlotController;
 use App\Http\Controllers\ModelNameController;
 use App\Http\Controllers\BidController;
 
+Auth::routes();
+
 Route::get('/', function () {
-    // return view('login');
     return redirect()->route('login');
 });
-
-Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
