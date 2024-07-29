@@ -41,8 +41,8 @@ Route::middleware([
 
 
 // Admin Routes
-// Route::middleware('admin')->prefix('admin')->group(function () {
-Route::prefix('admin')->group(function () {
+Route::middleware('admin')->prefix('admin')->group(function () {
+// Route::prefix('admin')->group(function () {
 
     Route::get('/', [AdminController::class, 'index'])->name('admin');
     ;
