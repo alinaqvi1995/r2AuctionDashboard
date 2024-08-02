@@ -133,9 +133,13 @@ class RegisterApiController extends Controller
             ]);
         }
 
-        $user = User::find($user->id);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 
     public function update(Request $request, User $user)
