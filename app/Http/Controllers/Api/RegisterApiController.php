@@ -30,10 +30,10 @@ class RegisterApiController extends Controller
             'designation' => 'nullable|string|max:255',
             'business_website' => 'nullable|string|max:255',
             'business_desc' => 'nullable|string|max:500',
-            'role' => 'nullable|string|in:admin,buyer,seller,user|max:50',
+            // 'role' => 'nullable|string|in:admin,buyer,seller,user|max:50',
         ]);
 
-        $role = $validatedData['role'] ?? 'user';
+        $role = $request->role ?? 'user';
 
         $user = User::create([
             'name' => $validatedData['name'] ?? '',
@@ -55,7 +55,7 @@ class RegisterApiController extends Controller
             'business_type' => $validatedData['business_type'] ?? null,
         ]);
 
-        if ($validatedData['role'] === 'buyer') {
+        if ($role === 'buyer') {
             Buyer::create([
                 'user_id' => $user->id,
                 'buyer_type' => $validatedData['buyer_type'] ?? '',
@@ -102,7 +102,7 @@ class RegisterApiController extends Controller
                 'security_deposit_slip' => $validatedData['security_deposit_slip'] ?? null,
                 'tra_certificate' => $validatedData['tra_certificate'] ?? null,
             ]);
-        } elseif ($validatedData['role'] === 'seller') {
+        } elseif ($role === 'seller') {
             Seller::create([
                 'user_id' => $user->id,
                 'company_name' => $validatedData['company_name'] ?? '',
