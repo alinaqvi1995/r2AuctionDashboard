@@ -133,6 +133,8 @@ class RegisterApiController extends Controller
             ]);
         }
 
+        $user = User::find($user->id);
+
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
 
