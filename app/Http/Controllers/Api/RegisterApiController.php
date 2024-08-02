@@ -250,5 +250,4 @@ class RegisterApiController extends Controller
 
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
     }
-
 }
