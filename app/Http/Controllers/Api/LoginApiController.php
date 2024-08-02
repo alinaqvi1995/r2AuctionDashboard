@@ -16,7 +16,11 @@ class LoginApiController extends Controller
             $user = Auth::user();
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            return response()->json(['message' => 'Login successful', 'token' => $token], 200);
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+                'user' => $user
+            ], 200);
         }
 
         return response()->json(['message' => 'Unauthorized'], 401);
