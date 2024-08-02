@@ -14,6 +14,7 @@ class RegisterApiController extends Controller
 {
     public function register(Request $request)
     {
+
         $validatedData = $request->validate([
             'name' => 'nullable|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -32,6 +33,8 @@ class RegisterApiController extends Controller
             'role' => 'nullable|string|in:admin,buyer,seller,user|max:50',
         ]);
 
+        $role = $validatedData['role'] ?? 'user';
+
         $user = User::create([
             'name' => $validatedData['name'] ?? '',
             'email' => $validatedData['email'],
@@ -48,7 +51,7 @@ class RegisterApiController extends Controller
             'designation' => $validatedData['designation'] ?? '',
             'business_website' => $validatedData['business_website'] ?? '',
             'business_desc' => $validatedData['business_desc'] ?? '',
-            'role' => $validatedData['role'] ?? 'user',
+            'role' => $role,
             'business_type' => $validatedData['business_type'] ?? null,
         ]);
 
