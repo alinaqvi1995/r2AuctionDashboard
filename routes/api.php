@@ -36,7 +36,7 @@ Route::delete('/products/{product}', [ProductApiController::class, 'destroy']);
 
 // Register new user
 Route::post('/register', [RegisterApiController::class, 'register']);
-Route::post('/update', [RegisterApiController::class, 'update']);
+Route::put('/update/{user}', [RegisterApiController::class, 'update']);
 
 // Login new user
 Route::post('/login', [LoginApiController::class, 'login']);

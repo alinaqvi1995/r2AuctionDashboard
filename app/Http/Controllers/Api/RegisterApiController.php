@@ -147,7 +147,7 @@ class RegisterApiController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['sometimes', 'string', 'max:255'],
             'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'password' => 'required|string|min:8',
+            'password' => ['sometimes', 'string', 'min:8'],
             'middle_name' => ['sometimes', 'string', 'max:255'],
             'last_name' => ['sometimes', 'string', 'max:255'],
             'phone' => ['sometimes', 'string', 'max:20'],
@@ -173,7 +173,6 @@ class RegisterApiController extends Controller
 
         $user->update($data);
 
-        // Handle Buyer or Seller update
         if ($user->role === 'buyer') {
             $buyerData = $request->only([
                 'first_name',
