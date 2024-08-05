@@ -18,7 +18,7 @@ class UserApiController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('buyer', 'seller')->findOrFail($id);
         return response()->json($user, 200);
     }
 

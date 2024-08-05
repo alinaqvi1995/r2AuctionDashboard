@@ -54,6 +54,7 @@ class Buyer extends Model
         'owner_eid',
         'security_deposit_slip',
         'tra_certificate',
+        'r2_certificate',
     ];
 
     public function user()

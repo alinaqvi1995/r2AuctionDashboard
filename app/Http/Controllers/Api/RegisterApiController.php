@@ -101,6 +101,7 @@ class RegisterApiController extends Controller
                 'owner_eid' => $validatedData['owner_eid'] ?? null,
                 'security_deposit_slip' => $validatedData['security_deposit_slip'] ?? null,
                 'tra_certificate' => $validatedData['tra_certificate'] ?? null,
+                'r2_certificate' => $validatedData['r2_certificate'] ?? null,
             ]);
         } elseif ($role === 'seller') {
             Seller::create([
@@ -216,7 +217,8 @@ class RegisterApiController extends Controller
                 'address_proof',
                 'owner_eid',
                 'security_deposit_slip',
-                'tra_certificate'
+                'tra_certificate',
+                'r2_certificate'
             ]);
 
             $buyer = Buyer::firstOrNew(['user_id' => $user->id]);
