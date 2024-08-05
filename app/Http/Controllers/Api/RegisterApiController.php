@@ -212,13 +212,13 @@ class RegisterApiController extends Controller
                 'payment_method',
                 'bank_name',
                 'account_title',
-                'security_deposit',
-                'business_license',
-                'address_proof',
-                'owner_eid',
-                'security_deposit_slip',
-                'tra_certificate',
-                'r2_certificate'
+                'security_deposit', //file
+                'business_license', //file
+                'address_proof',    //file
+                'owner_eid',    //file
+                'security_deposit_slip',    //file
+                'tra_certificate',  //file
+                'r2_certificate'    //file
             ]);
 
             $buyer = Buyer::firstOrNew(['user_id' => $user->id]);
@@ -246,11 +246,11 @@ class RegisterApiController extends Controller
                 'iban_number',
                 'swift_code',
                 'business_type',
-                'business_license',
-                'address_proof',
-                'owner_eid',
-                'tra_certificate',
-                'bank_swift_letter'
+                'business_license', //file
+                'address_proof',    //file
+                'owner_eid',    //file
+                'tra_certificate',  //file
+                'bank_swift_letter' //file
             ]);
 
             $seller = Seller::firstOrNew(['user_id' => $user->id]);

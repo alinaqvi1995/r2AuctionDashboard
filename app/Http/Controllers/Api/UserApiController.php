@@ -19,7 +19,12 @@ class UserApiController extends Controller
     public function show($id)
     {
         $user = User::with('buyer', 'seller')->findOrFail($id);
-        return response()->json($user, 200);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+            'user' => $user
+        ], 200);
     }
 
     public function store(Request $request)
