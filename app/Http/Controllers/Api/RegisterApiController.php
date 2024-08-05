@@ -172,12 +172,6 @@ class RegisterApiController extends Controller
             $data['password'] = bcrypt($request->input('password'));
         }
 
-        return response()->json([
-            'message' => 'User registered successfully',
-            'user' => $user,
-            'request' => $request->toArray()
-        ], 201);
-
         $user->update($data);
 
         if ($user->role === 'buyer') {
@@ -223,93 +217,94 @@ class RegisterApiController extends Controller
             $buyer = Buyer::firstOrNew(['user_id' => $user->id]);
             $buyer->fill($buyerData);
 
-            // $buyerFiles = [
-            //     'security_deposit',
-            //     'business_license',
-            //     'address_proof',
-            //     'owner_eid',
-            //     'security_deposit_slip',
-            //     'tra_certificate',
-            //     'r2_certificate'
-            // ];
+            $buyerFiles = [
+                'security_deposit',
+                'business_license',
+                'address_proof',
+                'owner_eid',
+                'security_deposit_slip',
+                'tra_certificate',
+                'r2_certificate'
+            ];
 
-            // foreach ($buyerFiles as $file) {
-            //     if ($request->hasFile($file)) {
-            //         $filename = time() . '_' . $file . '.' . $request->file($file)->getClientOriginalExtension();
-            //         $request->file($file)->move(public_path('buyer_files'), $filename);
-            //         $buyer->{$file} = url('/') . '/' . 'buyer_files/' . $filename;
-            //     }
+            foreach ($buyerFiles as $file) {
+                // if ($request->hasFile($file)) {
+                if ($request->has($file)) {
+                    $filename = time() . '_' . $file . '.' . $request->file($file)->getClientOriginalExtension();
+                    $request->file($file)->move(public_path('buyer_files'), $filename);
+                    $buyer->{$file} = url('/') . '/' . 'buyer_files/' . $filename;
+                }
+            }
+
+            // if ($request->has('security_deposit')) {
+            //     $files = $request->security_deposit;
+            //     $file_name_original = $files->getClientOriginalName();
+            //     $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
+            //     $files->move('storage/images/', $file_name);
+            //     $image = url('/') . '/' . 'storage/images/' . $file_name;
+    
+            //     $input['security_deposit'] = $image;
             // }
 
-            if ($request->has('security_deposit')) {
-                $files = $request->security_deposit;
-                $file_name_original = $files->getClientOriginalName();
-                $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
-                $files->move('storage/images/', $file_name);
-                $image = url('/') . '/' . 'storage/images/' . $file_name;
+            // if ($request->has('business_license')) {
+            //     $files = $request->business_license;
+            //     $file_name_original = $files->getClientOriginalName();
+            //     $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
+            //     $files->move('storage/images/', $file_name);
+            //     $image = url('/') . '/' . 'storage/images/' . $file_name;
     
-                $input['security_deposit'] = $image;
-            }
+            //     $input['business_license'] = $image;
+            // }
 
-            if ($request->has('business_license')) {
-                $files = $request->business_license;
-                $file_name_original = $files->getClientOriginalName();
-                $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
-                $files->move('storage/images/', $file_name);
-                $image = url('/') . '/' . 'storage/images/' . $file_name;
+            // if ($request->has('address_proof')) {
+            //     $files = $request->address_proof;
+            //     $file_name_original = $files->getClientOriginalName();
+            //     $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
+            //     $files->move('storage/images/', $file_name);
+            //     $image = url('/') . '/' . 'storage/images/' . $file_name;
     
-                $input['business_license'] = $image;
-            }
+            //     $input['address_proof'] = $image;
+            // }
 
-            if ($request->has('address_proof')) {
-                $files = $request->address_proof;
-                $file_name_original = $files->getClientOriginalName();
-                $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
-                $files->move('storage/images/', $file_name);
-                $image = url('/') . '/' . 'storage/images/' . $file_name;
+            // if ($request->has('owner_eid')) {
+            //     $files = $request->owner_eid;
+            //     $file_name_original = $files->getClientOriginalName();
+            //     $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
+            //     $files->move('storage/images/', $file_name);
+            //     $image = url('/') . '/' . 'storage/images/' . $file_name;
     
-                $input['address_proof'] = $image;
-            }
+            //     $input['owner_eid'] = $image;
+            // }
 
-            if ($request->has('owner_eid')) {
-                $files = $request->owner_eid;
-                $file_name_original = $files->getClientOriginalName();
-                $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
-                $files->move('storage/images/', $file_name);
-                $image = url('/') . '/' . 'storage/images/' . $file_name;
+            // if ($request->has('security_deposit_slip')) {
+            //     $files = $request->security_deposit;
+            //     $file_name_original = $files->getClientOriginalName();
+            //     $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
+            //     $files->move('storage/images/', $file_name);
+            //     $image = url('/') . '/' . 'storage/images/' . $file_name;
     
-                $input['owner_eid'] = $image;
-            }
+            //     $input['security_deposit_slip'] = $image;
+            // }
 
-            if ($request->has('security_deposit_slip')) {
-                $files = $request->security_deposit;
-                $file_name_original = $files->getClientOriginalName();
-                $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
-                $files->move('storage/images/', $file_name);
-                $image = url('/') . '/' . 'storage/images/' . $file_name;
+            // if ($request->has('tra_certificate')) {
+            //     $files = $request->tra_certificate;
+            //     $file_name_original = $files->getClientOriginalName();
+            //     $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
+            //     $files->move('storage/images/', $file_name);
+            //     $image = url('/') . '/' . 'storage/images/' . $file_name;
     
-                $input['security_deposit_slip'] = $image;
-            }
+            //     $input['tra_certificate'] = $image;
+            // }
 
-            if ($request->has('tra_certificate')) {
-                $files = $request->tra_certificate;
-                $file_name_original = $files->getClientOriginalName();
-                $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
-                $files->move('storage/images/', $file_name);
-                $image = url('/') . '/' . 'storage/images/' . $file_name;
+            // if ($request->has('r2_certificate')) {
+            //     $files = $request->r2_certificate;
+            //     $file_name_original = $files->getClientOriginalName();
+            //     $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
+            //     $files->move('storage/images/', $file_name);
+            //     $image = url('/') . '/' . 'storage/images/' . $file_name;
     
-                $input['tra_certificate'] = $image;
-            }
-
-            if ($request->has('r2_certificate')) {
-                $files = $request->r2_certificate;
-                $file_name_original = $files->getClientOriginalName();
-                $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
-                $files->move('storage/images/', $file_name);
-                $image = url('/') . '/' . 'storage/images/' . $file_name;
-    
-                $input['r2_certificate'] = $image;
-            }
+            //     $input['r2_certificate'] = $image;
+            // }
 
             $buyer->save();
         } elseif ($user->role === 'seller') {
