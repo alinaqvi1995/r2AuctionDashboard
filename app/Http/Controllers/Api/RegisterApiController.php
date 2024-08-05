@@ -217,18 +217,30 @@ class RegisterApiController extends Controller
                 'shipping_same_as_primary_contact',
                 'payment_method',
                 'bank_name',
-                'account_title',
-                'security_deposit', //file
-                'business_license', //file
-                'address_proof',    //file
-                'owner_eid',    //file
-                'security_deposit_slip',    //file
-                'tra_certificate',  //file
-                'r2_certificate'    //file
+                'account_title'
             ]);
 
             $buyer = Buyer::firstOrNew(['user_id' => $user->id]);
             $buyer->fill($buyerData);
+
+            $buyerFiles = [
+                'security_deposit',
+                'business_license',
+                'address_proof',
+                'owner_eid',
+                'security_deposit_slip',
+                'tra_certificate',
+                'r2_certificate'
+            ];
+
+            foreach ($buyerFiles as $file) {
+                if ($request->hasFile($file)) {
+                    $filename = time() . '_' . $file . '.' . $request->file($file)->getClientOriginalExtension();
+                    $request->file($file)->move(public_path('buyer_files'), $filename);
+                    $buyer->{$file} = 'buyer_files/' . $filename;
+                }
+            }
+
             $buyer->save();
         } elseif ($user->role === 'seller') {
             $sellerData = $request->only([
@@ -251,19 +263,32 @@ class RegisterApiController extends Controller
                 'account_number',
                 'iban_number',
                 'swift_code',
-                'business_type',
-                'business_license', //file
-                'address_proof',    //file
-                'owner_eid',    //file
-                'tra_certificate',  //file
-                'bank_swift_letter' //file
+                'business_type'
             ]);
 
             $seller = Seller::firstOrNew(['user_id' => $user->id]);
             $seller->fill($sellerData);
+
+            $sellerFiles = [
+                'business_license',
+                'address_proof',
+                'owner_eid',
+                'tra_certificate',
+                'bank_swift_letter'
+            ];
+
+            foreach ($sellerFiles as $file) {
+                if ($request->hasFile($file)) {
+                    $filename = time() . '_' . $file . '.' . $request->file($file)->getClientOriginalExtension();
+                    $request->file($file)->move(public_path('seller_files'), $filename);
+                    $seller->{$file} = 'seller_files/' . $filename;
+                }
+            }
+
             $seller->save();
         }
 
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
     }
+
 }
