@@ -236,7 +236,7 @@ class RegisterApiController extends Controller
             //     }
             // }
 
-            if ($request->has('security_deposit')) {
+            if ($request->has('security_deposit') && $request->security_deposit != null) {
                 $files = $request->security_deposit;
                 $file_name_original = $files->getClientOriginalName();
                 $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
@@ -246,7 +246,7 @@ class RegisterApiController extends Controller
                 $input['security_deposit'] = $image;
             }
 
-            if ($request->has('business_license')) {
+            if ($request->has('business_license') && $request->business_license != null) {
                 $files = $request->business_license;
                 $file_name_original = $files->getClientOriginalName();
                 $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
@@ -256,7 +256,7 @@ class RegisterApiController extends Controller
                 $input['business_license'] = $image;
             }
 
-            if ($request->has('address_proof')) {
+            if ($request->has('address_proof') && $request->address_proof != null) {
                 $files = $request->address_proof;
                 $file_name_original = $files->getClientOriginalName();
                 $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
@@ -266,7 +266,7 @@ class RegisterApiController extends Controller
                 $input['address_proof'] = $image;
             }
 
-            if ($request->has('owner_eid')) {
+            if ($request->has('owner_eid') && $request->owner_eid != null) {
                 $files = $request->owner_eid;
                 $file_name_original = $files->getClientOriginalName();
                 $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
@@ -276,7 +276,7 @@ class RegisterApiController extends Controller
                 $input['owner_eid'] = $image;
             }
 
-            if ($request->has('security_deposit_slip')) {
+            if ($request->has('security_deposit_slip') && $request->security_deposit_slip != null) {
                 $files = $request->security_deposit;
                 $file_name_original = $files->getClientOriginalName();
                 $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
@@ -286,7 +286,7 @@ class RegisterApiController extends Controller
                 $input['security_deposit_slip'] = $image;
             }
 
-            if ($request->has('tra_certificate')) {
+            if ($request->has('tra_certificate') && $request->tra_certificate != null) {
                 $files = $request->tra_certificate;
                 $file_name_original = $files->getClientOriginalName();
                 $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
@@ -296,7 +296,7 @@ class RegisterApiController extends Controller
                 $input['tra_certificate'] = $image;
             }
 
-            if ($request->has('r2_certificate')) {
+            if ($request->has('r2_certificate') && $request->r2_certificate != null) {
                 $files = $request->r2_certificate;
                 $file_name_original = $files->getClientOriginalName();
                 $file_name = $file_name_original . time() . "." . $files->getClientOriginalExtension();
