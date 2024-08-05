@@ -172,6 +172,12 @@ class RegisterApiController extends Controller
             $data['password'] = bcrypt($request->input('password'));
         }
 
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => $user,
+            'request' => $request->toArray()
+        ], 201);
+
         $user->update($data);
 
         if ($user->role === 'buyer') {
