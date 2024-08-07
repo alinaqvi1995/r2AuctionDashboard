@@ -37,10 +37,18 @@ class Seller extends Model
         'owner_eid',
         'tra_certificate',
         'bank_swift_letter',
+        'company_cont_address',
+        'company_terms_conditions',
+        'company_grading_policy',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id','id');
+    }
+
+    public function gradingPolicies()
+    {
+        return $this->hasMany(SellerGradingPolicy::class, 'seller_id', 'id');
     }
 }

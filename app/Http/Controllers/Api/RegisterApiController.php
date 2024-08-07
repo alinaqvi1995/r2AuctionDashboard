@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Buyer;
 use App\Models\Seller;
+use App\Models\SellerGradingPolicy;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -257,6 +258,9 @@ class RegisterApiController extends Controller
                 'account_number',
                 'iban_number',
                 'swift_code',
+                'company_cont_address',
+                'company_terms_conditions',
+                'company_grading_policy',
                 'business_type'
             ]);
 
@@ -280,6 +284,16 @@ class RegisterApiController extends Controller
             }
 
             $seller->save();
+
+            if ($request->has('gradingPolicies')) {
+                $gradingPolicies = $request->input('gradingPolicies');
+                foreach ($gradingPolicies as $policy) {
+                    $gradingPolicy = SellerGradingPolicy::updateOrCreate(
+                        ['seller_id' => $seller->id, 'id' => $policy['id'] ?? null],
+                        ['grade' => $policy['grade'], 'description' => $policy['description']]
+                    );
+                }
+            }
         }
 
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);

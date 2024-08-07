@@ -14,4 +14,9 @@ class SellerGradingPolicy extends Model
         'grade',
         'description',
     ];
+
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class, 'seller_id', 'id');
+    }
 }
