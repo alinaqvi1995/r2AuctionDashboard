@@ -6,6 +6,20 @@
         <form id="createProductForm">
             @csrf
             <div class="form-group">
+                <label for="category_id" class="form-label fs-14 text-theme-primary fw-bold">Category</label>
+                <select class="form-control fs-14 h-50px" name="category_id" id="category_id" required>
+                    <option value="">Select Category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subcategory_id">Subcategory</label>
+                <select class="form-control" id="subcategory_id" name="subcategory_id" required>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="name" class="form-label fs-14 text-theme-primary fw-bold">Product Title</label>
                 <input type="text" class="form-control fs-14 h-50px" name="name" value="" placeholder="Product Name"
                     required>
@@ -173,21 +187,6 @@
             <div class="form-group">
                 <label for="description" class="form-label fs-14 text-theme-primary fw-bold">Description</label>
                 <textarea class="form-control fs-14 h-50px" name="description" required placeholder="Description"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="category_id" class="form-label fs-14 text-theme-primary fw-bold">Category</label>
-                <select class="form-control fs-14 h-50px" name="category_id" id="category_id" required>
-                    <option value="">Select Category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="subcategory_id">Subcategory</label>
-                <select class="form-control" id="subcategory_id" name="subcategory_id" required>
-                    <!-- Options will be dynamically populated based on the selected category -->
-                </select>
             </div>
             <div class="form-group">
                 <label for="condition" class="form-label fs-14 text-theme-primary fw-bold">Condition</label>

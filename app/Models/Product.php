@@ -38,16 +38,17 @@ class Product extends Model
         'lot_country',
         'international_buyers',     // 1/0
         'shipping_requirements',
-        'certificate_data_erasure',
-        'certificate_hardware_destruction',
-        'lot_sold_as_is',
+        'certificate_data_erasure',     // 1/0
+        'certificate_hardware_destruction',     // 1/0
+        'lot_sold_as_is',       // 1/0
         'notes',
         'bidding_close_time',
         'processing_time',
         'minimum_bid_price',
-        'buy_now',
+        'buy_now',      // 1/0
         'buy_now_price',
         'reserve_price',
+        'model_size',
     ];
     
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
