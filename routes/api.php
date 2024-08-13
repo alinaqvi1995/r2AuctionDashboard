@@ -33,6 +33,7 @@ Route::get('/products', [ProductApiController::class, 'index']);
 Route::get('/products/{product}', [ProductApiController::class, 'show']);
 Route::put('/products/{product}', [ProductApiController::class, 'update']);
 Route::delete('/products/{product}', [ProductApiController::class, 'destroy']);
+Route::get('/sellerProducts/{id}', [ProductApiController::class, 'sellerProducts']);
 
 // Register new user
 Route::post('/register', [RegisterApiController::class, 'register']);

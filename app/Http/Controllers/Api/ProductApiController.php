@@ -234,4 +234,15 @@ class ProductApiController extends Controller
             return response()->json(['error' => 'Failed to delete product: ' . $e->getMessage()], 500);
         }
     }
+
+    public function sellerProducts($id)
+    {
+        $products = Product::where()->get();
+
+        if ($products) {
+            return response()->json(['product' => $products], 201);
+        } else {
+            return response()->json(['error' => 'No products available'], 500);
+        }
+    }
 }
