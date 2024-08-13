@@ -16,10 +16,13 @@ use App\Models\Carrier;
 use App\Models\Ram;
 use App\Models\Size;
 use App\Models\ModelName;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 
 class ProductApiController extends Controller
 {
+    use ImageTrait;
+
     public function store(Request $request)
     {
         $request->validate([
