@@ -237,7 +237,7 @@ class ProductApiController extends Controller
 
     public function sellerProducts($id)
     {
-        $products = Product::where()->get();
+        $products = Product::where('user_id', $id)->get();
 
         if ($products) {
             return response()->json(['product' => $products], 201);
