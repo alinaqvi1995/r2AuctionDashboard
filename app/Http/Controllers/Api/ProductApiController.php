@@ -16,6 +16,8 @@ use App\Models\Carrier;
 use App\Models\Ram;
 use App\Models\Size;
 use App\Models\ModelName;
+use App\Models\Category;
+use App\Models\Manufacturer;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 
@@ -240,10 +242,41 @@ class ProductApiController extends Controller
 
     public function sellerProducts($id)
     {
-        $products = Product::where('user_id', $id)->get();
+        $products = Product::where('user_id', $id)->where('admin_approval', 1)->get();
 
         if ($products) {
             return response()->json(['product' => $products], 201);
+        } else {
+            return response()->json(['error' => 'No products available'], 500);
+        }
+    }
+
+    public function getProSubjects()
+    {
+        $categories = Category::get();
+        $capacity = Capacity::get();
+        $colors = Color::get();
+        $manufacturer = Manufacturer::get();
+        $regions = Region::get();
+        $modelNumber = ModelNumber::get();
+        $lockStatus = LockStatus::get();
+        $grade = Grade::get();
+        $carrier = Carrier::get();
+
+        $data = [
+            'categories' => $categories,
+            'capacity' => $capacity,
+            'colors' => $colors,
+            'manufacturer' => $manufacturer,
+            'regions' => $regions,
+            'modelNumber' => $modelNumber,
+            'lockStatus' => $lockStatus,
+            'grade' => $grade,
+            'carrier' => $carrier,
+        ];
+
+        if ($data) {
+            return response()->json(['product' => $data], 201);
         } else {
             return response()->json(['error' => 'No products available'], 500);
         }
