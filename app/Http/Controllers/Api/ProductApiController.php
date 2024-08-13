@@ -262,6 +262,9 @@ class ProductApiController extends Controller
         $lockStatus = LockStatus::get();
         $grade = Grade::get();
         $carrier = Carrier::get();
+        $ram = Ram::get();
+        $size = Size::get();
+        $modelName = ModelName::get();
 
         $data = [
             'categories' => $categories,
@@ -273,6 +276,9 @@ class ProductApiController extends Controller
             'lockStatus' => $lockStatus,
             'grade' => $grade,
             'carrier' => $carrier,
+            'ram' => $ram,
+            'size' => $size,
+            'modelName' => $modelName,
         ];
 
         if ($data) {
