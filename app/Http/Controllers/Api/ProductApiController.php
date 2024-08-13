@@ -276,7 +276,7 @@ class ProductApiController extends Controller
         ];
 
         if ($data) {
-            return response()->json(['product' => $data], 201);
+            return response()->json(['data' => $data], 201);
         } else {
             return response()->json(['error' => 'No products available'], 500);
         }
