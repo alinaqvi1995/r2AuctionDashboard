@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ManufacturerApiController;
 use App\Http\Controllers\Api\CapacityApiController;
 use App\Http\Controllers\Api\ColorApiController;
 use App\Http\Controllers\Api\UserApiController;
+use App\Http\Controllers\Api\SellerDashboardApiController;
 use App\Http\Controllers\ProductController;
 
 /*
@@ -73,3 +74,8 @@ Route::get('get/ManufacturersRelations/{id}', [ProductController::class, 'getMan
 
 // Model Relations
 Route::get('get/ModelRelations/{id}', [ProductController::class, 'getModelRelations']);
+
+// seller
+Route::prefix('seller')->group(function () {
+    Route::get('/{id}', [SellerDashboardApiController::class, 'dashboard']);
+});
