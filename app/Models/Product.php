@@ -49,6 +49,7 @@ class Product extends Model
         'buy_now_price',
         'reserve_price',
         'model_size',
+        'payment_requirement',
     ];
     
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
