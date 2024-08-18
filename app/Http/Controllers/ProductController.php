@@ -162,7 +162,7 @@ class ProductController extends Controller
             'media.*' => 'nullable|image|max:2048',
         ]);
 
-        $lotNo = Str::random(6);
+        $lotNo = Str::random(8);
         do {
             $lotNo = strtoupper(Str::random(8));
         } while (Product::where('lot_no', $lotNo)->exists());

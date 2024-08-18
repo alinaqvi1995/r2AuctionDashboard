@@ -77,7 +77,7 @@ class ProductApiController extends Controller
             'media.*' => 'nullable|image|max:2048',
         ]);
 
-        $lotNo = Str::random(6);
+        $lotNo = Str::random(8);
         $requestData = $request->except(['image', 'media']);
         $requestData['lot_no'] = $lotNo;
 
@@ -119,9 +119,16 @@ class ProductApiController extends Controller
     public function index()
     {
         $products = Product::with([
-            'colors', 'storages', 'regions', 'modelNumbers', 
-            'lockStatuses', 'grades', 'carriers', 'rams', 
-            'sizes', 'modelNames'
+            'colors',
+            'storages',
+            'regions',
+            'modelNumbers',
+            'lockStatuses',
+            'grades',
+            'carriers',
+            'rams',
+            'sizes',
+            'modelNames'
         ])->get();
         return ProductResource::collection($products);
     }
@@ -129,9 +136,16 @@ class ProductApiController extends Controller
     public function show(Product $product)
     {
         $product->load([
-            'colors', 'storages', 'regions', 'modelNumbers', 
-            'lockStatuses', 'grades', 'carriers', 'rams', 
-            'sizes', 'modelNames'
+            'colors',
+            'storages',
+            'regions',
+            'modelNumbers',
+            'lockStatuses',
+            'grades',
+            'carriers',
+            'rams',
+            'sizes',
+            'modelNames'
         ]);
         return new ProductResource($product);
     }
@@ -189,7 +203,7 @@ class ProductApiController extends Controller
         ]);
 
         if (empty($product->lot_no)) {
-            $lotNo = Str::random(6);
+            $lotNo = Str::random(8);
             $request->merge(['lot_no' => $lotNo]);
         }
 
@@ -244,7 +258,7 @@ class ProductApiController extends Controller
 
     public function sellerProducts($id)
     {
-        $products = Product::where('user_id', $id)->where('admin_approval', 1)->get();
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')->where('user_id', $id)->where('admin_approval', 1)->get();
 
         if ($products) {
             return response()->json(['product' => $products], 201);
