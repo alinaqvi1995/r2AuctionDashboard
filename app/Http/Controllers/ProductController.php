@@ -253,8 +253,8 @@ class ProductController extends Controller
             'modelNumber_id.*' => 'exists:model_numbers,id',
             'carrier_id' => 'nullable|array',
             'carrier_id.*' => 'exists:carriers,id',
-            // 'status' => 'required|integer',
-            // 'admin_approval' => 'required|integer',
+            'status' => 'required|integer',
+            'admin_approval' => 'required|integer',
             'image' => 'nullable|image|max:2048',
             'media.*' => 'nullable|image|max:2048',
         ]);
