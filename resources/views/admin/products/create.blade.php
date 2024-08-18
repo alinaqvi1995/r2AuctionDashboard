@@ -328,14 +328,14 @@
                     <option value="0">Inactive</option>
                 </select>
             </div>
-            <div class="form-group mb-3">
+            {{-- <div class="form-group mb-3">
                 <label for="image">Image</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input image" id="image" name="image">
                     <label class="custom-file-label image_label" for="image" id="image_label">Choose
                         file</label>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group mb-3">
                 <label for="media">Media</label>
@@ -491,8 +491,8 @@
 
                 var formData = new FormData(this);
 
-                var imageFile = $('#image')[0].files[0];
-                formData.append('image', imageFile);
+                // var imageFile = $('#image')[0].files[0];
+                // formData.append('image', imageFile);
 
                 $.ajax({
                     url: "{{ route('products.store') }}",
@@ -604,18 +604,18 @@
                 $('.media_label').text(fileNames);
             });
 
-            $('.image').on('change', function() {
-                var files = $(this)[0].files;
-                var fileNames = '';
-                for (var i = 0; i < files.length; i++) {
-                    fileNames += files[i].name;
-                    if (i < files.length - 1) {
-                        fileNames += ', ';
-                    }
-                }
-                // Update the label text
-                $('.image_label').text(fileNames);
-            });
+            // $('.image').on('change', function() {
+            //     var files = $(this)[0].files;
+            //     var fileNames = '';
+            //     for (var i = 0; i < files.length; i++) {
+            //         fileNames += files[i].name;
+            //         if (i < files.length - 1) {
+            //             fileNames += ', ';
+            //         }
+            //     }
+            //     // Update the label text
+            //     $('.image_label').text(fileNames);
+            // });
 
             $('#manufacturer_id').change(function() {
                 var manufacturerId = $(this).val();

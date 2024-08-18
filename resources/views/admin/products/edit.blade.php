@@ -183,23 +183,25 @@
                 </select>
             </div>
 
-            <!-- admin_approval Field -->
-            <div class="form-group">
-                <label for="admin_approval">Approve</label>
-                <select class="form-control" id="admin_approval" name="admin_approval" required>
-                    <option value="1" {{ $product->admin_approval == 1 ? 'selected' : '' }}>Approve</option>
-                    <option value="0" {{ $product->admin_approval == 0 ? 'selected' : '' }}>Not Approve</option>
-                </select>
-            </div>
+            @if (Auth::user()->isAdmin())
+                <!-- admin_approval Field -->
+                <div class="form-group">
+                    <label for="admin_approval">Approve</label>
+                    <select class="form-control" id="admin_approval" name="admin_approval" required>
+                        <option value="1" {{ $product->admin_approval == 1 ? 'selected' : '' }}>Approve</option>
+                        <option value="0" {{ $product->admin_approval == 0 ? 'selected' : '' }}>Not Approve</option>
+                    </select>
+                </div>
+            @endif
 
             <!-- Image Field -->
-            <div class="form-group mb-3">
+            {{-- <div class="form-group mb-3">
                 <label for="image">Image</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input image" id="image" name="image">
                     <label class="custom-file-label image_label" for="image" id="image_label">Choose file</label>
                 </div>
-            </div>
+            </div> --}}
 
             <button type="submit" class="btn btn-primary" id="updateProductBtn">Update Product</button>
         </form>

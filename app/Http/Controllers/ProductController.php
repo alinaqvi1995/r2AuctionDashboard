@@ -109,6 +109,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->toArray());
         $request['admin_approval'] = 0;
         $request['user_id'] = Auth::id();
 
@@ -174,18 +175,18 @@ class ProductController extends Controller
 
         $product = Product::create($productData);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $this->uploadImage($request->file('image'), 'products');
-            $product->image = $imagePath;
-            $product->save();
-        }
+        // if ($request->hasFile('image')) {
+        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
+        //     $product->image = url('/') . '/' . 'products/' . $imagePath;
+        //     $product->save();
+        // }
 
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $media) {
                 $mediaPath = $this->uploadImage($media, 'product_media');
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'path' => $mediaPath
+                    'path' => url('/') . '/' . 'product_media/' . $mediaPath
                 ]);
             }
         }
@@ -268,12 +269,12 @@ class ProductController extends Controller
 
         $product->update($request->except(['image', 'media']));
 
-        if ($request->hasFile('image')) {
-            $this->deleteImage($product->image);
-            $imagePath = $this->uploadImage($request->file('image'), 'products');
-            $product->image = $imagePath;
-            $product->save();
-        }
+        // if ($request->hasFile('image')) {
+        //     $this->deleteImage($product->image);
+        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
+        //     $product->image = $imagePath;
+        //     $product->save();
+        // }
 
         if ($request->hasFile('media')) {
             $product->images()->delete();
