@@ -161,7 +161,6 @@ class ProductController extends Controller
             'image' => 'nullable|image|max:2048',
             'media.*' => 'nullable|image|max:2048',
         ]);
-        ]);
 
         $lotNo = Str::random(6);
         do {
@@ -258,7 +257,6 @@ class ProductController extends Controller
             'admin_approval' => 'required|integer',
             'image' => 'nullable|image|max:2048',
             'media.*' => 'nullable|image|max:2048',
-        ]);
         ]);
 
         if (empty($product->lot_no)) {
