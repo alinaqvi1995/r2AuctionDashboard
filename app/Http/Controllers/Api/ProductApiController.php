@@ -77,7 +77,7 @@ class ProductApiController extends Controller
             'media.*' => 'nullable|image|max:2048',
         ]);
 
-        $lotNo = Str::random(8);
+        $lotNo = Str::upper(Str::random(8));
         $requestData = $request->except(['image', 'media']);
         $requestData['lot_no'] = $lotNo;
 
@@ -203,7 +203,7 @@ class ProductApiController extends Controller
         ]);
 
         if (empty($product->lot_no)) {
-            $lotNo = Str::random(8);
+            $lotNo = Str::upper(Str::random(8));
             $request->merge(['lot_no' => $lotNo]);
         }
 
