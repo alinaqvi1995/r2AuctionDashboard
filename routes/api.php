@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/products', [ProductApiController::class, 'store']);
 Route::get('/products', [ProductApiController::class, 'index']);
 Route::get('/products/{product}', [ProductApiController::class, 'show']);
-Route::put('/products/{product}', [ProductApiController::class, 'update']);
+Route::post('/products/{product}', [ProductApiController::class, 'update']);
 Route::delete('/products/{product}', [ProductApiController::class, 'destroy']);
 Route::get('/sellerProducts/{id}', [ProductApiController::class, 'sellerProducts']);
 Route::get('/get_product_subjects', [ProductApiController::class, 'getProSubjects']);
