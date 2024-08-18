@@ -39,7 +39,7 @@
             <!-- Subcategory Field -->
             <div class="form-group">
                 <label for="subcategory_id">Subcategory</label>
-                <select class="form-control" id="subcategory_id" name="subcategory_id" required>
+                <select class="form-control" id="subcategory_id" name="subcategory_id">
                     <option value="">Select Subcategory</option>
                     @foreach ($subcategories as $subcategory)
                         <option value="{{ $subcategory->id }}"
