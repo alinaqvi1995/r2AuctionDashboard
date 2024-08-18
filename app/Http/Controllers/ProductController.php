@@ -114,6 +114,32 @@ class ProductController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'reference' => 'nullable',
+            'listing_type' => 'nullable',
+            'material' => 'nullable',
+            'generation' => 'nullable',
+            'payment_requirement' => 'nullable',
+            'connectivity' => 'nullable',
+            'quantity' => 'nullable',
+            'auction_name' => 'nullable',
+            'lot_address' => 'nullable',
+            'lot_city' => 'nullable',
+            'lot_state' => 'nullable',
+            'lot_zip' => 'nullable',
+            'lot_country' => 'nullable',
+            'international_buyers' => 'nullable',
+            'shipping_requirements' => 'nullable',
+            'certificate_data_erasure' => 'nullable',
+            'certificate_hardware_destruction' => 'nullable',
+            'lot_sold_as_is' => 'nullable',
+            'notes' => 'nullable',
+            'bidding_close_time' => 'nullable',
+            'processing_time' => 'nullable',
+            'minimum_bid_price' => 'nullable',
+            'buy_now' => 'nullable',
+            'buy_now_price' => 'nullable',
+            'reserve_price' => 'nullable',
+            'model_size' => 'nullable',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
@@ -134,6 +160,7 @@ class ProductController extends Controller
             'admin_approval' => 'required|integer',
             'image' => 'nullable|image|max:2048',
             'media.*' => 'nullable|image|max:2048',
+        ]);
         ]);
 
         $lotNo = Str::random(6);
@@ -184,15 +211,33 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            // 'name' => 'required|string|max:255',
-            // 'description' => 'nullable|string|max:255',
-            // 'category_id' => 'required|exists:categories,id',
-            // 'subcategory_id' => 'required|exists:subcategories,id',
-            // 'manufacturer_id' => 'required|exists:manufacturers,id',
-            // 'condition' => 'required|string|max:255',
-            // 'image' => 'nullable|image|max:2048',
-            // 'media.*' => 'nullable|image|max:2048'
             'name' => 'required|string|max:255',
+            'reference' => 'nullable',
+            'listing_type' => 'nullable',
+            'material' => 'nullable',
+            'generation' => 'nullable',
+            'payment_requirement' => 'nullable',
+            'connectivity' => 'nullable',
+            'quantity' => 'nullable',
+            'auction_name' => 'nullable',
+            'lot_address' => 'nullable',
+            'lot_city' => 'nullable',
+            'lot_state' => 'nullable',
+            'lot_zip' => 'nullable',
+            'lot_country' => 'nullable',
+            'international_buyers' => 'nullable',
+            'shipping_requirements' => 'nullable',
+            'certificate_data_erasure' => 'nullable',
+            'certificate_hardware_destruction' => 'nullable',
+            'lot_sold_as_is' => 'nullable',
+            'notes' => 'nullable',
+            'bidding_close_time' => 'nullable',
+            'processing_time' => 'nullable',
+            'minimum_bid_price' => 'nullable',
+            'buy_now' => 'nullable',
+            'buy_now_price' => 'nullable',
+            'reserve_price' => 'nullable',
+            'model_size' => 'nullable',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
@@ -213,6 +258,7 @@ class ProductController extends Controller
             'admin_approval' => 'required|integer',
             'image' => 'nullable|image|max:2048',
             'media.*' => 'nullable|image|max:2048',
+        ]);
         ]);
 
         if (empty($product->lot_no)) {
