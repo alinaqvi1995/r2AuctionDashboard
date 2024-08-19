@@ -279,7 +279,7 @@ class RegisterApiController extends Controller
                 if ($request->hasFile($file)) {
                     $filename = time() . '_' . $file . '.' . $request->file($file)->getClientOriginalExtension();
                     $request->file($file)->move(public_path('seller_files'), $filename);
-                    $seller->{$file} = 'seller_files/' . $filename;
+                    $seller->{$file} = url('/') . '/' . 'seller_files/' . $filename;
                 }
             }
 
