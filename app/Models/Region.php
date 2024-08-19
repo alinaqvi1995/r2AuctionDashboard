@@ -10,5 +10,10 @@ class Region extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'status'];
+    protected $fillable = ['name', 'description', 'status', 'model_id'];
+
+    public function model()
+    {
+        return $this->belongsTo(ModelName::class, 'model_id');
+    }
 }

@@ -84,16 +84,16 @@ class ProductApiController extends Controller
         $product = Product::create($requestData);
 
         // Handle file uploads
-        if ($request->hasFile('image')) {
-            $imagePath = $this->uploadImage($request->file('image'), 'products');
-            $product->image = $imagePath;
-            $product->save();
-        }
+        // if ($request->hasFile('image')) {
+        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
+        //     $product->image = $imagePath;
+        //     $product->save();
+        // }
 
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $media) {
                 $mediaPath = $this->uploadImage($media, 'product_media');
-                $product->images()->create(['path' => $mediaPath]);
+                $product->images()->create(['path' => url('/') . '/' . 'product_media/' . $mediaPath]);
             }
         }
 
@@ -210,20 +210,20 @@ class ProductApiController extends Controller
         $product->update($request->except(['image', 'media']));
 
         // Handle file uploads
-        if ($request->hasFile('image')) {
-            if ($product->image) {
-                $this->deleteImage($product->image);
-            }
-            $imagePath = $this->uploadImage($request->file('image'), 'products');
-            $product->image = $imagePath;
-            $product->save();
-        }
+        // if ($request->hasFile('image')) {
+        //     if ($product->image) {
+        //         $this->deleteImage($product->image);
+        //     }
+        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
+        //     $product->image = $imagePath;
+        //     $product->save();
+        // }
 
         if ($request->hasFile('media')) {
             $product->images()->delete();
             foreach ($request->file('media') as $media) {
                 $mediaPath = $this->uploadImage($media, 'product_media');
-                $product->images()->create(['path' => $mediaPath]);
+                $product->images()->create(['path' => url('/') . '/' . 'product_media/' . $mediaPath]);
             }
         }
 

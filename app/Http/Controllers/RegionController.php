@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Region;
+use App\Models\ModelName;
 
 class RegionController extends Controller
 {
     public function index()
     {
-        $regions = Region::all();
-        return view('admin.regions.index', compact('regions'));
+        $regions = Region::with('model')->get();
+        $models = ModelName::all();
+        return view('admin.regions.index', compact('regions', 'models'));
     }
 
     public function store(Request $request)
@@ -18,6 +20,7 @@ class RegionController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
+            'model_id' => 'required',
             'status' => 'required|boolean',
         ]);
 
@@ -48,6 +51,7 @@ class RegionController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'model_id' => 'required',
         ]);
 
         try {

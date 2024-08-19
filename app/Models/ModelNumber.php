@@ -10,10 +10,15 @@ class ModelNumber extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'brand_id', 'description', 'status'];
+    protected $fillable = ['name', 'brand_id', 'description', 'status', 'model_id'];
 
     public function brand()
     {
         return $this->belongsTo(Manufacturer::class);
+    }
+
+    public function model()
+    {
+        return $this->belongsTo(ModelName::class, 'model_id');
     }
 }

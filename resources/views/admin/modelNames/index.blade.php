@@ -41,6 +41,24 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="category_id">Category</label>
+                            <select class="form-control" id="category_id" name="category_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($category as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="manufacturer_id">Manufacturer</label>
+                            <select class="form-control" id="manufacturer_id" name="manufacturer_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($manufacturer as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="status">Status</label>
                             <select class="form-control" id="status" name="status" required>
                                 <option value="1">Active</option>
@@ -73,6 +91,24 @@
                         <div class="form-group">
                             <label for="edit_name">Name</label>
                             <input type="text" class="form-control" id="edit_name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_category">Category</label>
+                            <select class="form-control" id="edit_category" name="category_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($category as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_manufacturer">Manufacturer</label>
+                            <select class="form-control" id="edit_manufacturer" name="manufacturer_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($manufacturer as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="edit_status">Status</label>
@@ -140,6 +176,8 @@
                         $('#edit_id').val(response.modelName.id);
                         $('#edit_name').val(response.modelName.name);
                         $('#edit_status').val(response.modelName.status);
+                        $('#edit_category').val(response.modelName.category_id);
+                        $('#edit_manufacturer').val(response.modelName.manufacturer_id);
                         $('#editModelNameModal').modal('show');
 
                         $('#editModelNameForm').attr('action',

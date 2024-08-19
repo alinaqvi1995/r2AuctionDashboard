@@ -41,6 +41,15 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="model_id">Model</label>
+                            <select class="form-control" id="model_id" name="model_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($models as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="status">Status</label>
                             <select class="form-control" id="status" name="status" required>
                                 <option value="1">Active</option>
@@ -73,6 +82,15 @@
                         <div class="form-group">
                             <label for="edit_name">Name</label>
                             <input type="text" class="form-control" id="edit_name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_model">Model</label>
+                            <select class="form-control" id="edit_model" name="model_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($models as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="edit_status">Status</label>
@@ -140,6 +158,7 @@
                         $('#edit_id').val(response.size.id);
                         $('#edit_name').val(response.size.name);
                         $('#edit_status').val(response.size.status);
+                        $('#edit_model').val(response.size.model_id);
                         $('#editSizeModal').modal('show');
 
                         $('#editSizeForm').attr('action',

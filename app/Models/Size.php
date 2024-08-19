@@ -9,5 +9,10 @@ class Size extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'status'];
+    protected $fillable = ['name', 'status', 'model_id'];
+
+    public function model()
+    {
+        return $this->belongsTo(ModelName::class, 'model_id');
+    }
 }

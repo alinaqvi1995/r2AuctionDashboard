@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ModelName;
+use App\Models\Category;
+use App\Models\Manufacturer;
 
 class ModelNameController extends Controller
 {
     public function index()
     {
-        $modelNames = ModelName::all();
-        return view('admin.modelNames.index', compact('modelNames'));
+        $modelNames = ModelName::with('category', 'manufacturer')->get();
+        $category = Category::all();
+        $manufacturer = Manufacturer::all();
+        return view('admin.modelNames.index', compact('modelNames', 'category', 'manufacturer'));
     }
 
     public function store(Request $request)
@@ -18,6 +22,8 @@ class ModelNameController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'category_id' => 'required',
+            'manufacturer_id' => 'required',
         ]);
 
         $modelName = ModelName::create($request->all());
@@ -46,6 +52,8 @@ class ModelNameController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'category_id' => 'required',
+            'manufacturer_id' => 'required',
         ]);
 
         try {

@@ -50,6 +50,15 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="model_id">Model</label>
+                            <select class="form-control" id="model_id" name="model_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($models as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
@@ -93,6 +102,15 @@
                                 <option value="" selected disabled>Select Manufacturer</option>
                                 @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_model">Model</label>
+                            <select class="form-control" id="edit_model" name="model_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($models as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -162,6 +180,7 @@
                         $('#edit_id').val(response.modelnumber.id);
                         $('#edit_name').val(response.modelnumber.name);
                         $('#edit_brand_id').val(response.modelnumber.brand_id);
+                        $('#edit_model').val(response.modelnumber.model_id);
                         $('#edit_description').val(response.modelnumber.description);
                         $('#edit_status').val(response.modelnumber.status);
                         $('#editModelNumberModal').modal('show');

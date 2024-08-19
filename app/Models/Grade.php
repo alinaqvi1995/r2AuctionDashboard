@@ -10,5 +10,10 @@ class Grade extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'status'];
+    protected $fillable = ['name', 'description', 'status', 'carrier_id'];
+
+    public function carrier()
+    {
+        return $this->belongsTo(Carrier::class, 'carrier_id');
+    }
 }

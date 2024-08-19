@@ -41,6 +41,15 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="carrier_id">Carrier</label>
+                            <select class="form-control" id="carrier_id" name="carrier_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($carriers as $carrier)
+                                    <option value="{{ $carrier->id }}">{{ $carrier->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
@@ -77,6 +86,15 @@
                         <div class="form-group">
                             <label for="edit_name">Name</label>
                             <input type="text" class="form-control" id="edit_name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_carrier">Carrier</label>
+                            <select class="form-control" id="edit_carrier" name="carrier_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($carriers as $carrier)
+                                    <option value="{{ $carrier->id }}">{{ $carrier->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="edit_description">Description</label>
@@ -149,6 +167,7 @@
                         $('#edit_name').val(response.grade.name);
                         $('#edit_description').val(response.grade.description);
                         $('#edit_status').val(response.grade.status);
+                        $('#edit_carrier').val(response.grade.carrier_id);
                         $('#editGradeModal').modal('show');
 
                         $('#editGradeForm').attr('action',

@@ -283,7 +283,7 @@ class ProductController extends Controller
                 $mediaPath = $this->uploadImage($media, 'product_media');
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'path' => $mediaPath
+                    'path' => url('/') . '/' . 'product_media/' . $mediaPath
                 ]);
             }
         }

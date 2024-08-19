@@ -41,6 +41,15 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="model_id">Model</label>
+                            <select class="form-control" id="model_id" name="model_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($models as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description"></textarea>
                         </div>
@@ -77,6 +86,15 @@
                         <div class="form-group">
                             <label for="edit_name">Name</label>
                             <input type="text" class="form-control" id="edit_name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_model">Model</label>
+                            <select class="form-control" id="edit_model" name="model_id" required>
+                                <option value="" disabled selected>Select</option>
+                                @foreach ($models as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="edit_description">Description</label>
@@ -140,6 +158,7 @@
                         $('#edit_name').val(response.region.name);
                         $('#edit_description').val(response.region.description);
                         $('#edit_status').val(response.region.status);
+                        $('#edit_model').val(response.region.model_id);
                         $('#editRegionModal').modal('show');
                     },
                     error: function(error) {

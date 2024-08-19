@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Size;
+use App\Models\ModelName;
 
 class SizeController extends Controller
 {
     public function index()
     {
-        $sizes = Size::all();
-        return view('admin.sizes.index', compact('sizes'));
+        $sizes = Size::with('model')->get();
+        $models = ModelName::all();
+        return view('admin.sizes.index', compact('sizes', 'models'));
     }
 
     public function store(Request $request)
@@ -18,6 +20,7 @@ class SizeController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'model_id' => 'required',
         ]);
 
         $size = Size::create($request->all());
@@ -46,6 +49,7 @@ class SizeController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'model_id' => 'required',
         ]);
 
         try {

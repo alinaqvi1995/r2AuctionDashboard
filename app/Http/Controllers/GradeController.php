@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Grade;
+use App\Models\Carrier;
 
 class GradeController extends Controller
 {
     public function index()
     {
-        $grades = Grade::all();
-        return view('admin.grades.index', compact('grades'));
+        $grades = Grade::with('carrier')->get();
+        $carriers = Carrier::all();
+        return view('admin.grades.index', compact('grades', 'carriers'));
     }
 
     public function store(Request $request)
@@ -19,6 +21,7 @@ class GradeController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'carrier_id' => 'required',
         ]);
 
         $grade = Grade::create($request->all());
@@ -48,6 +51,7 @@ class GradeController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'carrier_id' => 'required',
         ]);
 
         try {
