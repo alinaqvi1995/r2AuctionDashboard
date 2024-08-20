@@ -11,24 +11,24 @@ class SellerDashboardApiController extends Controller
 {
     public function dashboard($id)
     {
-        $products = Product::where('user_id', $id)->where('admin_approval', 1)->get();
+        $products = Product::where('user_id', $id)->get();
 
-        $totalValueSold = $products->where('status', 3)->sum(function ($product) {
+        $totalValueSold = $products->where('status', 3)->where('admin_approval', 1)->sum(function ($product) {
                                     return $product->buy_now_price ?? 0;
                                 });
 
-        $totalListingsSold = $products->where('status', 3)->count();
+        $totalListingsSold = $products->where('status', 3)->where('admin_approval', 1)->count();
 
-        $listingsAcceptingBids = $products->where('status', 1)->where('bidding_close_time', '>', now())
+        $listingsAcceptingBids = $products->where('status', 1)->where('admin_approval', 1)->where('bidding_close_time', '>', now())
                                     ->count();
 
         // $currentListingValue = $products->sum('minimum_bid_price');
         
-        $currentListingValue = $products->where('status', 1)->sum(function ($product) {
+        $currentListingValue = $products->where('status', 1)->where('admin_approval', 1)->sum(function ($product) {
             return is_numeric($product->minimum_bid_price) ? $product->minimum_bid_price : 0;
         });
 
-        $totalListingsSubmitted = $products->where('status', 1)->count();
+        $totalListingsSubmitted = $products->where('status', 1)->where('admin_approval', 1)->count();
 
         $currentLiveListing = $products->where('status', 1)->count();
 
