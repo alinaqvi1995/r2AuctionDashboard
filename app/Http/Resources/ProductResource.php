@@ -55,6 +55,7 @@ class ProductResource extends JsonResource
             'reserve_price' => $this->reserve_price,
             'model_size' => $this->model_size,
             'payment_requirement' => $this->payment_requirement,
+            'created_at' => $this->created_at,
             'colors' => $this->colors->pluck('name'),
             'storages' => $this->storages->pluck('name'),
             'regions' => $this->regions->pluck('name'),
@@ -62,7 +63,15 @@ class ProductResource extends JsonResource
             'lockStatuses' => $this->lockStatuses->pluck('name'),
             'grades' => $this->grades->pluck('name'),
             'carriers' => $this->carriers->pluck('name'),
-            // Add other relationships here
+            'rams' => $this->rams->pluck('name'),
+            'sizes' => $this->sizes->pluck('name'),
+            'modelNames' => $this->modelNames->pluck('name'),
+            // 'storages' => $this->storages->pluck('name'),
+            // 'regions' => $this->regions->pluck('name'),
+            // 'modelNumbers' => $this->modelNumbers->pluck('name'),
+            // 'lockStatuses' => $this->lockStatuses->pluck('name'),
+            // 'grades' => $this->grades->pluck('name'),
+            // 'carriers' => $this->carriers->pluck('name'),
         ];
     }
 }
