@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ColorApiController;
 use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Api\SellerDashboardApiController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BidController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,11 @@ Route::prefix('users')->group(function () {
     Route::post('/', [UserApiController::class, 'store']);
     Route::post('/{id}', [UserApiController::class, 'update']);
     Route::delete('/{id}', [UserApiController::class, 'destroy']);
+});
+
+// user
+Route::prefix('bids')->group(function () {
+    Route::post('/', [BidController::class, 'store']);
 });
 
 // Manufacturers Relations
