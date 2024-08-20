@@ -29,7 +29,7 @@ class ManufacturerController extends Controller
             $filenamenew = date('Y-m-d') . "_." . $numb . "_." . $extension;
             $filenamepath = 'manufacturer_icons' . '/' . 'img/' . $filenamenew;
             $filename = $img->move(public_path('storage/manufacturer_icons' . '/' . 'img'), $filenamenew);
-            $iconPath = url('/') . $filenamepath;
+            $iconPath = url('/') . '/' . 'storage' . '/' . $filenamepath;
         }
 
         $manufacturer = Manufacturer::create([
@@ -80,7 +80,7 @@ class ManufacturerController extends Controller
                 $filenamepath = 'manufacturer_icons' . '/' . 'img/' . $filenamenew;
                 $filename = $img->move(public_path('storage/manufacturer_icons' . '/' . 'img'), $filenamenew);
                 $iconPath = $filenamepath;
-                $data['icon'] = url('/') . $iconPath;
+                $iconPath = url('/') . '/' . 'storage' . '/' . $filenamepath;
             }
 
             $manufacturer->update($data);
