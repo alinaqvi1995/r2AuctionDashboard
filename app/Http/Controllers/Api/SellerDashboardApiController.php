@@ -30,6 +30,8 @@ class SellerDashboardApiController extends Controller
 
         $totalListingsSubmitted = $products->where('status', 1)->count();
 
+        $currentLiveListing = $products->where('status', 1)->count();
+
         $dashboardData = [
             // 'total_value_sold' => '2,400',
             // 'total_listings_sold' => '677',
@@ -41,6 +43,7 @@ class SellerDashboardApiController extends Controller
             'listings_accepting_bids' => $listingsAcceptingBids,
             'current_listing_value' => $currentListingValue,
             'total_listings_submitted' => $totalListingsSubmitted,
+            'current_live_listing' => $currentLiveListing,
         ];
 
         return response()->json(['data' => $dashboardData], 200);
