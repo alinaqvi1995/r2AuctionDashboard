@@ -272,17 +272,17 @@ class ProductApiController extends Controller
     public function getProSubjects()
     {
         $categories = Category::get();
-        $capacity = Capacity::get();
-        $colors = Color::get();
+        $capacity = Capacity::with('brand')->get();
+        $colors = Color::with('model')->get();
         $manufacturer = Manufacturer::get();
-        $regions = Region::get();
-        $modelNumber = ModelNumber::get();
+        $regions = Region::with('model')->get();
+        $modelNumber = ModelNumber::with('model', 'brand')->get();
         $lockStatus = LockStatus::get();
-        $grade = Grade::get();
+        $grade = Grade::with('carrier')->get();
         $carrier = Carrier::get();
         $ram = Ram::get();
-        $size = Size::get();
-        $modelName = ModelName::get();
+        $size = Size::with('model')->get();
+        $modelName = ModelName::with('category', 'manufacturer')->get();
 
         $data = [
             'categories' => $categories,
