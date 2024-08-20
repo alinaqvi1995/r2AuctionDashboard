@@ -148,7 +148,6 @@ class ProductApiController extends Controller
             'modelNames',
             'category',
             'user',
-            'category',
             'subcategory',
             'auctionSlot',
             'manufacturer'
