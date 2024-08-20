@@ -145,7 +145,9 @@ class ProductApiController extends Controller
             'carriers',
             'rams',
             'sizes',
-            'modelNames'
+            'modelNames',
+            'category',
+            'manufacturer'
         ]);
         return new ProductResource($product);
     }
