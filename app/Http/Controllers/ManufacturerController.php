@@ -79,7 +79,6 @@ class ManufacturerController extends Controller
                 $filenamenew = date('Y-m-d') . "_." . $numb . "_." . $extension;
                 $filenamepath = 'manufacturer_icons' . '/' . 'img/' . $filenamenew;
                 $filename = $img->move(public_path('storage/manufacturer_icons' . '/' . 'img'), $filenamenew);
-                $iconPath = $filenamepath;
                 $iconPath = url('/') . '/' . 'storage' . '/' . $filenamepath;
             }
 
