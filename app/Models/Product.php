@@ -18,7 +18,7 @@ class Product extends Model
         'subcategory_id',
         'manufacturer_id',
         'condition',
-        'status',   // 1 active, 0   inactive
+        'status',   // 1 active, 0   inactive,  2 sold
         'image',
         'auction_slot_id',
         'lot_no',
