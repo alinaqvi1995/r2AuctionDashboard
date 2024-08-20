@@ -147,6 +147,10 @@ class ProductApiController extends Controller
             'sizes',
             'modelNames',
             'category',
+            'user',
+            'category',
+            'subcategory',
+            'auctionSlot',
             'manufacturer'
         ]);
         return new ProductResource($product);
