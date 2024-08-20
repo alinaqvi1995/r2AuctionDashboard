@@ -24,7 +24,7 @@
                 <td id="name{{ $manufacturer->id }}">{{ $manufacturer->name }}</td>
                 <td id="description{{ $manufacturer->id }}">{{ $manufacturer->description }}</td>
                 <td id="icon{{ $manufacturer->id }}">
-                    <img src="{{ asset('storage/'.$manufacturer->icon) }}" alt="{{ $manufacturer->name }}" width="50" height="50">
+                    <img src="{{ $manufacturer->icon }}" alt="{{ $manufacturer->name }}" width="50" height="50">
                 </td>
                 <td id="btn{{ $manufacturer->id }}">
                     <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted editManufacturerBtn"
