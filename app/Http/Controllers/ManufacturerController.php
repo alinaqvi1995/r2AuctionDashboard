@@ -66,11 +66,6 @@ class ManufacturerController extends Controller
         ]);
 
         try {
-            $data = [
-                'name' => $request->name,
-                'description' => $request->description,
-            ];
-
             if ($request->hasFile('icon')) {
                 $img = $request->icon;
                 $number = rand(1, 999);
@@ -81,6 +76,12 @@ class ManufacturerController extends Controller
                 $filename = $img->move(public_path('storage/manufacturer_icons' . '/' . 'img'), $filenamenew);
                 $iconPath = url('/') . '/' . 'storage' . '/' . $filenamepath;
             }
+
+            $data = [
+                'name' => $request->name,
+                'description' => $request->description,
+                'icon' => $iconPath,
+            ];
 
             $manufacturer->update($data);
 
