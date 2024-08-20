@@ -152,7 +152,8 @@ class ProductApiController extends Controller
             'auctionSlot',
             'manufacturer'
         ]);
-        return new ProductResource($product);
+    
+        return response()->json(['product' => $product], 200);
     }
 
     public function update(Request $request, Product $product)
