@@ -22,7 +22,11 @@ class SellerDashboardApiController extends Controller
         $listingsAcceptingBids = $products->where('bidding_close_time', '>', now())
                                     ->count();
 
-        $currentListingValue = $products->sum('minimum_bid_price');
+        // $currentListingValue = $products->sum('minimum_bid_price');
+        
+        $currentListingValue = $products->sum(function ($product) {
+            return is_numeric($product->minimum_bid_price) ? $product->minimum_bid_price : 0;
+        });
 
         $totalListingsSubmitted = $products->count();
 
