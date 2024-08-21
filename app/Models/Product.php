@@ -140,4 +140,9 @@ class Product extends Model
     {
         return $this->belongsToMany(ModelName::class, 'pivot_product_model_name', 'product_id', 'model_name_id');
     }
+
+    public function wishlist()
+    {
+        return $this->hasMany(WishList::class);
+    }
 }

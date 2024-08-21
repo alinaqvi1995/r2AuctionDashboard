@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Api\SellerDashboardApiController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\WishListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +81,9 @@ Route::get('get/ManufacturersRelations/{id}', [ProductController::class, 'getMan
 
 // Model Relations
 Route::get('get/ModelRelations/{id}', [ProductController::class, 'getModelRelations']);
+
+// WishList
+Route::post('add_to_wishlist', [WishListController::class, 'store']);
 
 // seller
 Route::prefix('seller')->group(function () {
