@@ -18,6 +18,7 @@ use App\Models\Size;
 use App\Models\ModelName;
 use App\Models\Category;
 use App\Models\Manufacturer;
+use App\Models\AuctionSlot;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 
@@ -288,6 +289,7 @@ class ProductApiController extends Controller
         $ram = Ram::get();
         $size = Size::with('model')->get();
         $modelName = ModelName::with('category', 'manufacturer')->get();
+        $auction_slot = AuctionSlot::get();
 
         $data = [
             'categories' => $categories,
@@ -302,6 +304,7 @@ class ProductApiController extends Controller
             'ram' => $ram,
             'size' => $size,
             'modelName' => $modelName,
+            'auction_slot' => $auction_slot,
         ];
 
         if ($data) {
