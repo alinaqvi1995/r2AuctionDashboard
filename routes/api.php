@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\SellerDashboardApiController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\WishListController;
+use App\Http\Controllers\Api\BuyerDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,4 +89,9 @@ Route::post('add_to_wishlist', [WishListController::class, 'store']);
 // seller
 Route::prefix('seller')->group(function () {
     Route::get('/{id}', [SellerDashboardApiController::class, 'dashboard']);
+});
+
+// buyer
+Route::prefix('buyer')->group(function () {
+    Route::get('/{id}', [BuyerDashboardController::class, 'dashboard']);
 });
