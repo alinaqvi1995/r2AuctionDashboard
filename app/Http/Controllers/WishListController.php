@@ -21,14 +21,14 @@ class WishListController extends Controller
 
         if ($wishlist) {
             $wishlist->delete();
-            return response()->json(['message' => 'Product removed from wishlist'], 200);
+            return response()->json(['message' => 'Product removed from wishlist'], 201);
         } else {
             $newWishlist = new WishList;
             $newWishlist->user_id = $request->user_id;
             $newWishlist->product_id = $request->product_id;
             $newWishlist->save();
 
-            return response()->json(['message' => 'Product added to wishlist'], 200);
+            return response()->json(['message' => 'Product added to wishlist'], 201);
         }
     }
 
