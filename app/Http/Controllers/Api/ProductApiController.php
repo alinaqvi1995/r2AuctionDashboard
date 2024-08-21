@@ -150,6 +150,7 @@ class ProductApiController extends Controller
             'user',
             'subcategory',
             'auctionSlot',
+            'images',
             'manufacturer'
         ]);
     
