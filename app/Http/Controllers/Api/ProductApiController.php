@@ -269,7 +269,7 @@ class ProductApiController extends Controller
         $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')->where('user_id', $id)->where('admin_approval', 1)->get();
 
         if ($products) {
-            return response()->json(['product' => $products], 201);
+            return response()->json(['product' => $products], 200);
         } else {
             return response()->json(['error' => 'No products available'], 500);
         }
