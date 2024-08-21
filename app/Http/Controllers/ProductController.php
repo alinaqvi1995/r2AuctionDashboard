@@ -359,4 +359,18 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function toggleFeatured(Request $request)
+    {
+        $product = Product::find($request->id);
+
+        if ($product) {
+            $product->featured = $request->featured;
+            $product->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 }

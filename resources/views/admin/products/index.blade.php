@@ -355,7 +355,6 @@
 @section('bottom_script')
     <script>
         $(document).ready(function() {
-            // Function to toggle visibility of Grades and LockStatus based on condition
             function toggleFieldsBasedOnCondition(conditionValue) {
                 console.log('Toggle function called with condition:', conditionValue);
                 if (conditionValue === 'Used') {
@@ -373,7 +372,6 @@
                 }
             }
 
-            // Handle change event for condition in the create modal
             $('#condition').change(function() {
                 var selectedCondition = $(this).val();
                 if (selectedCondition === 'Used') {
@@ -389,14 +387,12 @@
                 }
             });
 
-            // Handle change event for condition in the edit modal
             $('#edit_condition').change(function() {
                 var selectedCondition = $(this).val();
                 console.log('Selected condition:', selectedCondition);
-                toggleFieldsBasedOnCondition(selectedCondition); // Ensure this function call is correct
+                toggleFieldsBasedOnCondition(selectedCondition);
             });
 
-            // Show the new product modal
             $('#openProductModal').click(function() {
                 $('#productModal').modal('show');
             });
@@ -410,7 +406,6 @@
                     success: function(response) {
                         console.log('response', response);
 
-                        // Populate product details
                         $('#edit_id').val(response.product.id);
                         $('#edit_name').val(response.product.name);
                         $('#edit_description').val(response.product.description);
@@ -421,40 +416,32 @@
                         $('#edit_status').val(response.product.status).trigger('change');
                         $('#edit_condition').val(response.product.condition);
 
-                        // Replace select options for colors
                         var colors = response.product.colors;
                         $('#edit_color_id').replaceWith(buildSelect('edit_color_id', colors));
 
-                        // Replace select options for regions
                         var regions = response.product.regions;
                         $('#edit_region_id').replaceWith(buildSelect('edit_region_id',
                             regions));
 
-                        // Replace select options for capacities
                         var capacities = response.product.storages;
                         $('#edit_capacity_id').replaceWith(buildSelect('edit_capacity_id',
                             capacities));
 
-                        // Replace select options for model numbers
                         var modelNumbers = response.product.model_numbers;
                         $('#edit_modelNumber_id').replaceWith(buildSelect('edit_modelNumber_id',
                             modelNumbers));
 
-                        // Replace select options for lock statuses
                         var lockStatuses = response.product.lock_statuses;
                         $('#edit_lockStatus_id').replaceWith(buildSelect('edit_lockStatus_id',
                             lockStatuses));
 
-                        // Replace select options for grades
                         var grades = response.product.grades;
                         $('#edit_grade_id').replaceWith(buildSelect('edit_grade_id', grades));
 
-                        // Replace select options for carriers
                         var carriers = response.product.carriers;
                         $('#edit_carrier_id').replaceWith(buildSelect('edit_carrier_id',
                             carriers));
 
-                        // Populate subcategories
                         var subcategories = response.subcategories;
                         $('#edit_subcategory_id').empty();
                         subcategories.forEach(function(subcategory) {
@@ -479,7 +466,6 @@
                 });
             });
 
-            // Function to build a select element
             function buildSelect(id, options) {
                 var select = $('<select>').attr('id', id).addClass('form-control select2');
                 options.forEach(function(option) {
@@ -488,7 +474,6 @@
                 return select;
             }
 
-            // Handle form submission for creating a new product
             $('#createProductForm').submit(function(e) {
                 e.preventDefault();
 
@@ -523,15 +508,12 @@
                 });
             });
 
-            // Handle form submission for updating a product
             $('#editProductForm').submit(function(e) {
                 e.preventDefault();
                 var productId = $('#edit_id').val();
 
-                // Create a FormData object
                 var formData = new FormData(this);
 
-                // Append the image file to the FormData object
                 var imageFile = $('#edit_image')[0].files[0];
                 formData.append('image', imageFile);
 
@@ -540,8 +522,8 @@
                         ':productId', productId),
                     method: "PUT",
                     data: formData,
-                    processData: false, // Prevent jQuery from processing the FormData object
-                    contentType: false, // Prevent jQuery from setting contentType
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         $('#editProductModal').modal('hide');
                         $('#tableData').html(response.table_html);
@@ -559,7 +541,6 @@
                 });
             });
 
-            // Function to fetch and populate subcategories based on the selected category
             function populateSubcategories(categoryId, targetDropdown, selectedSubcategoryId = null) {
                 $.ajax({
                     url: "{{ route('subcategories.by_category') }}",
@@ -568,7 +549,7 @@
                         category_id: categoryId
                     },
                     success: function(response) {
-                        $(targetDropdown).empty(); // Clear previous options
+                        $(targetDropdown).empty();
                         $(targetDropdown).append($('<option>', {
                             value: '',
                             text: 'Select Subcategory'
@@ -591,19 +572,16 @@
                 });
             }
 
-            // Handle change event on the category dropdown to fetch and populate subcategories
             $('#category_id').change(function() {
                 var categoryId = $(this).val();
                 populateSubcategories(categoryId, '#subcategory_id');
             });
 
-            // Handle change event on the category dropdown in the edit modal to fetch and populate subcategories
             $('#edit_category_id').change(function() {
                 var categoryId = $(this).val();
                 populateSubcategories(categoryId, '#edit_subcategory_id');
             });
 
-            // Update label text when files are selected for additional images
             $('.media').on('change', function() {
                 // Get the file names
                 var files = $(this)[0].files;
@@ -618,7 +596,6 @@
                 $('.media_label').text(fileNames);
             });
 
-            // Update label text when files are selected for additional images
             $('.image').on('change', function() {
                 // Get the file names
                 var files = $(this)[0].files;
@@ -639,13 +616,45 @@
         $(document).ready(function() {
             $('.deleteProductBtn').on('click', function(e) {
                 e.preventDefault();
-    
+
                 var $form = $(this).closest('form');
                 var productName = $(this).data('id');
-    
+
                 if (confirm('Are you sure you want to delete this product?')) {
                     $form.submit();
                 }
+            });
+
+            $('.featured-toggle').on('click', function() {
+                var button = $(this);
+                var productId = button.data('id');
+                var isFeatured = button.text() === 'Active' ? 0 : 1;
+
+                $.ajax({
+                    url: '{{ route('products.feature-toggle') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: productId,
+                        featured: isFeatured
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            if (isFeatured) {
+                                button.text('Active');
+                                button.removeClass('btn-danger').addClass('btn-success');
+                            } else {
+                                button.text('Inactive');
+                                button.removeClass('btn-success').addClass('btn-danger');
+                            }
+                        } else {
+                            alert('An error occurred while updating the featured status.');
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to update the featured status.');
+                    }
+                });
             });
         });
     </script>

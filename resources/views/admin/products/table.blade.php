@@ -8,6 +8,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Status</th>
+            <th>Featured</th>
             <th>Admin Approval</th>
             <th>Image</th>
             <th>Action</th>
@@ -36,6 +37,12 @@
                         Inactive
                     @endif
                 </td>
+                <td>
+                    <button class="btn btn-sm featured-toggle {{ $product->featured ? 'btn-success' : 'btn-danger' }}"
+                        data-id="{{ $product->id }}">
+                        {{ $product->featured ? 'Active' : 'Inactive' }}
+                    </button>
+                </td>
                 <td id="admin_approval{{ $product->id }}">
                     @if ($product->admin_approval == 1)
                         Approved
@@ -59,8 +66,8 @@
                         data-id="{{ $product->id }}">
                         <span class="text-muted sr-only">Edit</span>
                     </a>
-                    <form action="{{ route('products.destroy', $product->id) }}" method="POST"
-                        style="display:inline;" class="delete-form">
+                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;"
+                        class="delete-form">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-sm rounded text-muted deleteProductBtn" type="submit"

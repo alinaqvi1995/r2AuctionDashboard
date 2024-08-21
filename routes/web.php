@@ -123,6 +123,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::post('/products/feature-toggle', [ProductController::class, 'toggleFeatured'])->name('products.feature-toggle');
 
     // Subcategories related to category
     Route::get('subcategories/by_category', [SubcategoryController::class, 'getByCategory'])->name('subcategories.by_category');
