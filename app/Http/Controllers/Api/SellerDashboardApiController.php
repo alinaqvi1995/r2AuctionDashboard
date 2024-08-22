@@ -46,12 +46,15 @@ class SellerDashboardApiController extends Controller
 
     public function wishlist_products($id)
     {
-        $products = Product::where('user_id', $id)->with('wishlist')->get();
-
+        $products = Product::where('user_id', $id)
+            ->whereHas('wishlist')
+            ->with('wishlist')
+            ->get();
+    
         $data = [
             'wishlist_products' => $products,
         ];
-
+    
         return response()->json(['data' => $data], 200);
     }
 }
