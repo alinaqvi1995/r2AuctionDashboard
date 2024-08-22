@@ -11,7 +11,8 @@ class BuyerDashboardController extends Controller
 {
     public function dashboard($id)
     {
-        $featured = Product::where('status', 1)
+        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+            ->where('status', 1)
             ->where('admin_approval', 1)
             ->where('featured', 1)
             ->get();
@@ -19,9 +20,9 @@ class BuyerDashboardController extends Controller
         $lost_won = '2,400';
         $total_quantity = '120';
         $total_value = '3,232';
-        
+
         $bids = Bid::query();
-        
+
         $highest_bid = $bids->max('bid_amount');
         $lowest_bid = $bids->min('bid_amount');
         $total_listing_bid = $bids->count();
