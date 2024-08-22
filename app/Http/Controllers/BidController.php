@@ -26,7 +26,7 @@ class BidController extends Controller
         $bid = Bid::create($request->all());
 
         if ($bid) {
-            return response()->json(['message' => 'Bid created successfully'], 200);
+            return response()->json(['message' => 'Bid created successfully'], 201);
         } else {
             return response()->json(['error' => 'Failed to create bid'], 500);
         }
