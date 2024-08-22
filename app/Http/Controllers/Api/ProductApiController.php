@@ -316,6 +316,11 @@ class ProductApiController extends Controller
 
     public function toggleFeaturedProduct(Request $request)
     {
+        return response()->json([
+            'message' => 'Reached the method',
+            'id' => $request->id,
+            'featured' => $request->featured,
+        ]);
         $product = Product::find($request->id);
 
         if ($product) {
