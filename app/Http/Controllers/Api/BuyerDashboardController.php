@@ -42,4 +42,19 @@ class BuyerDashboardController extends Controller
 
         return response()->json(['data' => $dashboardData], 200);
     }
+
+    public function buyer_bid_products($id)
+    {
+        $products = Product::with('bidProducts')
+            ->whereHas('bidProducts', function ($query) use ($id) {
+                $query->where('user_id', $id);
+            })
+            ->get();
+
+        $data = [
+            'bid_products' => $products,
+        ];
+
+        return response()->json(['data' => $data], 200);
+    }
 }
