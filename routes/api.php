@@ -39,7 +39,7 @@ Route::post('/products/{product}', [ProductApiController::class, 'update']);
 Route::delete('/products/{product}', [ProductApiController::class, 'destroy']);
 Route::get('/sellerProducts/{id}', [ProductApiController::class, 'sellerProducts']);
 Route::get('/get_product_subjects', [ProductApiController::class, 'getProSubjects']);
-Route::post('/products/feature-toggle', [ProductApiController::class, 'toggleFeatured']);
+Route::post('/products-feature-toggle', [ProductApiController::class, 'toggleFeaturedProduct']);
 
 // Register new user
 Route::post('/register', [RegisterApiController::class, 'register']);

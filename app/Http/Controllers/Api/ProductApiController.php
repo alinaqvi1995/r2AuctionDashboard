@@ -314,7 +314,7 @@ class ProductApiController extends Controller
         }
     }
 
-    public function toggleFeatured(Request $request)
+    public function toggleFeaturedProduct(Request $request)
     {
         $product = Product::find($request->id);
 
