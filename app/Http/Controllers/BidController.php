@@ -20,13 +20,19 @@ class BidController extends Controller
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'bid_amount' => 'required|numeric|min:0.01',
-            // 'status' => 'required',
         ]);
 
-        $bid = Bid::create($request->all());
+        $product = Product::findOrFail($request->product_id);
+        $status = 0;
+
+        if ($request->bid_amount >= $product->reserve_price) {
+            $status = 1;
+        }
+
+        $bid = Bid::create(array_merge($request->all(), ['status' => $status]));
 
         if ($bid) {
-            return response()->json(['message' => 'Bid created successfully'], 201);
+            return response()->json(['message' => 'Bid created successfully', 'bid' => $bid], 201);
         } else {
             return response()->json(['error' => 'Failed to create bid'], 500);
         }

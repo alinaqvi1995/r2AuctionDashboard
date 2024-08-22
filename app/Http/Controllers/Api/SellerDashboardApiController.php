@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Seller;
+use App\Models\Bid;
 
 class SellerDashboardApiController extends Controller
 {
@@ -69,5 +69,13 @@ class SellerDashboardApiController extends Controller
         ];
 
         return response()->json(['data' => $data], 200);
+    }
+
+    public function bid_accept($id)
+    {
+        $bid = Bid::findOrFail($id);
+        $bid->update(['status' => 1]);
+
+        return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
     }
 }
