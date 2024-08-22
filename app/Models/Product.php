@@ -145,4 +145,9 @@ class Product extends Model
     {
         return $this->hasMany(WishList::class);
     }
+
+    public function bidProducts()
+    {
+        return $this->hasMany(Bid::class);
+    }
 }

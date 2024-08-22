@@ -91,6 +91,7 @@ Route::post('add_to_wishlist', [WishListController::class, 'store']);
 Route::prefix('seller')->group(function () {
     Route::get('/{id}', [SellerDashboardApiController::class, 'dashboard']);
     Route::get('/wishlist/{id}', [SellerDashboardApiController::class, 'wishlist_products']);
+    Route::get('/bid_products/{id}', [SellerDashboardApiController::class, 'bid_products']);
 });
 
 // buyer

@@ -56,4 +56,18 @@ class SellerDashboardApiController extends Controller
 
         return response()->json(['data' => $data], 200);
     }
+
+    public function bid_products($id)
+    {
+        $products = Product::where('user_id', $id)
+            ->whereHas('bidProducts')
+            ->with('bidProducts')
+            ->get();
+
+        $data = [
+            'bid_products' => $products,
+        ];
+
+        return response()->json(['data' => $data], 200);
+    }
 }
