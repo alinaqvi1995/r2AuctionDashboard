@@ -154,7 +154,7 @@ class ProductApiController extends Controller
             'images',
             'manufacturer'
         ]);
-    
+
         return response()->json(['product' => $product], 200);
     }
 
@@ -266,7 +266,9 @@ class ProductApiController extends Controller
 
     public function sellerProducts($id)
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')->where('user_id', $id)->where('admin_approval', 1)->get();
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+            ->where('user_id', $id)
+            ->get();
 
         if ($products) {
             return response()->json(['product' => $products], 200);
