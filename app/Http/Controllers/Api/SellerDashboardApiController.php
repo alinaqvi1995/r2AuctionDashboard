@@ -14,16 +14,16 @@ class SellerDashboardApiController extends Controller
         $products = Product::where('user_id', $id)->get();
 
         $totalValueSold = $products->where('status', 3)->where('admin_approval', 1)->sum(function ($product) {
-                                    return $product->buy_now_price ?? 0;
-                                });
+            return $product->buy_now_price ?? 0;
+        });
 
         $totalListingsSold = $products->where('status', 3)->where('admin_approval', 1)->count();
 
         $listingsAcceptingBids = $products->where('status', 1)->where('admin_approval', 1)->where('bidding_close_time', '>', now())
-                                    ->count();
+            ->count();
 
         // $currentListingValue = $products->sum('minimum_bid_price');
-        
+
         $currentListingValue = $products->where('status', 1)->where('admin_approval', 1)->sum(function ($product) {
             return is_numeric($product->minimum_bid_price) ? $product->minimum_bid_price : 0;
         });
@@ -42,5 +42,16 @@ class SellerDashboardApiController extends Controller
         ];
 
         return response()->json(['data' => $dashboardData], 200);
+    }
+
+    public function wishlist_products($id)
+    {
+        $products = Product::where('user_id', $id)->with('wishlist')->get();
+
+        $data = [
+            'wishlist_products' => $products,
+        ];
+
+        return response()->json(['data' => $data], 200);
     }
 }
