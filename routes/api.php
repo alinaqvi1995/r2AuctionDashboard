@@ -90,7 +90,6 @@ Route::post('add_to_wishlist', [WishListController::class, 'store']);
 // seller
 Route::prefix('seller')->group(function () {
     Route::get('/{id}', [SellerDashboardApiController::class, 'dashboard']);
-    Route::get('/wishlist/{id}', [SellerDashboardApiController::class, 'wishlist_products']);
     Route::get('/bid_products/{id}', [SellerDashboardApiController::class, 'bid_products']);
 });
 
@@ -98,4 +97,5 @@ Route::prefix('seller')->group(function () {
 Route::prefix('buyer')->group(function () {
     Route::get('/{id}', [BuyerDashboardController::class, 'dashboard']);
     Route::get('/bid_products/{id}', [BuyerDashboardController::class, 'buyer_bid_products']);
+    Route::get('/wishlist/{id}', [BuyerDashboardController::class, 'wishlist_products']);
 });
