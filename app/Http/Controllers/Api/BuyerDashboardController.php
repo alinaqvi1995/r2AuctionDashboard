@@ -70,4 +70,18 @@ class BuyerDashboardController extends Controller
 
         return response()->json(['data' => $data], 200);
     }
+    
+    public function products()
+    {
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+            ->where('admin_approval', 1)
+            ->where('status', 1)
+            ->get();
+
+        if ($products) {
+            return response()->json(['product' => $products], 200);
+        } else {
+            return response()->json(['error' => 'No products available'], 500);
+        }
+    }
 }

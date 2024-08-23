@@ -100,4 +100,5 @@ Route::prefix('seller')->group(function () {
 Route::prefix('buyer')->group(function () {
     Route::get('/{id}', [BuyerDashboardController::class, 'dashboard']);
     Route::get('/bid_products/{id}', [BuyerDashboardController::class, 'buyer_bid_products']);
+    Route::get('/products', [BuyerDashboardController::class, 'buyer_dashboard_products']);
 });
