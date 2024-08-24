@@ -355,8 +355,62 @@
 @section('bottom_script')
     <script>
         $(document).ready(function() {
+            // function toggleFieldsBasedOnCondition(conditionValue) {
+            //     console.log('Toggle function called with condition:', conditionValue);
+            //     if (conditionValue === 'Used') {
+            //         console.log('Showing fields for Used condition');
+            //         $('#edit_grade_id_field').show();
+            //         $('#edit_lockStatus_id_field').show();
+            //         $('#edit_grade_id').prop('required', true);
+            //         $('#edit_lockStatus_id').prop('required', true);
+            //     } else {
+            //         console.log('Hiding fields for New condition');
+            //         $('#edit_grade_id_field').hide();
+            //         $('#edit_lockStatus_id_field').hide();
+            //         $('#edit_grade_id').prop('required', false);
+            //         $('#edit_lockStatus_id').prop('required', false);
+            //     }
+            // }
 
-            $('#condition').change(function() {
+            // $('#condition').change(function() {
+            //     var selectedCondition = $(this).val();
+            //     if (selectedCondition === 'Used') {
+            //         $('#selectgrade').show();
+            //         $('#selectlockStatus').show();
+            //         $('#grade_id').prop('required', true);
+            //         $('#lockStatus_id').prop('required', true);
+            //     } else {
+            //         $('#selectgrade').hide();
+            //         $('#selectlockStatus').hide();
+            //         $('#grade_id').prop('required', false);
+            //         $('#lockStatus_id').prop('required', false);
+            //     }
+            // });
+
+            // $('#edit_condition').change(function() {
+            //     var selectedCondition = $(this).val();
+            //     console.log('Selected condition:', selectedCondition);
+            //     toggleFieldsBasedOnCondition(selectedCondition);
+            // });
+            function toggleFieldsBasedOnCondition(conditionValue) {
+                console.log('Toggle function called with condition:', conditionValue);
+                if (conditionValue === 'Used') {
+                    console.log('Showing fields for Used condition');
+                    $('#edit_grade_id_field').show();
+                    $('#edit_lockStatus_id_field').show();
+                    $('#edit_grade_id').prop('required', true);
+                    $('#edit_lockStatus_id').prop('required', true);
+                } else {
+                    console.log('Hiding fields for New condition');
+                    $('#edit_grade_id_field').hide();
+                    $('#edit_lockStatus_id_field').hide();
+                    $('#edit_grade_id').prop('required', false);
+                    $('#edit_lockStatus_id').prop('required', false);
+                }
+            }
+
+            // Direct event binding for condition change
+            $('#condition').on('change', function() {
                 var selectedCondition = $(this).val();
                 if (selectedCondition === 'Used') {
                     $('#selectgrade').show();
@@ -371,7 +425,7 @@
                 }
             });
 
-            $('#edit_condition').change(function() {
+            $('#edit_condition').on('change', function() {
                 var selectedCondition = $(this).val();
                 console.log('Selected condition:', selectedCondition);
                 toggleFieldsBasedOnCondition(selectedCondition);
