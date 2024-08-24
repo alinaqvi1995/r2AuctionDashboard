@@ -38,10 +38,17 @@
                     @endif
                 </td>
                 <td>
-                    <button class="btn btn-sm featured-toggle {{ $product->featured ? 'btn-success' : 'btn-danger' }}"
-                        data-id="{{ $product->id }}">
-                        {{ $product->featured ? 'Active' : 'Inactive' }}
-                    </button>
+                    @if ($product->admin_approval == 1)
+                        <button
+                            class="btn btn-sm featured-toggle {{ $product->featured ? 'btn-success' : 'btn-danger' }}"
+                            data-id="{{ $product->id }}" {{ $product->status == 0 ? 'disabled' : '' }}>
+                            {{ $product->featured ? 'Active' : 'Inactive' }}
+                        </button>
+                    @else
+                        <button class="btn btn-secondary btn-sm disabled" data-id="{{ $product->id }}">Waiting For
+                            Admin Approval
+                        </button>
+                    @endif
                 </td>
                 <td id="admin_approval{{ $product->id }}">
                     @if ($product->admin_approval == 1)
