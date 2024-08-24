@@ -647,7 +647,6 @@
                 // Update the label text
                 $('.image_label').text(fileNames);
             });
-
         });
     </script>
     <script>
@@ -677,6 +676,8 @@
                         featured: isFeatured
                     },
                     success: function(response) {
+                        console.log('isFeaturedisFeatured', isFeatured);
+                        console.log('responseresponse', response);
                         if (response.success) {
                             if (isFeatured) {
                                 button.text('Active');
