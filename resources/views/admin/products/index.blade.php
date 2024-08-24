@@ -355,22 +355,6 @@
 @section('bottom_script')
     <script>
         $(document).ready(function() {
-            function toggleFieldsBasedOnCondition(conditionValue) {
-                console.log('Toggle function called with condition:', conditionValue);
-                if (conditionValue === 'Used') {
-                    console.log('Showing fields for Used condition');
-                    $('#edit_grade_id_field').show();
-                    $('#edit_lockStatus_id_field').show();
-                    $('#edit_grade_id').prop('required', true);
-                    $('#edit_lockStatus_id').prop('required', true);
-                } else {
-                    console.log('Hiding fields for New condition');
-                    $('#edit_grade_id_field').hide();
-                    $('#edit_lockStatus_id_field').hide();
-                    $('#edit_grade_id').prop('required', false);
-                    $('#edit_lockStatus_id').prop('required', false);
-                }
-            }
 
             $('#condition').change(function() {
                 var selectedCondition = $(this).val();
