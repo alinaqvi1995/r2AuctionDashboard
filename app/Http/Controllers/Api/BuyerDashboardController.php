@@ -86,7 +86,7 @@ class BuyerDashboardController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-    public function products()
+    public function buyer_dashboard_products()
     {
         $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
             ->where('admin_approval', 1)
