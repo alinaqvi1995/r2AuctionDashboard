@@ -51,6 +51,17 @@ class BuyerDashboardController extends Controller
             })
             ->get();
 
+        $bids = Bid::with('product')
+            ->whereHas('product', function ($query) use ($id) {
+                $query->where('user_id', $id);
+            })
+            ->get();
+
+
+        $total_bids = $bids->count();
+        $Total_bidding_amount = $bids->sum('bid_amount');
+        $win_bid = 12;
+
         $data = [
             'bid_products' => $products,
         ];
@@ -61,9 +72,9 @@ class BuyerDashboardController extends Controller
     public function wishlist_products($id)
     {
         $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
-        ->whereHas('wishlist', function ($query) use ($id) {
-            $query->where('user_id', $id);
-        })->with('wishlist')->get();
+            ->whereHas('wishlist', function ($query) use ($id) {
+                $query->where('user_id', $id);
+            })->with('wishlist')->get();
 
         $data = [
             'wishlist_products' => $products,
@@ -71,7 +82,7 @@ class BuyerDashboardController extends Controller
 
         return response()->json(['data' => $data], 200);
     }
-    
+
     public function products()
     {
         $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
