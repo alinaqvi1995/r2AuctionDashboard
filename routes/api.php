@@ -96,9 +96,10 @@ Route::prefix('seller')->group(function () {
     Route::get('/bid_products/{id}', [SellerDashboardApiController::class, 'bid_products']);
 });
 
+Route::get('/buyerProducts', [BuyerDashboardController::class, 'buyer_dashboard_products']);
+
 // buyer
 Route::prefix('buyer')->group(function () {
     Route::get('/{id}', [BuyerDashboardController::class, 'dashboard']);
     Route::get('/bid_products/{id}', [BuyerDashboardController::class, 'buyer_bid_products']);
-    Route::get('/products', [BuyerDashboardController::class, 'buyer_dashboard_products']);
 });
