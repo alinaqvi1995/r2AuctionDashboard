@@ -58,12 +58,15 @@ class BuyerDashboardController extends Controller
             ->get();
 
 
-        $total_bids = $bids->count();
-        $Total_bidding_amount = $bids->sum('bid_amount');
-        $win_bid = 12;
+        $TotalBids = $bids->count();
+        $TotalBiddingAmount = $bids->sum('bid_amount');
+        $WinBid = 12;
 
         $data = [
             'bid_products' => $products,
+            'total_bids' => $TotalBids,
+            'Total_bidding_amount' => $TotalBiddingAmount,
+            'win_bid' => $WinBid,
         ];
 
         return response()->json(['data' => $data], 200);
