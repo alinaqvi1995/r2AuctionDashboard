@@ -60,7 +60,8 @@ class BuyerDashboardController extends Controller
 
     public function wishlist_products($id)
     {
-        $products = Product::whereHas('wishlist', function ($query) use ($id) {
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+        ->whereHas('wishlist', function ($query) use ($id) {
             $query->where('user_id', $id);
         })->with('wishlist')->get();
 
