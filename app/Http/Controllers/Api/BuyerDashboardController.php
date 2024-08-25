@@ -45,7 +45,7 @@ class BuyerDashboardController extends Controller
 
     public function buyer_bid_products($id)
     {
-        $products = Product::with('bidProducts')
+        $products = Product::with('bidProducts', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
             ->whereHas('bidProducts', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })
@@ -65,7 +65,7 @@ class BuyerDashboardController extends Controller
         $data = [
             'bid_products' => $products,
             'total_bids' => $TotalBids,
-            'Total_bidding_amount' => $TotalBiddingAmount,
+            'total_bidding_amount' => $TotalBiddingAmount,
             'win_bid' => $WinBid,
         ];
 
