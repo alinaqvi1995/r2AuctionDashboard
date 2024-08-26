@@ -11,7 +11,7 @@ class BuyerDashboardController extends Controller
 {
     public function dashboard($id)
     {
-        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids')
+        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user')
             ->where('status', 1)
             ->where('admin_approval', 1)
             ->where('featured', 1)
