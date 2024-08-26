@@ -47,7 +47,7 @@ class SellerDashboardApiController extends Controller
     public function bid_products($id)
     {
         $products = Product::where('user_id', $id)
-            ->whereHas('bidProducts')
+            ->whereHas('bidProducts', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot'))
             ->with('bidProducts')
             ->get();
 
