@@ -11,7 +11,7 @@ class BuyerDashboardController extends Controller
 {
     public function dashboard($id)
     {
-        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts')
+        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids')
             ->where('status', 1)
             ->where('admin_approval', 1)
             ->where('featured', 1)
@@ -45,8 +45,8 @@ class BuyerDashboardController extends Controller
 
     public function buyer_bid_products($id)
     {
-        $products = Product::with('bidProducts', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
-            ->whereHas('bidProducts', function ($query) use ($id) {
+        $products = Product::with('bids', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+            ->whereHas('bids', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })
             ->get();
@@ -74,7 +74,7 @@ class BuyerDashboardController extends Controller
 
     public function wishlist_products($id)
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts')
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids')
             ->whereHas('wishlist', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })->with('wishlist')->get();
@@ -88,7 +88,7 @@ class BuyerDashboardController extends Controller
 
     public function buyer_dashboard_products()
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts', 'bidProducts.user')
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user')
             ->where('admin_approval', 1)
             ->where('status', 1)
             ->get();

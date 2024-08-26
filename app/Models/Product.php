@@ -146,7 +146,7 @@ class Product extends Model
         return $this->hasMany(WishList::class);
     }
 
-    public function bidProducts()
+    public function bids()
     {
         return $this->hasMany(Bid::class);
     }
