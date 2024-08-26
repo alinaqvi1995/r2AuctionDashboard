@@ -15,7 +15,7 @@
                         <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
                     </g>
                 </svg> --}}
-                <img src="{{ asset('logo.jpg') }}" alt="">
+                <img src="{{ asset('logo.svg') }}" style="height: 10" alt="">
             </a>
         </div>
         <p class="text-muted nav-heading mt-4 mb-2 pl-4">

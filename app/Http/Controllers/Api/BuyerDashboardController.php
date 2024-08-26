@@ -11,7 +11,7 @@ class BuyerDashboardController extends Controller
 {
     public function dashboard($id)
     {
-        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts')
             ->where('status', 1)
             ->where('admin_approval', 1)
             ->where('featured', 1)
@@ -74,7 +74,7 @@ class BuyerDashboardController extends Controller
 
     public function wishlist_products($id)
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts')
             ->whereHas('wishlist', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })->with('wishlist')->get();
@@ -88,7 +88,7 @@ class BuyerDashboardController extends Controller
 
     public function buyer_dashboard_products()
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts')
             ->where('admin_approval', 1)
             ->where('status', 1)
             ->get();
