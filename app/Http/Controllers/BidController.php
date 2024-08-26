@@ -29,11 +29,11 @@ class BidController extends Controller
         if ($request->bid_amount >= $product->reserve_price) {
             $status = 1;
 
-            // $order = Order::create([
-            //     'user_id' => $request->user_id,
-            //     'product_id' => $product->id,
-            //     'amount' => $request->bid_amount,
-            // ]);
+            $order = Order::create([
+                'user_id' => $request->user_id,
+                'product_id' => $product->id,
+                'amount' => $request->bid_amount,
+            ]);
         }
 
         $bid = Bid::create(array_merge($request->all(), ['status' => $status]));

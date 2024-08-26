@@ -88,7 +88,7 @@ class BuyerDashboardController extends Controller
 
     public function buyer_dashboard_products()
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts')
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bidProducts', 'bidProducts.user')
             ->where('admin_approval', 1)
             ->where('status', 1)
             ->get();
