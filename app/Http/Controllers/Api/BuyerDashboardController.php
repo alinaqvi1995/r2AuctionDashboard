@@ -19,15 +19,15 @@ class BuyerDashboardController extends Controller
 
         $bids = Bid::query();
 
-        $lost_won = $bids->where('user_id', $id)->where('status', 1)->sun('bid_amount');
-        $total_quantity = $bids->where('user_id', $id)->count();
-        $total_value = $bids->where('user_id', $id)->sum('bid_amount');
+        $lost_won = $bids->clone()->where('user_id', $id)->where('status', 1)->sum('bid_amount');
+        $total_quantity = $bids->clone()->where('user_id', $id)->count();
+        $total_value = $bids->clone()->where('user_id', $id)->sum('bid_amount');
 
-        $highest_bid = $bids->max('bid_amount');
-        $lowest_bid = $bids->min('bid_amount');
-        $total_listing_bid = $bids->count();
+        $highest_bid = $bids->clone()->where('user_id', $id)->max('bid_amount');
+        $lowest_bid = $bids->clone()->where('user_id', $id)->min('bid_amount');
+        $total_listing_bid = $bids->clone()->where('user_id', $id)->count();
 
-        $total_listing_bid_value = $bids->sum('bid_amount');
+        $total_listing_bid_value = $bids->clone()->where('user_id', $id)->sum('bid_amount');
 
         $dashboardData = [
             'featured' => $featured,
