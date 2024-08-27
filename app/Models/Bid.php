@@ -14,7 +14,7 @@ class Bid extends Model
         'user_id',
         'product_id',
         'bid_amount',
-        'status',  // 0 = pending, 1 = accepted
+        'status',  // 0 = pending, 1 = accepted,    2 = cancelled
     ];
 
     public function user()

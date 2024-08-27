@@ -15,33 +15,33 @@ class OrderController extends Controller
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'bid_id' => 'nullable|exists:bids,id',
-            'payment_method' => 'required|string|in:cheque,stripe',
-            'payment_status' => 'required|integer',
-            'amount' => 'required_if:payment_method,stripe|numeric|min:0.01',
-            'stripe_token' => 'required_if:payment_method,stripe|string',
+            // 'payment_method' => 'required|string|in:cheque,stripe',
+            // 'payment_status' => 'required|integer',
+            // 'amount' => 'required_if:payment_method,stripe|numeric|min:0.01',
+            // 'stripe_token' => 'required_if:payment_method,stripe|string',
         ]);
 
         $validatedData['bid_id'] = $request->input('bid_id', 0);
         $validatedData['status'] = 0;
 
-        if ($validatedData['payment_method'] === 'cheque') {
-            $validatedData['payment_status'] = 0;
-        } elseif ($validatedData['payment_method'] === 'stripe') {
-            Stripe::setApiKey(env('STRIPE_SECRET'));
+        // if ($validatedData['payment_method'] === 'cheque') {
+        //     $validatedData['payment_status'] = 0;
+        // } elseif ($validatedData['payment_method'] === 'stripe') {
+        //     Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            try {
-                $charge = Charge::create([
-                    'amount' => $validatedData['amount'] * 100,
-                    'currency' => 'usd',
-                    'source' => $validatedData['stripe_token'],
-                    'description' => 'Order Payment',
-                ]);
+        //     try {
+        //         $charge = Charge::create([
+        //             'amount' => $validatedData['amount'] * 100,
+        //             'currency' => 'usd',
+        //             'source' => $validatedData['stripe_token'],
+        //             'description' => 'Order Payment',
+        //         ]);
 
-                $validatedData['payment_status'] = 1;
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Payment failed: ' . $e->getMessage()], 500);
-            }
-        }
+        //         $validatedData['payment_status'] = 1;
+        //     } catch (\Exception $e) {
+        //         return response()->json(['error' => 'Payment failed: ' . $e->getMessage()], 500);
+        //     }
+        // }
 
         $order = Order::create($validatedData);
 

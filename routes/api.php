@@ -76,6 +76,7 @@ Route::prefix('users')->group(function () {
 // user
 Route::prefix('bids')->group(function () {
     Route::post('/', [BidController::class, 'store']);
+    Route::get('/cancel/{productId}', [BidController::class, 'cancelBids']);
 });
 
 // Manufacturers Relations
