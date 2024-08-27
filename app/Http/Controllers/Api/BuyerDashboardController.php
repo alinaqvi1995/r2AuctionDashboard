@@ -17,11 +17,11 @@ class BuyerDashboardController extends Controller
             ->where('featured', 1)
             ->get();
 
-        $lost_won = '2,400';
-        $total_quantity = '120';
-        $total_value = '3,232';
-
         $bids = Bid::query();
+
+        $lost_won = $bids->where('user_id', $id)->where('status', 1)->sun('bid_amount');
+        $total_quantity = $bids->where('user_id', $id)->count();
+        $total_value = $bids->where('user_id', $id)->sum('bid_amount');
 
         $highest_bid = $bids->max('bid_amount');
         $lowest_bid = $bids->min('bid_amount');
