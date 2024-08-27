@@ -77,6 +77,7 @@ Route::prefix('users')->group(function () {
 Route::prefix('bids')->group(function () {
     Route::post('/', [BidController::class, 'store']);
     Route::get('/cancel/{productId}', [BidController::class, 'cancelBids']);
+    Route::get('/accept/{bidId}', [BidController::class, 'acceptBid']);
 });
 
 // Manufacturers Relations
@@ -103,5 +104,4 @@ Route::get('/buyerProducts', [BuyerDashboardController::class, 'buyer_dashboard_
 Route::prefix('buyer')->group(function () {
     Route::get('/{id}', [BuyerDashboardController::class, 'dashboard']);
     Route::get('/bid_products/{id}', [BuyerDashboardController::class, 'buyer_bid_products']);
-    Route::get('/accept/{bidId}', [BidController::class, 'acceptBid']);
 });
