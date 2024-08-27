@@ -100,4 +100,14 @@ class BidController extends Controller
 
         return response()->json(['message' => 'All pending bids have been cancelled successfully.'], 200);
     }
+
+    public function acceptBid($bidId)
+    {
+        $bid = Bid::findOrFail($bidId);
+
+        $bid->status = 1;
+        $bid->save();
+
+        return response()->json(['message' => 'Bid accepted successfully.', 'bid' => $bid], 200);
+    }
 }
