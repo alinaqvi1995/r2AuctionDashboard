@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('orders:create-from-bids')->everyMinute();
+        $schedule->command('your:command')->everyMinute()->withoutOverlapping();
     }
 
     /**
