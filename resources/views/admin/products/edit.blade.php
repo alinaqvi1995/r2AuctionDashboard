@@ -78,7 +78,7 @@
                     <option value="">Select Auction Slot</option>
                     @foreach ($auctionSlots as $slot)
                         <option value="{{ $slot->id }}"
-                            {{ $product->auction_slot_id == $slot->id ? 'selected' : '' }}>{{ $slot->auction_date }}
+                            {{ $product->auction_slot_id == $slot->id ? 'selected' : '' }}>{{ $slot->auction_date . ' - ' . $slot->auction_date_end }}
                         </option>
                     @endforeach
                 </select>

@@ -32,7 +32,7 @@ class UserManagementController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['sometimes', 'string', 'max:255'],
             // 'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'password' => 'required|string|min:8',
+            // 'password' => 'required|string|min:8',
             'middle_name' => ['nullable', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:20'],
@@ -51,7 +51,7 @@ class UserManagementController extends Controller
 
         
         if ($validator->fails()) {
-            dd($validator);
+            // dd($validator);
             return redirect()->back()->withErrors($validator)->withInput();
         }
         

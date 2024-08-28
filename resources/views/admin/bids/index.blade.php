@@ -50,7 +50,7 @@
                                 <tbody>
                                     @php $counter = 1 @endphp
                                     @foreach ($products as $products)
-                                        @if ($products->role != 'admin')
+                                        {{-- @if ($products->role != 'admin') --}}
                                             <tr>
                                                 <td>{{ $counter++ }}</td>
                                                 <td>{{ $products->name }}
@@ -92,7 +92,7 @@
                                                     </div>
                                                 </td> --}}
                                             </tr>
-                                        @endif
+                                        {{-- @endif --}}
                                     @endforeach
                                 </tbody>
                             </table>

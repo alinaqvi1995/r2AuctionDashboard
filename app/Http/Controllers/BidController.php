@@ -14,7 +14,8 @@ class BidController extends Controller
 {
     public function index()
     {
-        $products = Product::with('user')->get();
+        $products = Product::activeBidProducts();
+
         return view('admin.bids.index', compact('products'));
     }
 
@@ -82,12 +83,12 @@ class BidController extends Controller
 
         return Order::create($validatedData);
     }
-    
+
     public function cancelBids($productId)
     {
         $bids = Bid::where('product_id', $productId)
-                    ->where('status', 0)
-                    ->get();
+            ->where('status', 0)
+            ->get();
 
         if ($bids->isEmpty()) {
             return response()->json(['message' => 'No pending bids to cancel for this product.'], 404);

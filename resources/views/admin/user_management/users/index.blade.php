@@ -19,13 +19,13 @@
                                 <div class="col-md-3">
                                     <select id="filter-role" class="form-control">
                                         <option value="">Filter by Role</option>
-                                        <option value="admin">Admin</option>
+                                        {{-- <option value="admin">Admin</option> --}}
                                         <option value="buyer">Buyer</option>
                                         <option value="seller">Seller</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select id="filter-business_type" class="form-control">
+                                    <select id="filter-user_type" class="form-control">
                                         <option value="">Filter by Business Type</option>
                                         <option value="Company">Company</option>
                                         <option value="Individual">Individual</option>
@@ -48,6 +48,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
+                                        <th>Business Type</th>
                                         {{-- <th>Business Type</th> --}}
                                         <th>Status</th>
                                         <th>Date</th>
@@ -70,7 +71,16 @@
                                                 </td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->role }}</td>
-                                                {{-- <td>{{ $user->business_type }}</td> --}}
+                                                <td>
+                                                    @if ($user->role == 'buyer' && isset($user->buyer))
+                                                        {{ $user->buyer->user_type }}
+                                                    @elseif ($user->role == 'seller' && isset($user->seller))
+                                                        {{ $user->seller->user_type }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                {{-- <td>{{ $user->user_type }}</td> --}}
                                                 <td>
                                                     @if ($user->status == 1)
                                                         <span class="badge badge-success">Active</span>
@@ -122,7 +132,7 @@
                 table.column(4).search(selectedRole).draw();
             });
 
-            $('#filter-business_type').on('change', function() {
+            $('#filter-user_type').on('change', function() {
                 var selectedRole = $(this).val();
                 table.column(5).search(selectedRole).draw();
             });
@@ -131,7 +141,7 @@
                 var selectedStatus = $(this).val();
                 var statusText = selectedStatus == '1' ? '^Active$' : selectedStatus == '0' ? '^Inactive$' :
                     '';
-                table.column(6).search(statusText, true, false).draw();
+                table.column(5).search(statusText, true, false).draw();
             });
         });
     </script>

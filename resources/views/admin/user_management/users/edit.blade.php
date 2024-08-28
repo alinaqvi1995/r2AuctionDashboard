@@ -108,8 +108,21 @@
 
                         @if ($user->role == 'seller')
                             <!-- Seller Business Details -->
+
                             <div class="col-12 mt-4">
                                 <h4 class="text-theme-primary fs-16 fw-bold">Seller Business Details</h4>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="user_type"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('user_type') }}</label>
+                                <select class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="user_type"
+                                    required>
+                                    <option value="Company" @if ($user->seller->user_type == 'Company') selected @endif>Company
+                                    </option>
+                                    <option value="Individual" @if ($user->useller->ser_type == 'Individual') selected @endif>Individual
+                                    </option>
+                                </select>
                             </div>
 
                             <div class="col-md-6">
@@ -287,6 +300,18 @@
                             <!-- Buyer Details -->
                             <div class="col-12 mt-4">
                                 <h4 class="text-theme-primary fs-16 fw-bold">Buyer Details</h4>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="user_type"
+                                    class="form-label fs-14 text-theme-primary fw-bold">{{ __('user_type') }}</label>
+                                <select class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="user_type"
+                                    required>
+                                    <option value="Company" @if ($user->buyer->user_type == 'Company') selected @endif>Company
+                                    </option>
+                                    <option value="Individual" @if ($user->buyer->user_type == 'Individual') selected @endif>Individual
+                                    </option>
+                                </select>
                             </div>
 
                             {{-- <div class="col-md-6">

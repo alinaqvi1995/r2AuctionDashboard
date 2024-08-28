@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Product extends Model
 {
@@ -51,27 +52,27 @@ class Product extends Model
         'model_size',
         'payment_requirement',
     ];
-    
+
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id','id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-    
+
     public function subcategory()
     {
-        return $this->belongsTo(Subcategory::class, 'subcategory_id','id');
+        return $this->belongsTo(Subcategory::class, 'subcategory_id', 'id');
     }
-    
+
     public function manufacturer()
     {
-        return $this->belongsTo(Manufacturer::class, 'manufacturer_id','id');
+        return $this->belongsTo(Manufacturer::class, 'manufacturer_id', 'id');
     }
 
     // Define the relationship with Color
@@ -85,7 +86,7 @@ class Product extends Model
     {
         return $this->belongsToMany(Capacity::class, 'pivot_product_capacity', 'product_id', 'capacity_id');
     }
-    
+
     // Define the relationship with Region
     public function regions()
     {
@@ -149,5 +150,13 @@ class Product extends Model
     public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public static function activeBidProducts()
+    {
+        return self::whereHas('auctionSlot', function ($query) {
+            $query->where('auction_date', '<=', Carbon::now()->format('Y-m-d\TH:i'))
+                ->where('auction_date_end', '>=', Carbon::now()->format('Y-m-d\TH:i'));
+        })->get();
     }
 }

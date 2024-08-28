@@ -13,7 +13,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('bid_id')->default(0);
-            $table->string('payment_method');
+            $table->string('amount');
+            $table->string('payment_method')->nullable();
             $table->tinyInteger('payment_status')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
