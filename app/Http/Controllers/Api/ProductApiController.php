@@ -152,7 +152,7 @@ class ProductApiController extends Controller
             'subcategory',
             'auctionSlot',
             'images',
-            'manufacturer', 
+            'manufacturer',
             'bids'
         ]);
 
@@ -329,5 +329,74 @@ class ProductApiController extends Controller
         }
 
         return response()->json(['success' => false]);
+    }
+
+    public function filter(Request $request)
+    {
+        $query = Product::query();
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('manufacturer_id')) {
+            $query->where('manufacturer_id', $request->manufacturer_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('condition')) {
+            $query->where('condition', $request->condition);
+        }
+
+        if ($request->filled('min_price')) {
+            $query->where('buy_now_price', '>=', $request->min_price);
+        }
+        if ($request->filled('max_price')) {
+            $query->where('buy_now_price', '<=', $request->max_price);
+        }
+
+        if ($request->filled('min_quantity')) {
+            $query->where('quantity', '>=', $request->min_quantity);
+        }
+        if ($request->filled('max_quantity')) {
+            $query->where('quantity', '<=', $request->max_quantity);
+        }
+
+        if ($request->filled('color_id')) {
+            $query->whereHas('colors', function ($q) use ($request) {
+                $q->whereIn('id', $request->color_id);
+            });
+        }
+
+        if ($request->filled('capacity_id')) {
+            $query->whereHas('storages', function ($q) use ($request) {
+                $q->whereIn('id', $request->capacity_id);
+            });
+        }
+
+        $products = $query->with([
+            'colors',
+            'storages',
+            'regions',
+            'modelNumbers',
+            'lockStatuses',
+            'grades',
+            'carriers',
+            'rams',
+            'sizes',
+            'modelNames',
+            'category',
+            'user',
+            'subcategory',
+            'auctionSlot',
+            'images',
+            'manufacturer',
+            'bids'
+        ])->get();
+
+        return ProductResource::collection($products);
     }
 }
