@@ -377,6 +377,15 @@ class ProductApiController extends Controller
             });
         }
 
+        if ($request->filled('title')) {
+            $query->where('name', 'like', '%' . $request->title . '%');
+        }
+
+        if ($request->filled('sort_by') && $request->sort_by === 'ending_soon') {
+            $query->orderBy(AuctionSlot::select('auction_date_end')
+                ->whereColumn('auction_slots.id', 'products.auction_slot_id'), 'asc');
+        }
+
         $products = $query->with([
             'colors',
             'storages',
