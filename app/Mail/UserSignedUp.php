@@ -19,10 +19,10 @@ class UserSignedUp extends Mailable
 
     public function build()
     {
-        return $this->subject('Welcome to [App Name]!')
-                    ->view('emails.user_signed_up')
-                    ->with([
-                        'userName' => $this->user->name,
-                    ]);
+        return $this->subject('Welcome to ' . config('app.name') . '!')
+            ->view('emails.user_signed_up')
+            ->with([
+                'userName' => $this->user->name,
+            ]);
     }
 }
