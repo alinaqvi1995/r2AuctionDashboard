@@ -10,6 +10,8 @@ use App\Models\Seller;
 use App\Models\SellerGradingPolicy;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\UserSignedUp;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterApiController extends Controller
 {
@@ -137,6 +139,8 @@ class RegisterApiController extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
+        Mail::to('alinaqvif@gmail.com')->send(new UserSignedUp($user));
 
         return response()->json([
             'message' => 'User registered successfully',
