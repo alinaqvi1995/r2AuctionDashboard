@@ -45,10 +45,10 @@ class UserManagementController extends Controller
             'business_website' => ['nullable', 'string', 'max:255'],
             'business_desc' => ['nullable', 'string', 'max:500'],
             // 'role' => ['required', 'string', 'in:admin,buyer,seller,user'],
-            'status' => ['required', 'string'],
+            'status' => ['required'],
+            'admin_approval' => ['required'],
             // Add other validation rules for buyer and seller fields as necessary
         ]);
-
         
         if ($validator->fails()) {
             // dd($validator);
@@ -60,7 +60,7 @@ class UserManagementController extends Controller
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->input('password'));
         }
-
+        
         $user->update($data);
 
         // Handle Buyer or Seller update

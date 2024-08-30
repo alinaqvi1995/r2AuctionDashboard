@@ -59,7 +59,7 @@ class RegisterApiController extends Controller
         if ($role === 'buyer') {
             Buyer::create([
                 'user_id' => $user->id,
-                'buyer_type' => $validatedData['buyer_type'] ?? '',
+                'user_type' => $validatedData['user_type'] ?? '',
                 'first_name' => $validatedData['first_name'] ?? '',
                 'last_name' => $validatedData['last_name'] ?? '',
                 'business_type' => $validatedData['business_type'] ?? null,
@@ -108,6 +108,7 @@ class RegisterApiController extends Controller
             Seller::create([
                 'user_id' => $user->id,
                 'company_name' => $validatedData['company_name'] ?? '',
+                'user_type' => $validatedData['user_type'] ?? '',
                 'contact_phone' => $validatedData['contact_phone'] ?? '',
                 'first_name' => $validatedData['first_name'] ?? '',
                 'last_name' => $validatedData['last_name'] ?? '',

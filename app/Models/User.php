@@ -36,6 +36,7 @@ class User extends Authenticatable
         'password',
         'role',
         'status',
+        'admin_approval',
     ];
 
     /**
@@ -62,7 +63,7 @@ class User extends Authenticatable
         return $this->role == 'admin';
     }
 
-    public function user_type()
+    public function getUserTypeAttribute()
     {
         if ($this->buyer) {
             return $this->buyer->user_type;
@@ -72,7 +73,7 @@ class User extends Authenticatable
             return $this->seller->user_type;
         }
 
-        return null;
+        return '-';
     }
 
     public function buyer()

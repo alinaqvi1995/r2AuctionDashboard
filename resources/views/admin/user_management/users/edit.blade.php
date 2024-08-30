@@ -31,6 +31,17 @@
                             <h4 class="text-theme-primary fs-16 fw-bold">Basic Details</h4>
                         </div>
 
+                        <div class="col-12 text-center my-3">
+                            <button type="button"
+                                class="btn btn-outline-success admin-approval-btn @if ($user->admin_approval == 1) active @endif"
+                                data-value="1">Success</button>
+                            <button type="button"
+                                class="btn btn-outline-danger admin-approval-btn @if ($user->admin_approval == 0) active @endif"
+                                data-value="0">Danger</button>
+                            <input type="hidden" name="admin_approval" id="admin-approval"
+                                value="{{ $user->admin_approval }}">
+                        </div>
+
                         <div class="col-md-4">
                             <label for="name"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('First Name') }}</label>
@@ -118,9 +129,9 @@
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('user_type') }}</label>
                                 <select class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="user_type"
                                     required>
-                                    <option value="Company" @if ($user->seller->user_type == 'Company') selected @endif>Company
+                                    <option value="Company" @if ($user->user_type == 'Company') selected @endif>Company
                                     </option>
-                                    <option value="Individual" @if ($user->useller->ser_type == 'Individual') selected @endif>Individual
+                                    <option value="Individual" @if ($user->user_type == 'Individual') selected @endif>Individual
                                     </option>
                                 </select>
                             </div>
@@ -307,9 +318,10 @@
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('user_type') }}</label>
                                 <select class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="user_type"
                                     required>
-                                    <option value="Company" @if ($user->buyer->user_type == 'Company') selected @endif>Company
+                                    <option value="Company" @if ($user->user_type == 'Company') selected @endif>Company
                                     </option>
-                                    <option value="Individual" @if ($user->buyer->user_type == 'Individual') selected @endif>Individual
+                                    <option value="Individual" @if ($user->user_type == 'Individual') selected @endif>
+                                        Individual
                                     </option>
                                 </select>
                             </div>
@@ -486,4 +498,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('bottom_script')
+    <script>
+        $(document).ready(function() {
+            $('.admin-approval-btn').on('click', function() {
+                $('.admin-approval-btn').removeClass('active');
+                $(this).addClass('active');
+
+                var selectedValue = $(this).data('value');
+                $('#admin-approval').val(selectedValue);
+            });
+        });
+    </script>
 @endsection

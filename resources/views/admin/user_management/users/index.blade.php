@@ -49,7 +49,7 @@
                                         <th>Email</th>
                                         <th>Role</th>
                                         <th>Business Type</th>
-                                        {{-- <th>Business Type</th> --}}
+                                        <th>Admin Approval</th>
                                         <th>Status</th>
                                         <th>Date</th>
                                         <th>Action</th>
@@ -72,15 +72,21 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->role }}</td>
                                                 <td>
-                                                    @if ($user->role == 'buyer' && isset($user->buyer))
-                                                        {{ $user->buyer->user_type }}
+                                                    {{ $user->user_type }}
+                                                    {{-- @if ($user->role == 'buyer' && isset($user->buyer))
                                                     @elseif ($user->role == 'seller' && isset($user->seller))
-                                                        {{ $user->seller->user_type }}
+                                                        {{ $user->user_type }}
                                                     @else
                                                         N/A
+                                                    @endif --}}
+                                                </td>
+                                                <td>
+                                                    @if ($user->admin_approval == 0)
+                                                        <span class="badge badge-danger">Inactive</span>
+                                                    @elseif($user->admin_approval == 1)
+                                                        <span class="badge badge-success">Active</span>
                                                     @endif
                                                 </td>
-                                                {{-- <td>{{ $user->user_type }}</td> --}}
                                                 <td>
                                                     @if ($user->status == 1)
                                                         <span class="badge badge-success">Active</span>
