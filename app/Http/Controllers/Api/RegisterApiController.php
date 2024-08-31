@@ -297,15 +297,24 @@ class RegisterApiController extends Controller
                 $policyTitles = $request->input('policy_grade_title');
                 $policyDescriptions = $request->input('policy_grade_description');
             
+                $policyIdsToKeep = [];
+            
                 foreach ($policyTitles as $index => $title) {
                     $description = $policyDescriptions[$index];
             
-                    SellerGradingPolicy::updateOrCreate(
-                        ['seller_id' => $seller->id, 'id' => $policy['id'] ?? null],
-                        ['grade' => $title, 'description' => $description]
+                    $gradingPolicy = SellerGradingPolicy::updateOrCreate(
+                        ['seller_id' => $seller->id, 'grade' => $title],
+                        ['description' => $description]
                     );
+            
+                    $policyIdsToKeep[] = $gradingPolicy->id;
                 }
+            
+                SellerGradingPolicy::where('seller_id', $seller->id)
+                    ->whereNotIn('id', $policyIdsToKeep)
+                    ->delete();
             }
+            
         }
 
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
