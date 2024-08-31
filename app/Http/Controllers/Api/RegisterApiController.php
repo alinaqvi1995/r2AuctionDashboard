@@ -140,7 +140,7 @@ class RegisterApiController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        Mail::to('alinaqvif@gmail.com')->send(new UserSignedUp($user));
+        Mail::to($user->email)->send(new UserSignedUp($user));
 
         return response()->json([
             'message' => 'User registered successfully',
@@ -217,7 +217,8 @@ class RegisterApiController extends Controller
                 'shipping_same_as_primary_contact',
                 'payment_method',
                 'bank_name',
-                'account_title'
+                'account_title',
+                'user_typ'
             ]);
 
             $buyer = Buyer::firstOrNew(['user_id' => $user->id]);
@@ -247,6 +248,7 @@ class RegisterApiController extends Controller
                 'company_name',
                 'contact_phone',
                 'first_name',
+                'user_typ',
                 'last_name',
                 'linkedIn',
                 'whatsapp',

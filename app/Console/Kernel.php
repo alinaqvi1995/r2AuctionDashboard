@@ -15,8 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Schedule the command to create orders from bids every minute
         $schedule->command('orders:create-from-bids')->everyMinute();
+        
+        // Schedule the command to send inactivity reminders daily
+        $schedule->command('reminders:no-activity')->daily(); // Adjust the frequency as needed
     }
 
     /**
