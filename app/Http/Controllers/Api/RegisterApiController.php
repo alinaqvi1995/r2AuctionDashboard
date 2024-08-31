@@ -293,12 +293,16 @@ class RegisterApiController extends Controller
 
             $seller->save();
 
-            if ($request->has('gradingPolicies')) {
-                $gradingPolicies = $request->input('gradingPolicies');
-                foreach ($gradingPolicies as $policy) {
-                    $gradingPolicy = SellerGradingPolicy::updateOrCreate(
+            if ($request->has('policy_grade_title') && $request->has('policy_grade_description')) {
+                $policyTitles = $request->input('policy_grade_title');
+                $policyDescriptions = $request->input('policy_grade_description');
+            
+                foreach ($policyTitles as $index => $title) {
+                    $description = $policyDescriptions[$index];
+            
+                    SellerGradingPolicy::updateOrCreate(
                         ['seller_id' => $seller->id, 'id' => $policy['id'] ?? null],
-                        ['grade' => $policy['grade'], 'description' => $policy['description']]
+                        ['grade' => $title, 'description' => $description]
                     );
                 }
             }
