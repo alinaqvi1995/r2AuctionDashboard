@@ -218,7 +218,7 @@ class RegisterApiController extends Controller
                 'payment_method',
                 'bank_name',
                 'account_title',
-                'user_typ'
+                'user_type'
             ]);
 
             $buyer = Buyer::firstOrNew(['user_id' => $user->id]);
@@ -248,7 +248,7 @@ class RegisterApiController extends Controller
                 'company_name',
                 'contact_phone',
                 'first_name',
-                'user_typ',
+                'user_type',
                 'last_name',
                 'linkedIn',
                 'whatsapp',
