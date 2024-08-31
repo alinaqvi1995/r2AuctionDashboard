@@ -18,7 +18,7 @@ class UserApiController extends Controller
 
     public function show($id)
     {
-        $user = User::with('buyer', 'seller')->findOrFail($id);
+        $user = User::with('buyer', 'seller', 'seller.gradingPolicies')->findOrFail($id);
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
