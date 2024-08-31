@@ -218,6 +218,7 @@ class RegisterApiController extends Controller
                 'payment_method',
                 'bank_name',
                 'account_title',
+                'security_deposit',
                 'user_type'
             ]);
 
@@ -225,7 +226,7 @@ class RegisterApiController extends Controller
             $buyer->fill($buyerData);
 
             $buyerFiles = [
-                'security_deposit',
+                // 'security_deposit',
                 'business_license',
                 'address_proof',
                 'owner_eid',
