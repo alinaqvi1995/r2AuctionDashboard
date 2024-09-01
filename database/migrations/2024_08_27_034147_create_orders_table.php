@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('bid_id')->default(0);
             $table->string('amount');
+            $table->string('order_type');
             $table->string('payment_method')->nullable();
             $table->tinyInteger('payment_status')->default(0);
             $table->tinyInteger('status')->default(0);

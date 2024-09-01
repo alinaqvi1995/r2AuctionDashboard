@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\SellerDashboardApiController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\WishListController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Api\BuyerDashboardController;
 
 /*
@@ -72,6 +73,15 @@ Route::prefix('users')->group(function () {
     Route::post('/', [UserApiController::class, 'store']);
     Route::post('/{id}', [UserApiController::class, 'update']);
     Route::delete('/{id}', [UserApiController::class, 'destroy']);
+});
+
+// user
+Route::prefix('orders')->group(function () {
+    // Route::get('/', [UserApiController::class, 'index']);
+    // Route::get('/{id}', [UserApiController::class, 'show']);
+    Route::post('/', [OrderController::class, 'store']);
+    // Route::post('/{id}', [UserApiController::class, 'update']);
+    // Route::delete('/{id}', [UserApiController::class, 'destroy']);
 });
 
 // user

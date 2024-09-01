@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Charge;
@@ -23,6 +24,17 @@ class OrderController extends Controller
 
         $validatedData['bid_id'] = $request->input('bid_id', 0);
         $validatedData['status'] = 0;
+
+        $product = Product::findOrFail($validatedData['product_id']);
+
+        if ($request->input('order_type') && $request->input('order_type') == 'buy_now') {
+            $validatedData['amount'] = $product->buy_now_price;
+            $validatedData['order_type'] = 'buy_now';
+        } else {
+            $highestBid = $product->bids()->orderBy('amount', 'desc')->first();
+            $validatedData['amount'] = $highestBid ? $highestBid->amount : 0;
+            $validatedData['order_type'] = 'auction';
+        }
 
         // if ($validatedData['payment_method'] === 'cheque') {
         //     $validatedData['payment_status'] = 0;
