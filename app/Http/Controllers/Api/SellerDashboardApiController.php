@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Bid;
 
 class SellerDashboardApiController extends Controller
@@ -48,7 +51,7 @@ class SellerDashboardApiController extends Controller
     {
         $products = Product::where('user_id', $id)
             ->whereHas('bids')
-            ->with('bids','images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+            ->with('bids', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
             ->get();
 
         $data = [
@@ -65,4 +68,19 @@ class SellerDashboardApiController extends Controller
 
         return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
     }
+
+    public function mySales($user_id)
+    {
+        $products = Product::where('user_id', $user_id)->pluck('id');
+
+        $orders = Order::with(['user', 'product'])
+            ->whereIn('product_id', $products)
+            ->get();
+
+        return response()->json([
+            'message' => 'My Sales retrieved successfully.',
+            'sales' => $orders,
+        ]);
+    }
+
 }
