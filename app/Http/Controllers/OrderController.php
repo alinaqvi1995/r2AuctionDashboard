@@ -43,7 +43,7 @@ class OrderController extends Controller
                 $this->deleteImage($validatedData['payment_recipt']);
             }
             $imagePath = $this->uploadImage($request->file('payment_recipt'), 'payment_recipt');
-            $validatedData['payment_recipt'] = url('storage/payment_recipt/' . $imagePath);
+            $validatedData['payment_recipt'] = url('/') . '/' . 'payment_recipt/' . $imagePath;
         }
 
         $order = Order::create($validatedData);
