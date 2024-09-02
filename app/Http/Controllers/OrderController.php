@@ -16,10 +16,8 @@ class OrderController extends Controller
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'bid_id' => 'nullable|exists:bids,id',
-            // 'payment_method' => 'required|string|in:cheque,stripe',
-            // 'payment_status' => 'required|integer',
-            // 'amount' => 'required_if:payment_method,stripe|numeric|min:0.01',
-            // 'stripe_token' => 'required_if:payment_method,stripe|string',
+            'order_type' => 'required|string|in:buy_now,auction',
+            'payment_method' => 'nullable|string|in:cheque,stripe',
         ]);
 
         $validatedData['bid_id'] = $request->input('bid_id', 0);
@@ -27,33 +25,26 @@ class OrderController extends Controller
 
         $product = Product::findOrFail($validatedData['product_id']);
 
-        if ($request->input('order_type') && $request->input('order_type') == 'buy_now') {
+        if ($validatedData['order_type'] == 'buy_now') {
             $validatedData['amount'] = $product->buy_now_price;
-            $validatedData['order_type'] = 'buy_now';
         } else {
             $highestBid = $product->bids()->orderBy('amount', 'desc')->first();
             $validatedData['amount'] = $highestBid ? $highestBid->amount : 0;
-            $validatedData['order_type'] = 'auction';
         }
 
-        // if ($validatedData['payment_method'] === 'cheque') {
-        //     $validatedData['payment_status'] = 0;
-        // } elseif ($validatedData['payment_method'] === 'stripe') {
-        //     Stripe::setApiKey(env('STRIPE_SECRET'));
+        if ($validatedData['amount'] <= 0) {
+            return response()->json([
+                'message' => 'Invalid amount. The amount must be greater than 0.',
+            ], 400);
+        }
 
-        //     try {
-        //         $charge = Charge::create([
-        //             'amount' => $validatedData['amount'] * 100,
-        //             'currency' => 'usd',
-        //             'source' => $validatedData['stripe_token'],
-        //             'description' => 'Order Payment',
-        //         ]);
-
-        //         $validatedData['payment_status'] = 1;
-        //     } catch (\Exception $e) {
-        //         return response()->json(['error' => 'Payment failed: ' . $e->getMessage()], 500);
-        //     }
-        // }
+        if ($request->hasFile('payment_recipt')) {
+            if (isset($validatedData['payment_recipt'])) {
+                $this->deleteImage($validatedData['payment_recipt']);
+            }
+            $imagePath = $this->uploadImage($request->file('payment_recipt'), 'payment_recipt');
+            $validatedData['payment_recipt'] = url('storage/payment_recipt/' . $imagePath);
+        }
 
         $order = Order::create($validatedData);
 
@@ -62,6 +53,25 @@ class OrderController extends Controller
             'order' => $order,
         ], 201);
     }
+
+    // if ($validatedData['payment_method'] === 'cheque') {
+    //     $validatedData['payment_status'] = 0;
+    // } elseif ($validatedData['payment_method'] === 'stripe') {
+    //     Stripe::setApiKey(env('STRIPE_SECRET'));
+
+    //     try {
+    //         $charge = Charge::create([
+    //             'amount' => $validatedData['amount'] * 100,
+    //             'currency' => 'usd',
+    //             'source' => $validatedData['stripe_token'],
+    //             'description' => 'Order Payment',
+    //         ]);
+
+    //         $validatedData['payment_status'] = 1;
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => 'Payment failed: ' . $e->getMessage()], 500);
+    //     }
+    // }
 
     public function updateStatus(Request $request, $id)
     {

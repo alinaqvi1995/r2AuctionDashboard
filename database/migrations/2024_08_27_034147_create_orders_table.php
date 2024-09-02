@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('order_type');
             $table->string('payment_method')->nullable();
             $table->tinyInteger('payment_status')->default(0);
+            $table->string('payment_recipt')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

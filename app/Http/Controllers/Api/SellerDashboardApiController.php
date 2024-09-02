@@ -77,10 +77,16 @@ class SellerDashboardApiController extends Controller
             ->whereIn('product_id', $products)
             ->get();
 
+        $total_sales = $orders->sum('amount');
+        $pending_sales = $orders->where('payment_status', 0)->sum('amount');
+        $no_of_items_sold = $orders->count();
+
         return response()->json([
             'message' => 'My Sales retrieved successfully.',
             'sales' => $orders,
+            'total_sales' => $total_sales,
+            'pending_sales' => $pending_sales,
+            'no_of_items_sold' => $no_of_items_sold,
         ]);
     }
-
 }

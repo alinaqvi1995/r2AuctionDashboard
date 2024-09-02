@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Bid;
+use App\Models\Order;
 
 class BuyerDashboardController extends Controller
 {
@@ -98,5 +99,28 @@ class BuyerDashboardController extends Controller
         } else {
             return response()->json(['error' => 'No products available'], 500);
         }
+    }
+
+    public function myOrders($user_id)
+    {
+        $orders = Order::with([
+            'product' => function ($query) {
+                $query->with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user')
+                    ->where('admin_approval', 1)
+                    ->where('status', 1);
+            }
+        ])->where('user_id', $user_id)->get();
+
+        $orders_awaiting_payment = $orders->where('payment_status', 0)->count();
+        $total_due = $orders->where('payment_status', 0)->sum('amount');
+        $oldest_order = $orders->sortBy('created_at')->first();
+
+        return response()->json([
+            'message' => 'My Orders retrieved successfully.',
+            'orders_awaiting_payment' => $orders_awaiting_payment,
+            'total_due' => $total_due,
+            'oldest_order' => $oldest_order,
+            'orders' => $orders,
+        ]);
     }
 }

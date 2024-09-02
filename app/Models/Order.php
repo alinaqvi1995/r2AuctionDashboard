@@ -14,8 +14,11 @@ class Order extends Model
         'product_id',
         'bid_id',
         'payment_method',
-        'payment_status',
-        'status'
+        'amount',
+        'order_type',
+        'payment_recipt',
+        'payment_status',   // 0 = pending, 1 = paid
+        'status',   // 0 = pending, 1 = shipped
     ];
 
     public function user()
