@@ -64,4 +64,14 @@ class Bid extends Model
                 ->where('auction_date_end', '>=', Carbon::now()->format('Y-m-d\TH:i'));
         })->get();
     }
+
+    public function scopeWithReserveCheck($query)
+    {
+        return $query->with(['product' => function($query) {
+            $query->select('id', 'reserve_price');
+        }])->get()->map(function($bid) {
+            $bid->is_above_reserve_price = $bid->bid_amount > $bid->product->reserve_price;
+            return $bid;
+        });
+    }
 }
