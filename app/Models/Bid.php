@@ -48,32 +48,11 @@ class Bid extends Model
         return $this->hasOne(Order::class);
     }
 
-    public function getIsAboveReservePriceAttribute()
-    {
-        if ($this->product) {
-            return $this->bid_amount > $this->product->reserve_price;
-        }
-
-        return false;
-    }
-
     public static function activeBids()
     {
         return self::whereHas('product.auctionSlot', function ($query) {
             $query->where('auction_date', '<=', Carbon::now()->format('Y-m-d\TH:i'))
                 ->where('auction_date_end', '>=', Carbon::now()->format('Y-m-d\TH:i'));
         })->get();
-    }
-
-    public function scopeWithReserveCheck($query)
-    {
-        return $query->with([
-            'product' => function ($query) {
-                $query->select('id', 'reserve_price');
-            }
-        ])->get()->map(function ($bid) {
-            $bid->is_above_reserve_price = $bid->bid_amount > $bid->product->reserve_price;
-            return $bid->toArray();  // Convert the bid to an array to include the new attribute
-        });
     }
 }
