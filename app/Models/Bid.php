@@ -50,7 +50,11 @@ class Bid extends Model
 
     public function getIsAboveReservePriceAttribute()
     {
-        return $this->product ? $this->bid_amount > $this->product->reserve_price : false;
+        if ($this->product) {
+            return $this->bid_amount > $this->product->reserve_price;
+        }
+
+        return false;
     }
 
     public static function activeBids()
