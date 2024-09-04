@@ -96,28 +96,41 @@ class SellerDashboardApiController extends Controller
 
         $query = Order::with(['user', 'product']);
 
-        if ($request->filled('buyer_name')) {
-            $query->whereHas('user', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->input('buyer_name') . '%');
+        if ($request->filled('search_keyword')) {
+            $keyword = $request->input('search_keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->whereHas('user', function ($query) use ($keyword) {
+                    $query->where('name', 'like', '%' . $keyword . '%');
+                })->orWhereHas('product', function ($query) use ($keyword) {
+                    $query->where('name', 'like', '%' . $keyword . '%');
+                })->orWhere('status', 'like', '%' . $keyword . '%')
+                    ->orWhere('payment_status', 'like', '%' . $keyword . '%')
+                    ->orWhere('order_type', 'like', '%' . $keyword . '%');
             });
-        }
+        } else {
+            if ($request->filled('buyer_name')) {
+                $query->whereHas('user', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->input('buyer_name') . '%');
+                });
+            }
 
-        if ($request->filled('product_name')) {
-            $query->whereHas('product', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->input('product_name') . '%');
-            });
-        }
+            if ($request->filled('product_name')) {
+                $query->whereHas('product', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->input('product_name') . '%');
+                });
+            }
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->input('status'));
-        }
+            if ($request->filled('status')) {
+                $query->where('status', $request->input('status'));
+            }
 
-        if ($request->filled('payment_status')) {
-            $query->where('payment_status', $request->input('payment_status'));
-        }
+            if ($request->filled('payment_status')) {
+                $query->where('payment_status', $request->input('payment_status'));
+            }
 
-        if ($request->filled('order_type')) {
-            $query->where('order_type', $request->input('order_type'));
+            if ($request->filled('order_type')) {
+                $query->where('order_type', $request->input('order_type'));
+            }
         }
 
         $query->whereHas('product', function ($q) use ($seller) {
