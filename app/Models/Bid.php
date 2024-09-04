@@ -48,6 +48,15 @@ class Bid extends Model
         return $this->hasOne(Order::class);
     }
 
+    public function getIsAboveReservePriceAttribute()
+    {
+        if ($this->product) {
+            return $this->bid_amount > $this->product->reserve_price;
+        }
+
+        return false;
+    }
+
     public static function activeBids()
     {
         return self::whereHas('product.auctionSlot', function ($query) {

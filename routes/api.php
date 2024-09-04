@@ -108,6 +108,7 @@ Route::prefix('seller')->group(function () {
     Route::get('/{id}', [SellerDashboardApiController::class, 'dashboard']);
     Route::get('/bid_products/{id}', [SellerDashboardApiController::class, 'bid_products']);
     Route::get('/my_sales/{user_id}', [SellerDashboardApiController::class, 'mySales']);
+    Route::get('/orders/filter/{seller_id}', [OrderController::class, 'filterOrders']);
 });
 
 Route::get('/buyerProducts', [BuyerDashboardController::class, 'buyer_dashboard_products']);

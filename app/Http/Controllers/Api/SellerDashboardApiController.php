@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Bid;
+use App\Models\Seller;
 
 class SellerDashboardApiController extends Controller
 {
@@ -89,4 +90,47 @@ class SellerDashboardApiController extends Controller
             'no_of_items_sold' => $no_of_items_sold,
         ]);
     }
+
+    public function filterOrders(Request $request, $seller_id)
+    {
+        $seller = Seller::where('user_id', $seller_id)->firstOrFail();
+
+        $query = Order::with(['user', 'product']);
+
+        if ($request->filled('buyer_name')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->input('buyer_name') . '%');
+            });
+        }
+
+        if ($request->filled('product_name')) {
+            $query->whereHas('product', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->input('product_name') . '%');
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status', $request->input('payment_status'));
+        }
+
+        if ($request->filled('order_type')) {
+            $query->where('order_type', $request->input('order_type'));
+        }
+
+        $query->whereHas('product', function ($q) use ($seller) {
+            $q->where('user_id', $seller->user_id);
+        });
+
+        $orders = $query->get();
+
+        return response()->json([
+            'message' => 'Filtered orders retrieved successfully.',
+            'orders' => $orders,
+        ]);
+    }
+
 }
