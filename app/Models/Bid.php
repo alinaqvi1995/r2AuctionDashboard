@@ -67,11 +67,13 @@ class Bid extends Model
 
     public function scopeWithReserveCheck($query)
     {
-        return $query->with(['product' => function($query) {
-            $query->select('id', 'reserve_price');
-        }])->get()->map(function($bid) {
+        return $query->with([
+            'product' => function ($query) {
+                $query->select('id', 'reserve_price');
+            }
+        ])->get()->map(function ($bid) {
             $bid->is_above_reserve_price = $bid->bid_amount > $bid->product->reserve_price;
-            return $bid;
+            return $bid->toArray();  // Convert the bid to an array to include the new attribute
         });
     }
 }
