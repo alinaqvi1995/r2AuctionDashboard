@@ -50,9 +50,27 @@ class SellerDashboardApiController extends Controller
 
     public function bid_products($id)
     {
+        // $products = Product::where('user_id', $id)
+        //     ->whereHas('bids')
+        //     ->with('bids', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+        //     ->get();
+
+        // $data = [
+        //     'bid_products' => $products,
+        // ];
         $products = Product::where('user_id', $id)
             ->whereHas('bids')
-            ->with('bids', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+            ->with([
+                'bids' => function ($query) {
+                    $query->withReserveCheck();
+                },
+                'images',
+                'storages',
+                'category',
+                'lockStatuses',
+                'manufacturer',
+                'auctionSlot'
+            ])
             ->get();
 
         $data = [
@@ -61,7 +79,7 @@ class SellerDashboardApiController extends Controller
 
         return response()->json(['data' => $data], 200);
     }
-        public function bid_accept($id)
+    public function bid_accept($id)
     {
         $bid = Bid::findOrFail($id);
         $bid->update(['status' => 1]);
