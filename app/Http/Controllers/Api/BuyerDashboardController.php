@@ -117,9 +117,12 @@ class BuyerDashboardController extends Controller
 
         return response()->json([
             'message' => 'My Orders retrieved successfully.',
-            'orders_awaiting_payment' => $orders_awaiting_payment,
-            'total_due' => $total_due,
-            'oldest_order' => $oldest_order,
+            // 'orders_awaiting_payment' => $orders_awaiting_payment,
+            // 'total_due' => $total_due,
+            // 'oldest_order' => $oldest_order,
+            'orders_awaiting_payment' => 0,
+            'total_due' => 0,
+            'oldest_order' => 0,
             'orders' => $orders,
         ]);
     }
