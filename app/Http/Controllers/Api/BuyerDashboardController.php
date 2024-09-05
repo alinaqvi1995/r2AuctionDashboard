@@ -113,7 +113,7 @@ class BuyerDashboardController extends Controller
 
         $orders_awaiting_payment = $orders->where('payment_status', 0)->count();
         $total_due = $orders->where('payment_status', 0)->sum('amount');
-        $oldest_order = $orders->sortBy('created_at')->first();
+        $oldest_order = $orders->sortBy('created_at')->count();
 
         return response()->json([
             'message' => 'My Orders retrieved successfully.',
