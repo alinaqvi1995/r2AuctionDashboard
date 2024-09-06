@@ -389,11 +389,17 @@ class ProductApiController extends Controller
             $query->where('name', 'like', '%' . $request->title . '%');
         }
 
-        if ($request->filled('sort_by') && $request->sort_by === 'ending_soon') {
-            $query->orderBy(AuctionSlot::select('auction_date_end')
-                ->whereColumn('auction_slots.id', 'products.auction_slot_id'), 'asc');
-        }
+        // if ($request->filled('sort_by') && $request->sort_by === 'ending_soon') {
+        //     $query->orderBy(AuctionSlot::select('auction_date_end')
+        //         ->whereColumn('auction_slots.id', 'products.auction_slot_id'), 'asc');
+        // }
 
+        if ($request->filled('sort_by') && $request->sort_by === 'desc') {
+            $query->orderBy('id', 'desc');
+        } else {
+            $query->orderBy('id', 'asc');
+        }
+        
         $products = $query->with([
             'colors',
             'storages',
