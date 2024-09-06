@@ -32,7 +32,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 // Product
 Route::post('/products', [ProductApiController::class, 'store']);
 Route::get('/products', [ProductApiController::class, 'index']);

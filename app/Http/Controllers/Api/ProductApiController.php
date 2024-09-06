@@ -341,7 +341,6 @@ class ProductApiController extends Controller
 
     public function filter(Request $request)
     {
-        dd($request->toArray());
         $query = Product::query();
 
         if ($request->filled('category_id')) {
@@ -394,8 +393,6 @@ class ProductApiController extends Controller
             $query->orderBy(AuctionSlot::select('auction_date_end')
                 ->whereColumn('auction_slots.id', 'products.auction_slot_id'), 'asc');
         }
-
-        dd($query->get()->toArray());
 
         $products = $query->with([
             'colors',
