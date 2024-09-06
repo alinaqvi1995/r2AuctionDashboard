@@ -341,6 +341,7 @@ class ProductApiController extends Controller
 
     public function filter(Request $request)
     {
+        dd($request->toArray());
         $query = Product::query();
 
         if ($request->filled('category_id')) {
