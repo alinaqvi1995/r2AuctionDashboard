@@ -339,7 +339,7 @@ class ProductApiController extends Controller
         return response()->json(['success' => false]);
     }
 
-    public function filter(Request $request)
+    public function filterProducts(Request $request)
     {
         dd($request->toArray());
         $query = Product::query();
