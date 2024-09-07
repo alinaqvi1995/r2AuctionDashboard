@@ -80,7 +80,7 @@ class SellerDashboardApiController extends Controller
         $orders = Order::with([
             'user',
             'product' => function ($query) {
-                $query->with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user')
+                $query->with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user', 'user')
                     ->where('admin_approval', 1)
                     ->where('status', 1);
             }
