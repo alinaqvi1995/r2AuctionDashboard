@@ -79,7 +79,7 @@ class SellerDashboardApiController extends Controller
 
         $orders = Order::with([
             'user',
-            'product.user',
+            'user.buyer',
             'product' => function ($query) {
                 $query->with(
                     'colors',
