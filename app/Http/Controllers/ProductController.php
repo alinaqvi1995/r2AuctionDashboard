@@ -61,52 +61,6 @@ class ProductController extends Controller
         return view('admin.products.create', compact('products', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier', 'rams', 'sizes', 'modelNames', 'auctionSlots'));
     }
 
-    public function edit($id)
-    {
-        $product = Product::with([
-            'category',
-            'subcategory',
-            'manufacturer',
-            'colors',
-            'storages',
-            'regions',
-            'modelNumbers',
-            'lockStatuses',
-            'grades',
-            'carriers'
-        ])->findOrFail($id);
-
-        $categories = Category::all();
-        $subcategories = Subcategory::where('category_id', $product->category_id)->get();
-        $capacity = Capacity::get();
-        $colors = Color::get();
-        $manufacturer = Manufacturer::get();
-        $regions = Region::get();
-        $modelNumber = ModelNumber::get();
-        $lockStatus = LockStatus::get();
-        $grade = Grade::get();
-        $carrier = Carrier::get();
-        $auctionSlots = AuctionSlot::get();
-
-        return view(
-            'admin.products.edit',
-            compact(
-                'product',
-                'categories',
-                'subcategories',
-                'capacity',
-                'colors',
-                'manufacturer',
-                'regions',
-                'modelNumber',
-                'lockStatus',
-                'grade',
-                'carrier',
-                'auctionSlots'
-            )
-        );
-    }
-
     public function store(Request $request)
     {
         // dd($request->toArray());
@@ -206,6 +160,59 @@ class ProductController extends Controller
         $products = Product::all();
         $table_html = view('admin.products.table', compact('products'))->render();
         return response()->json(['message' => 'Product created successfully', 'table_html' => $table_html], 200);
+    }
+
+    public function edit($id)
+    {
+        $product = Product::with([
+            'colors',
+            'storages',
+            'regions',
+            'modelNumbers',
+            'lockStatuses',
+            'grades',
+            'carriers',
+            'rams',
+            'sizes',
+            'modelNames',
+            'category',
+            'user',
+            'subcategory',
+            'auctionSlot',
+            'images',
+            'manufacturer',
+            'bids'
+        ])->findOrFail($id);
+
+        $categories = Category::all();
+        $subcategories = Subcategory::where('category_id', $product->category_id)->get();
+        $capacity = Capacity::get();
+        $colors = Color::get();
+        $manufacturer = Manufacturer::get();
+        $regions = Region::get();
+        $modelNumber = ModelNumber::get();
+        $lockStatus = LockStatus::get();
+        $grade = Grade::get();
+        $carrier = Carrier::get();
+        $auctionSlots = AuctionSlot::get();
+
+        return view(
+            'admin.products.edit',
+            compact(
+                'product',
+                'categories',
+                'subcategories',
+                'capacity',
+                'colors',
+                'manufacturer',
+                'regions',
+                'modelNumber',
+                'lockStatus',
+                'grade',
+                'carrier',
+                'auctionSlots'
+            )
+        );
     }
 
     public function update(Request $request, Product $product)

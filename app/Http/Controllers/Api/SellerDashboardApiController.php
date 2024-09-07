@@ -73,7 +73,18 @@ class SellerDashboardApiController extends Controller
     {
         $products = Product::where('user_id', $user_id)->pluck('id');
 
-        $orders = Order::with(['user', 'product'])
+        // $orders = Order::with(['user', 'product'])
+        //     ->whereIn('product_id', $products)
+        //     ->get();
+
+        $orders = Order::with([
+            'user',
+            'product' => function ($query) {
+                $query->with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user')
+                    ->where('admin_approval', 1)
+                    ->where('status', 1);
+            }
+        ])
             ->whereIn('product_id', $products)
             ->get();
 
