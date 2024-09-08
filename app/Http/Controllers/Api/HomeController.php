@@ -29,8 +29,8 @@ class HomeController extends Controller
                 ->where('auction_date_end', '>=', now());
         })->get();
 
-        $feedback = ClientsFeedback::where('status', 1)->get();
-        $news = News::where('status', 1)->get();
+        $feedback = ClientsFeedback::where('status', 1)->get()->take(3);
+        $news = News::where('status', 1)->get()->take(3);
 
         return response()->json([
             'products' => $products,
