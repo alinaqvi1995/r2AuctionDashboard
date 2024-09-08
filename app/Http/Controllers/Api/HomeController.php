@@ -23,7 +23,8 @@ class HomeController extends Controller
             'carriers',
             'rams',
             'sizes',
-            'modelNames'
+            'modelNames',
+            'media'
         ])->whereHas('auctionSlot', function ($query) {
             $query->where('auction_date', '<=', now())
                 ->where('auction_date_end', '>=', now());

@@ -179,6 +179,18 @@
                     <span class="ml-3 item-text">Auction Slots</span>
                 </a>
             </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('news.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">News</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('clients.feedback.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Feedback</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </aside>
