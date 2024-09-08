@@ -368,7 +368,7 @@ class ProductApiController extends Controller
         } elseif ($request->filled('max_price')) {
             $query->where('minimum_bid_price', '<=', $request->max_price);
         }
-        
+
         if ($request->filled('min_quantity')) {
             $query->where('quantity', '>=', $request->min_quantity);
         }
@@ -402,7 +402,7 @@ class ProductApiController extends Controller
         } else {
             $query->orderBy('id', 'asc');
         }
-        
+
         $products = $query->with([
             'colors',
             'storages',
@@ -422,7 +422,11 @@ class ProductApiController extends Controller
             'manufacturer',
             'bids'
         ])->get();
-
-        return ProductResource::collection($products);
+        
+        $products;
+        return response()->json([
+            'message' => 'My Orders retrieved successfully.',
+            'products' => $products,
+        ]);
     }
 }
