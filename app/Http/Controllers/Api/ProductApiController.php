@@ -359,13 +359,16 @@ class ProductApiController extends Controller
             $query->where('condition', $request->condition);
         }
 
-        if ($request->filled('min_price')) {
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            if ($request->min_price <= $request->max_price) {
+                $query->whereBetween('minimum_bid_price', [$request->min_price, $request->max_price]);
+            }
+        } elseif ($request->filled('min_price')) {
             $query->where('minimum_bid_price', '>=', $request->min_price);
-        }
-        if ($request->filled('max_price')) {
+        } elseif ($request->filled('max_price')) {
             $query->where('minimum_bid_price', '<=', $request->max_price);
         }
-
+        
         if ($request->filled('min_quantity')) {
             $query->where('quantity', '>=', $request->min_quantity);
         }
