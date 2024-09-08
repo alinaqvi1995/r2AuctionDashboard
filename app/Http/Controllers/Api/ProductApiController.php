@@ -360,9 +360,9 @@ class ProductApiController extends Controller
         }
 
         if ($request->filled('min_price') && $request->filled('max_price')) {
-            if ($request->min_price <= $request->max_price) {
-                $query->whereBetween('minimum_bid_price', [$request->min_price, $request->max_price]);
-            }
+            // if ($request->min_price <= $request->max_price) {
+            $query->whereBetween('minimum_bid_price', [$request->min_price, $request->max_price]);
+            // }
         }
         // } elseif ($request->filled('min_price')) {
         //     $query->where('minimum_bid_price', '>=', $request->min_price);
