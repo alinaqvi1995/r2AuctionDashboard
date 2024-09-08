@@ -35,7 +35,7 @@ class ClientsFeedbackController extends Controller
 
         $feedback = ClientsFeedback::create(array_merge(
             $request->except('image'),
-            ['image' => $imagePath]
+            ['image' => url('/') . '/clients_feedback' . '/' . $imagePath]
         ));
 
         if ($feedback) {
@@ -73,7 +73,7 @@ class ClientsFeedbackController extends Controller
 
             if ($request->hasFile('image')) {
                 $imagePath = $this->uploadImage($request->file('image'), 'clients_feedback');
-                $data['image'] = $imagePath;
+                $data['image'] = url('/') . '/clients_feedback' . '/' . $imagePath;
             }
 
             $feedback->update($data);
