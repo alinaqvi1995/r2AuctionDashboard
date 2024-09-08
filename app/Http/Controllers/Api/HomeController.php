@@ -26,6 +26,7 @@ class HomeController extends Controller
             $query->where('auction_date', '<=', now())
                   ->where('auction_date_end', '>=', now());
         })->get();
-        return ProductResource::collection($products);
+
+        return $products;
     }
 }
