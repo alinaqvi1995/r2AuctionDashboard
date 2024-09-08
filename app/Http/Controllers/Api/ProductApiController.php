@@ -428,7 +428,6 @@ class ProductApiController extends Controller
 
         $products;
         return response()->json([
-            'message' => 'My Orders retrieved successfully.',
             'products' => $products,
         ]);
     }
