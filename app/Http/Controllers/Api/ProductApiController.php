@@ -360,10 +360,10 @@ class ProductApiController extends Controller
         }
 
         if ($request->filled('min_price')) {
-            $query->where('buy_now_price', '>=', $request->min_price);
+            $query->where('minimum_bid_price', '>=', $request->min_price);
         }
         if ($request->filled('max_price')) {
-            $query->where('buy_now_price', '<=', $request->max_price);
+            $query->where('minimum_bid_price', '<=', $request->max_price);
         }
 
         if ($request->filled('min_quantity')) {
