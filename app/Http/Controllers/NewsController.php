@@ -28,6 +28,7 @@ class NewsController extends Controller
 
         if ($request->hasFile('image')) {
             $imagePath = $this->uploadImage($request->file('image'), 'news');
+            $imageFullUrl = url('/') . '/' . $imagePath;
         } else {
             return response()->json(['error' => 'Image upload failed'], 500);
         }
