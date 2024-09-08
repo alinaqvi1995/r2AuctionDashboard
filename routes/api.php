@@ -16,6 +16,7 @@ use App\Http\Controllers\BidController;
 use App\Http\Controllers\WishListController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Api\BuyerDashboardController;
+use App\Http\Controllers\Api\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,3 +120,5 @@ Route::prefix('buyer')->group(function () {
     Route::get('/bid_products/{id}', [BuyerDashboardController::class, 'buyer_bid_products']);
     Route::get('/my_orders/{id}', [BuyerDashboardController::class, 'myOrders']);
 });
+
+Route::get('/home_page', [HomeController::class, 'homePage']);
