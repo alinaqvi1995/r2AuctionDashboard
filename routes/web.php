@@ -20,6 +20,8 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\AuctionSlotController;
 use App\Http\Controllers\ModelNameController;
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ClientsFeedbackController;
 
 Auth::routes();
 
@@ -165,4 +167,19 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::put('model-names/{modelName}', [ModelNameController::class, 'update'])->name('modelNames.update');
     Route::delete('model-names/{modelName}', [ModelNameController::class, 'destroy'])->name('modelNames.destroy');
 
+    Route::prefix('news')->group(function () {
+        Route::get('/', [NewsController::class, 'index'])->name('news.index');
+        Route::post('/', [NewsController::class, 'store'])->name('news.store');
+        Route::get('/{news}/edit', [NewsController::class, 'edit'])->name('news.edit');
+        Route::put('/{news}', [NewsController::class, 'update'])->name('news.update');
+        Route::delete('/{news}', [NewsController::class, 'destroy'])->name('news.destroy');
+    });
+
+    Route::prefix('clients-feedback')->group(function () {
+        Route::get('/', [ClientsFeedbackController::class, 'index'])->name('clients.feedback.index');
+        Route::post('/store', [ClientsFeedbackController::class, 'store'])->name('clients.feedback.store');
+        Route::get('/{feedback}/edit', [ClientsFeedbackController::class, 'edit'])->name('clients.feedback.edit');
+        Route::put('/update/{feedback}', [ClientsFeedbackController::class, 'update'])->name('clients.feedback.update');
+        Route::delete('/destroy/{feedback}', [ClientsFeedbackController::class, 'destroy'])->name('clients.feedback.destroy');
+    });
 });

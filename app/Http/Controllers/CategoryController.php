@@ -18,7 +18,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
-            'icon' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjusted validation for image upload
+            'icon' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('icon')) {
