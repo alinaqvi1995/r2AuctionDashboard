@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function homePage()
     {
-        $products = Product::activeBidProducts()->with([
+        $products = Product::with([
             'colors',
             'storages',
             'regions',
@@ -22,7 +22,10 @@ class HomeController extends Controller
             'rams',
             'sizes',
             'modelNames'
-        ])->get();
+        ])->whereHas('auctionSlot', function ($query) {
+            $query->where('auction_date', '<=', now())
+                  ->where('auction_date_end', '>=', now());
+        })->get();
         return ProductResource::collection($products);
     }
 }
