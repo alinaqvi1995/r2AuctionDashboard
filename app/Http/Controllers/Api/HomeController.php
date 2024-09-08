@@ -22,7 +22,7 @@ class HomeController extends Controller
             'rams',
             'sizes',
             'modelNames'
-        ])->get();
+        ])->activeBidProducts();
         return ProductResource::collection($products);
     }
 }
