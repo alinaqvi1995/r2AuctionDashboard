@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function homePage()
     {
-        $products = Product::with([
+        $products = Product::activeBidProducts()->with([
             'colors',
             'storages',
             'regions',
@@ -22,7 +22,7 @@ class HomeController extends Controller
             'rams',
             'sizes',
             'modelNames'
-        ])->activeBidProducts();
+        ])->get();
         return ProductResource::collection($products);
     }
 }
