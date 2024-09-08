@@ -362,16 +362,15 @@ class ProductApiController extends Controller
         if ($request->filled('min_price') && $request->filled('max_price')) {
             $minPrice = (float) $request->min_price;
             $maxPrice = (float) $request->max_price;
-
-            $query->whereBetween('minimum_bid_price', [$minPrice, $maxPrice]);
+        
+            $query->whereBetween(\DB::raw('CAST(minimum_bid_price AS DECIMAL)'), [$minPrice, $maxPrice]);
         } elseif ($request->filled('min_price')) {
             $minPrice = (float) $request->min_price;
-            $query->where('minimum_bid_price', '>=', $minPrice);
+            $query->where(\DB::raw('CAST(minimum_bid_price AS DECIMAL)'), '>=', $minPrice);
         } elseif ($request->filled('max_price')) {
             $maxPrice = (float) $request->max_price;
-            $query->where('minimum_bid_price', '<=', $maxPrice);
+            $query->where(\DB::raw('CAST(minimum_bid_price AS DECIMAL)'), '<=', $maxPrice);
         }
-
 
         if ($request->filled('min_quantity')) {
             $query->where('quantity', '>=', $request->min_quantity);
