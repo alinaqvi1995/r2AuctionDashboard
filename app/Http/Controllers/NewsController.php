@@ -34,7 +34,7 @@ class NewsController extends Controller
 
         $news = News::create(array_merge(
             $request->except('image'),
-            ['image' => $imagePath]
+            ['image' => url('/') . '/' . $imagePath]
         ));
 
         if ($news) {
@@ -71,7 +71,7 @@ class NewsController extends Controller
 
             if ($request->hasFile('image')) {
                 $imagePath = $this->uploadImage($request->file('image'), 'news');
-                $data['image'] = $imagePath;
+                $data['image'] = url('/') . '/' . $imagePath;
             }
 
             $news->update($data);
