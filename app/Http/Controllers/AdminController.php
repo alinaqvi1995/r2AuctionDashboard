@@ -14,7 +14,7 @@ class AdminController extends Controller
         $productsCount = Product::count();
         $usersCount = User::count();
         $bidsCount = Product::activeBidProducts()->count();
-        $products = Product::with('user')->get()->take(5);
+        $products = Product::activeBidProducts()->with('user')->get()->take(5);
         return view('admin.pages.index', compact('products', 'productsCount', 'usersCount', 'bidsCount'));
     }
 }

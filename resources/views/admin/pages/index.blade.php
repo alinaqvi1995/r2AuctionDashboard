@@ -50,7 +50,7 @@
                     <div class="col-md-12 col-lg-12">
                         <div class="card shadow">
                             <div class="card-header d-flex justify-content-between">
-                                <strong class="card-title">Recent Bids</strong>
+                                <strong class="card-title">Recent Bid Products</strong>
                                 <a class="small text-muted" href="#!">View all</a>
                             </div>
                             <div class="card-body">

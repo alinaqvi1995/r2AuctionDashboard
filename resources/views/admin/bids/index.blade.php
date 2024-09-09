@@ -38,39 +38,41 @@
                                 <thead>
                                     <tr>
                                         <th>Sr#</th>
-                                        <th>Name</th>
-                                        <th>Lot #.</th>
-                                        <th>Listing Type</th>
-                                        <th>Price</th>
                                         <th>Seller</th>
-                                        <th>Start Date/Time</th>
+                                        <th>Product</th>
+                                        <th>Bidder</th>
+                                        <th>Bid Amount</th>
+                                        <th>Bid Date</th>
+                                        {{-- <th>Price</th>
+                                        <th>Seller</th>
+                                        <th>Start Date/Time</th> --}}
                                         {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php $counter = 1 @endphp
-                                    @foreach ($products as $products)
-                                        {{-- @if ($products->role != 'admin') --}}
+                                    @foreach ($bids as $bid->product)
+                                        {{-- @if ($bid->product->role != 'admin') --}}
                                             <tr>
                                                 <td>{{ $counter++ }}</td>
-                                                <td>{{ $products->name }}
-                                                </td>
-                                                <td>{{ $products->lot_no }}</td>
-                                                <td>{{ $products->listing_type }}</td>
                                                 <td>
-                                                    <b>Minimum bid price:</b> {{ $products->minimum_bid_price }} <br>
-                                                    <b>Buy now price:</b> {{ $products->buy_now_price }} <br>
-                                                    <b>Reserve price: </b>{{ $products->reserve_price }}
+                                                    {{ $bid->product->user->full_name }}
+                                                </td>
+                                                <td>{{ $bid->product->title }}</td>
+                                                <td>{{ $bid->user->name }}</td>
+                                                <td>
+                                                    <b>Minimum bid price:</b> {{ $bid->product->minimum_bid_price }} <br>
+                                                    <b>Buy now price:</b> {{ $bid->product->buy_now_price }} <br>
+                                                    <b>Reserve price: </b>{{ $bid->product->reserve_price }}
                                                 </td>
                                                 {{-- <td>
-                                                    @if ($products->status == 1)
+                                                    @if ($bid->product->status == 1)
                                                         <span class="badge badge-success">Active</span>
                                                     @else
                                                         <span class="badge badge-danger">Inactive</span>
                                                     @endif
                                                 </td> --}}
-                                                <td>{{ $products->user->name . ' ' . $products->user->last_name }}</td>
-                                                <td>{{ $products->created_at }}</td>
+                                                <td>{{ $bid->product->auctionSlot->auction_date . ' ' . $bid->product->auctionSlot->auction_date_end }}</td>
                                                 {{-- <td>
                                                     <button
                                                         class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted"
@@ -80,9 +82,9 @@
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right shadow">
                                                         <a class="dropdown-item"
-                                                            href="{{ route('users.edit', $products->id) }}"><i
+                                                            href="{{ route('users.edit', $bid->product->id) }}"><i
                                                                 class="fe fe-edit-2 fe-12 mr-3 text-muted"></i>Edit</a>
-                                                        <form action="{{ route('users.destroy', $products->id) }}"
+                                                        <form action="{{ route('users.destroy', $bid->product->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

@@ -154,9 +154,9 @@ class Product extends Model
 
     public static function activeBidProducts()
     {
-        return self::whereHas('auctionSlot', function ($query) {
+        return self::where('admin_approval', 1)->whereHas('auctionSlot', function ($query) {
             $query->where('auction_date', '<=', Carbon::now()->format('Y-m-d\TH:i'))
                 ->where('auction_date_end', '>=', Carbon::now()->format('Y-m-d\TH:i'));
-        })->get();
+        });
     }
 }

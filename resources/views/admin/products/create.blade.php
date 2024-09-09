@@ -21,8 +21,8 @@
             </div>
             <div class="form-group">
                 <label for="name" class="form-label fs-14 text-theme-primary fw-bold">Product Title</label>
-                <input type="text" class="form-control fs-14 h-50px" name="name" value="" placeholder="Product Name"
-                    required>
+                <input type="text" class="form-control fs-14 h-50px" name="name" value=""
+                    placeholder="Product Name" required>
             </div>
             <div class="form-group">
                 <label for="reference" class="form-label fs-14 text-theme-primary fw-bold">Reference</label>
@@ -135,7 +135,8 @@
                     class="form-label fs-14 text-theme-primary fw-bold">Certificate Hardware Destruction</label>
             </div>
             <div class="form-check">
-                <input type="checkbox" id="lot_sold_as_is" class="form-check-input" value="1" name="lot_sold_as_is">
+                <input type="checkbox" id="lot_sold_as_is" class="form-check-input" value="1"
+                    name="lot_sold_as_is">
                 <label for="lot_sold_as_is" class="form-label fs-14 text-theme-primary fw-bold">Lot Sold As Is</label>
             </div>
             <div class="form-group">
@@ -664,7 +665,14 @@
             //         }
             //     });
             // });
-
+            
+            // Handle file input label change
+            $('.custom-file-input').on('change', function(event) {
+                var inputFile = event.currentTarget;
+                $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name);
+            });
         });
     </script>
 @endsection

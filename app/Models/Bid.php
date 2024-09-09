@@ -53,6 +53,6 @@ class Bid extends Model
         return self::whereHas('product.auctionSlot', function ($query) {
             $query->where('auction_date', '<=', Carbon::now()->format('Y-m-d\TH:i'))
                 ->where('auction_date_end', '>=', Carbon::now()->format('Y-m-d\TH:i'));
-        })->get();
+        });
     }
 }

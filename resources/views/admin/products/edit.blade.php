@@ -11,199 +11,394 @@
             @method('PUT')
             <input type="hidden" id="id" name="id" value="{{ $product->id }}">
 
-            <!-- Name Field -->
+            <!-- Listing Title -->
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">Listing Title *</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}"
                     required>
             </div>
 
-            <!-- Description Field -->
+            <!-- Reference -->
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" required>{{ $product->description }}</textarea>
+                <label for="reference">Reference *</label>
+                <input type="text" class="form-control" id="reference" name="reference" value="{{ $product->reference }}"
+                    required>
             </div>
 
-            <!-- Category Field -->
+            <!-- Listing Type -->
             <div class="form-group">
-                <label for="category_id">Category</label>
-                <select class="form-control" id="category_id" name="category_id" required>
-                    <option value="">Select Category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}</option>
-                    @endforeach
+                <label for="listing_type">Listing Type *</label>
+                <select class="form-control" id="listing_type" name="listing_type" required>
+                    <option value="">Select Listing Type</option>
+                    <option value="Type A" {{ $product->listing_type == 'Type A' ? 'selected' : '' }}>Type A</option>
+                    <option value="Type B" {{ $product->listing_type == 'Type B' ? 'selected' : '' }}>Type B</option>
                 </select>
             </div>
 
-            <!-- Subcategory Field -->
+            <!-- Product Manufacturer -->
             <div class="form-group">
-                <label for="subcategory_id">Subcategory</label>
-                <select class="form-control" id="subcategory_id" name="subcategory_id">
-                    <option value="">Select Subcategory</option>
-                    @foreach ($subcategories as $subcategory)
-                        <option value="{{ $subcategory->id }}"
-                            {{ $product->subcategory_id == $subcategory->id ? 'selected' : '' }}>{{ $subcategory->name }}
+                <label for="manufacturer_id">Product Manufacturer *</label>
+                <select class="form-control" id="manufacturer_id" name="manufacturer_id" required>
+                    <option value="">Select Manufacturer</option>
+                    @foreach ($manufacturer as $row)
+                        <option value="{{ $row->id }}" {{ $product->manufacturer_id == $row->id ? 'selected' : '' }}>
+                            {{ $row->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Condition Field -->
+            <!-- Product Category -->
             <div class="form-group">
-                <label for="condition">Condition</label>
-                <select class="form-control" id="condition" name="condition">
-                    <option value="New" {{ $product->condition == 'New' ? 'selected' : '' }}>New</option>
-                    <option value="Used" {{ $product->condition == 'Used' ? 'selected' : '' }}>Used</option>
-                </select>
-            </div>
-
-            <!-- Manufacturer Field -->
-            <div class="form-group">
-                <label for="manufacturer_id" class="form-label fs-14 text-theme-primary fw-bold">Manufacturer</label>
-                <select class="form-control fs-14 h-50px" name="manufacturer_id" id="manufacturer_id" required>
-                    <option value="">Select Manufacturer</option>
-                    @foreach ($manufacturer as $row)
-                        <option value="{{ $row->id }}" {{ $product->manufacturer_id == $row->id ? 'selected' : '' }}>
-                            {{ $row->name }}</option>
+                <label for="category_id">Product Category *</label>
+                <select class="form-control" id="category_id" name="category_id" required>
+                    <option value="">Select Category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
-            {{-- {{ dd($product->colors->pluck('id')->toArray()) }} --}}
 
-            <!-- Auction Slot Field -->
+            <!-- Product Model Name -->
+            <div class="form-group">
+                <label for="model_name">Model Name *</label>
+                <input type="text" class="form-control" id="model_name" name="model_name"
+                    value="{{ $product->model_name }}" required>
+            </div>
+
+            <!-- Model Number -->
+            <div class="form-group">
+                <label for="modelNumber_id">Model Number *</label>
+                <select id="modelNumber_id" name="modelNumber_id[]" class="form-control select2" multiple required>
+                    @foreach ($modelNumber as $row)
+                        <option value="{{ $row->id }}"
+                            {{ in_array($row->id, $product->modelNumbers->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Region -->
+            <div class="form-group">
+                <label for="region_id">Region *</label>
+                <select id="region_id" name="region_id[]" class="form-control select2" multiple required>
+                    @foreach ($regions as $region)
+                        <option value="{{ $region->id }}"
+                            {{ in_array($region->id, $product->regions->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $region->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Capacity -->
+            <div class="form-group">
+                <label for="capacity_id">Capacity *</label>
+                <select id="capacity_id" name="capacity_id[]" class="form-control select2" multiple required>
+                    @foreach ($capacity as $row)
+                        <option value="{{ $row->id }}"
+                            {{ in_array($row->id, $product->storages->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- RAM -->
+            <div class="form-group">
+                <label for="ram">RAM *</label>
+                <input type="text" class="form-control" id="ram" name="ram" value="{{ $product->ram }}"
+                    required>
+            </div>
+
+            <!-- Product Color -->
+            <div class="form-group">
+                <label for="color_id">Color *</label>
+                <select id="color_id" name="color_id[]" class="form-control select2" multiple required>
+                    @foreach ($colors as $color)
+                        <option value="{{ $color->id }}"
+                            {{ in_array($color->id, $product->colors->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $color->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Model Size -->
+            <div class="form-group">
+                <label for="model_size">Model Size *</label>
+                <input type="text" class="form-control" id="model_size" name="model_size"
+                    value="{{ $product->model_size }}" required>
+            </div>
+
+            <!-- Material -->
+            <div class="form-group">
+                <label for="material">Material *</label>
+                <input type="text" class="form-control" id="material" name="material" value="{{ $product->material }}"
+                    required>
+            </div>
+
+            <!-- Device Generation -->
+            <div class="form-group">
+                <label for="device_generation">Device Generation *</label>
+                <input type="text" class="form-control" id="device_generation" name="device_generation"
+                    value="{{ $product->device_generation }}" required>
+            </div>
+
+            <!-- Connectivity -->
+            <div class="form-group">
+                <label for="connectivity">Connectivity *</label>
+                <input type="text" class="form-control" id="connectivity" name="connectivity"
+                    value="{{ $product->connectivity }}" required>
+            </div>
+
+            <!-- Network Status -->
+            <div class="form-group">
+                <label for="network_status">Network Status *</label>
+                <select class="form-control" id="network_status" name="network_status" required>
+                    <option value="Locked" {{ $product->network_status == 'Locked' ? 'selected' : '' }}>Locked</option>
+                    <option value="Unlocked" {{ $product->network_status == 'Unlocked' ? 'selected' : '' }}>Unlocked
+                    </option>
+                </select>
+            </div>
+
+            <!-- Quantity -->
+            <div class="form-group">
+                <label for="quantity">Quantity *</label>
+                <input type="number" class="form-control" id="quantity" name="quantity"
+                    value="{{ $product->quantity }}" required>
+            </div>
+
+            <!-- Carrier -->
+            <div class="form-group">
+                <label for="carrier_id">Carrier *</label>
+                <select id="carrier_id" name="carrier_id[]" class="form-control select2" multiple required>
+                    @foreach ($carrier as $row)
+                        <option value="{{ $row->id }}"
+                            {{ in_array($row->id, $product->carriers->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Product Grade -->
+            <div class="form-group">
+                <label for="grade_id">Product Grade *</label>
+                <select id="grade_id" name="grade_id[]" class="form-control select2" multiple required>
+                    @foreach ($grade as $row)
+                        <option value="{{ $row->id }}"
+                            {{ in_array($row->id, $product->grades->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Lot Condition -->
+            <div class="form-group">
+                <label for="condition">Lot Condition *</label>
+                <select class="form-control" id="condition" name="condition" required>
+                    <option value="New" {{ $product->condition == 'New' ? 'selected' : '' }}>New</option>
+                    <option value="Used" {{ $product->condition == 'Used' ? 'selected' : '' }}>Used</option>
+                    <option value="Open Box" {{ $product->condition == 'Open Box' ? 'selected' : '' }}>Open Box</option>
+                    <option value="Repair Stock" {{ $product->condition == 'Repair Stock' ? 'selected' : '' }}>Repair
+                        Stock</option>
+                    <option value="R2" {{ $product->condition == 'R2' ? 'selected' : '' }}>R2</option>
+                    <option value="As-Is" {{ $product->condition == 'As-Is' ? 'selected' : '' }}>As-Is</option>
+                </select>
+            </div>
+
+            <!-- Lot Location -->
+            <div class="form-group">
+                <label for="lot_location">Lot Address *</label>
+                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                    value="{{ $product->lot_location }}" required>
+            </div>
+
+            <!-- Lot Location -->
+            <div class="form-group">
+                <label for="lot_location">Lot City *</label>
+                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                    value="{{ $product->lot_location }}" required>
+            </div>
+
+            <!-- Lot Location -->
+            <div class="form-group">
+                <label for="lot_location">Lot Province *</label>
+                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                    value="{{ $product->lot_location }}" required>
+            </div>
+
+            <!-- Lot Location -->
+            <div class="form-group">
+                <label for="lot_location">Lot Zip / Postal Code *</label>
+                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                    value="{{ $product->lot_location }}" required>
+            </div>
+
+            <!-- Lot Location -->
+            <div class="form-group">
+                <label for="lot_location">Lot Country *</label>
+                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                    value="{{ $product->lot_location }}" required>
+            </div>
+
+            <!-- International Buyers -->
+            <div class="form-group">
+                <label>International Buyers *</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="international_buyers" id="international_yes"
+                        value="Yes" {{ $product->international_buyers == 'Yes' ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="international_yes">
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="international_buyers" id="international_no"
+                        value="No" {{ $product->international_buyers == 'No' ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="international_no">
+                        No
+                    </label>
+                </div>
+            </div>
+
+            <!-- Shipping Requirements -->
+            <div class="form-group">
+                <label for="condition">Shipping Requirements *</label>
+                <select class="form-control" id="condition" name="condition" required>
+                    <option value="Buyer responsible for packaging materials and shipping costs"
+                        {{ $product->condition == 'Buyer responsible for packaging materials and shipping costs' ? 'selected' : '' }}>
+                        Buyer responsible for packaging materials and shipping costs</option>
+                    <option value="Buyer responsible for shipping costs. Seller responsible for packaging materials"
+                        {{ $product->condition == 'Buyer responsible for shipping costs. Seller responsible for packaging materials' ? 'selected' : '' }}>
+                        Buyer responsible for shipping costs. Seller responsible for packaging materials</option>
+                    <option value="Seller responsible for packaging and shipping costs"
+                        {{ $product->condition == 'Seller responsible for packaging and shipping costs' ? 'selected' : '' }}>
+                        Seller responsible for packaging and shipping costs</option>
+                </select>
+            </div>
+
+            <!-- Data Erasure & Hardware Destruction Certificate Requirements -->
+            <div class="form-group">
+                <label>Data Erasure & Hardware Destruction Certificate Requirements *</label>
+                <p>Your data will be securely removed from all devices</p>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="certificate_data_erasure"
+                        id="certificate_data_erasure" value="1"
+                        {{ $product->certificate_data_erasure ? 'checked' : '' }}>
+                    <label class="form-check-label" for="certificate_data_erasure">
+                        Certificates of data erasure required
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="certificate_hardware_destruction"
+                        id="certificate_hardware_destruction" value="1"
+                        {{ $product->certificate_hardware_destruction ? 'checked' : '' }}>
+                    <label class="form-check-label" for="certificate_hardware_destruction">
+                        Certificates of hardware destruction required
+                    </label>
+                </div>
+            </div>
+
+            <!-- Payment Requirements -->
+            <div class="form-group">
+                <label>Payment Requirements *</label>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_requirements"
+                        id="payment_wire_bank_transfer" value="wire_bank_transfer"
+                        {{ $product->payment_requirements == 'wire_bank_transfer' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="payment_wire_bank_transfer">
+                        Wire transfer or Bank transfer
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_requirements" id="payment_cheque"
+                        value="cheque" {{ $product->payment_requirements == 'cheque' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="payment_cheque">
+                        Cheque
+                    </label>
+                </div>
+            </div>
+
+            <!-- Note Field -->
+            <div class="form-group">
+                <label for="description">Note</label>
+                <textarea class="form-control" id="description" name="description" required>{{ $product->description }}</textarea>
+            </div>
+
+            <!-- Auction Date -->
             <div class="form-group">
                 <label for="auction_slot_id">Auction Slot</label>
                 <select class="form-control" id="auction_slot_id" name="auction_slot_id">
                     <option value="">Select Auction Slot</option>
                     @foreach ($auctionSlots as $slot)
                         <option value="{{ $slot->id }}"
-                            {{ $product->auction_slot_id == $slot->id ? 'selected' : '' }}>{{ $slot->auction_date . ' - ' . $slot->auction_date_end }}
+                            {{ $product->auction_slot_id == $slot->id ? 'selected' : '' }}>
+                            {{ $slot->auction_date . ' - ' . $slot->auction_date_end }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Colors Field -->
+            <!-- Processing Time -->
             <div class="form-group">
-                <label for="color_id">Colors</label>
-                <select id="color_id" name="color_id[]" class="form-control select2" multiple required>
-                    @foreach ($colors as $color)
-                        <option value="{{ $color->id }}"
-                            {{ in_array($color->id, $product->colors->pluck('id')->toArray()) ? 'selected' : '' }}>
-                            {{ $color->name }}</option>
-                    @endforeach
-                </select>
+                <label for="processing_time">Processing Time *</label>
+                <input type="number" class="form-control" id="processing_time" name="processing_time"
+                    value="{{ $product->processing_time }}" required>
             </div>
 
-            <!-- Regions Field -->
+            <!-- Minimum Price -->
             <div class="form-group">
-                <label for="region_id">Regions</label>
-                <select id="region_id" name="region_id[]" class="form-control select2" multiple required>
-                    @foreach ($regions as $region)
-                        <option value="{{ $region->id }}"
-                            {{ in_array($region->id, $product->regions->pluck('id')->toArray()) ? 'selected' : '' }}>
-                            {{ $region->name }}</option>
-                    @endforeach
-                </select>
+                <label for="minimum_bid_price">Minimum Price *</label>
+                <input type="number" class="form-control" id="minimum_bid_price" name="minimum_bid_price"
+                    value="{{ $product->minimum_bid_price }}" required>
             </div>
 
-            <!-- Capacity Field -->
+            <!-- Buy Now Checkbox -->
             <div class="form-group">
-                <label for="capacity_id">Capacity</label>
-                <select id="capacity_id" name="capacity_id[]" class="form-control select2" multiple required>
-                    @foreach ($capacity as $row)
-                        <option value="{{ $row->id }}"
-                            {{ in_array($row->id, $product->storages->pluck('id')->toArray()) ? 'selected' : '' }}>
-                            {{ $row->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <!-- Model Number Field -->
-            <div class="form-group">
-                <label for="modelNumber_id">Model Number</label>
-                <select id="modelNumber_id" name="modelNumber_id[]" class="form-control select2" multiple required>
-                    @foreach ($modelNumber as $row)
-                        <option value="{{ $row->id }}"
-                            {{ in_array($row->id, $product->modelNumbers->pluck('id')->toArray()) ? 'selected' : '' }}>
-                            {{ $row->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <!-- Grade Field -->
-            <div class="form-group mb-3" id="grade_id_field"
-                style="display: {{ $product->condition == 'Used' ? 'block' : 'none' }};">
-                <label for="grade_id">Grades</label>
-                <div id="selectgrade">
-                    <select id="grade_id" name="grade_id[]" class="form-control select2" multiple>
-                        @foreach ($grade as $row)
-                            <option value="{{ $row->id }}"
-                                {{ in_array($row->id, $product->grades->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                {{ $row->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="use_buy_now" id="use_buy_now" value="1"
+                        {{ $product->use_buy_now ? 'checked' : '' }}>
+                    <label class="form-check-label" for="use_buy_now">
+                        Use Buy Now
+                    </label>
                 </div>
             </div>
 
-            <!-- LockStatus Field -->
-            <div class="form-group mb-3" id="lockStatus_id_field"
-                style="display: {{ $product->condition == 'Used' ? 'block' : 'none' }};">
-                <label for="lockStatus_id">LockStatus</label>
-                <div id="selectlockStatus">
-                    <select id="lockStatus_id" name="lockStatus_id[]" class="form-control select2" multiple>
-                        @foreach ($lockStatus as $row)
-                            <option value="{{ $row->id }}"
-                                {{ in_array($row->id, $product->lockStatuses->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                {{ $row->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <!-- Carrier Field -->
+            <!-- Buy Now Price Input -->
             <div class="form-group">
-                <label for="carrier_id">Carriers</label>
-                <select id="carrier_id" name="carrier_id[]" class="form-control select2" multiple required>
-                    @foreach ($carrier as $row)
-                        <option value="{{ $row->id }}"
-                            {{ in_array($row->id, $product->carriers->pluck('id')->toArray()) ? 'selected' : '' }}>
-                            {{ $row->name }}</option>
-                    @endforeach
-                </select>
+                <label for="buy_now_price">Buy Now Price</label>
+                <input type="number" name="buy_now_price" id="buy_now_price" class="form-control"
+                    value="{{ $product->buy_now_price }}" placeholder="Enter Buy Now Price" min="0"
+                    step="0.01">
             </div>
 
-            <!-- Status Field -->
+            <!-- Reserve Price -->
             <div class="form-group">
-                <label for="status">Status</label>
-                <select class="form-control" id="status" name="status" required>
-                    <option value="1" {{ $product->status == 1 ? 'selected' : '' }}>Active</option>
-                    <option value="0" {{ $product->status == 0 ? 'selected' : '' }}>Inactive</option>
-                </select>
+                <label for="reserve_price">Reserve Price *</label>
+                <input type="number" class="form-control" id="reserve_price" name="reserve_price"
+                    value="{{ $product->reserve_price }}" required>
             </div>
 
-            @if (Auth::user()->isAdmin())
-                <!-- admin_approval Field -->
-                <div class="form-group">
-                    <label for="admin_approval">Approve</label>
-                    <select class="form-control" id="admin_approval" name="admin_approval" required>
-                        <option value="1" {{ $product->admin_approval == 1 ? 'selected' : '' }}>Approve</option>
-                        <option value="0" {{ $product->admin_approval == 0 ? 'selected' : '' }}>Not Approve</option>
-                    </select>
-                </div>
-            @endif
-
-            <!-- Image Field -->
-            {{-- <div class="form-group mb-3">
-                <label for="image">Image</label>
+            <!-- Photo Upload -->
+            <div class="form-group">
+                <label for="image">Upload Photo *</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input image" id="image" name="image">
-                    <label class="custom-file-label image_label" for="image" id="image_label">Choose file</label>
+                    <input type="file" class="custom-file-input media" id="media" name="media[]" multiple>
+                    <label class="custom-file-label media_label" for="media" id="media_label">Choose
+                        file</label>
                 </div>
-            </div> --}}
+            </div>
 
-            <button type="submit" class="btn btn-primary" id="updateProductBtn">Update Product</button>
+            <button type="submit" class="btn btn-primary">Update Product</button>
         </form>
     </div>
 @endsection
@@ -293,6 +488,18 @@
                 $(inputFile).parent()
                     .find('.custom-file-label')
                     .html(inputFile.files[0].name);
+            });
+
+            $('.media').on('change', function() {
+                var files = $(this)[0].files;
+                var fileNames = '';
+                for (var i = 0; i < files.length; i++) {
+                    fileNames += files[i].name;
+                    if (i < files.length - 1) {
+                        fileNames += ', ';
+                    }
+                }
+                $('.media_label').text(fileNames);
             });
         });
     </script>
