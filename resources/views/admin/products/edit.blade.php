@@ -64,8 +64,14 @@
             <!-- Product Model Name -->
             <div class="form-group">
                 <label for="model_name">Model Name *</label>
-                <input type="text" class="form-control" id="model_name" name="model_name"
-                    value="{{ $product->model_name }}" required>
+                <select id="model_name_id" name="model_name_id[]" class="form-control select2" multiple required>
+                    @foreach ($modelNames as $row)
+                        <option value="{{ $row->id }}"
+                            {{ in_array($row->id, $product->modelNames->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Model Number -->
@@ -109,9 +115,15 @@
 
             <!-- RAM -->
             <div class="form-group">
-                <label for="ram">RAM *</label>
-                <input type="text" class="form-control" id="ram" name="ram" value="{{ $product->ram }}"
-                    required>
+                <label for="rams">RAM *</label>
+                <select id="ram_id" name="ram_id[]" class="form-control select2" multiple required>
+                    @foreach ($rams as $row)
+                        <option value="{{ $row->id }}"
+                            {{ in_array($row->id, $product->rams->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Product Color -->
@@ -130,15 +142,27 @@
             <!-- Model Size -->
             <div class="form-group">
                 <label for="model_size">Model Size *</label>
-                <input type="text" class="form-control" id="model_size" name="model_size"
-                    value="{{ $product->model_size }}" required>
+                <select name="model_size" id="" class="form-control">
+                    <option value="40 MM" {{ $product->model_size == '40 MM' ? 'selected' : '' }}>40 MM</option>
+                    <option value="41 MM" {{ $product->model_size == '41 MM' ? 'selected' : '' }}>41 MM</option>
+                    <option value="42 MM" {{ $product->model_size == '42 MM' ? 'selected' : '' }}>42 MM</option>
+                    <option value="43 MM" {{ $product->model_size == '43 MM' ? 'selected' : '' }}>43 MM</option>
+                    <option value="44 MM" {{ $product->model_size == '44 MM' ? 'selected' : '' }}>44 MM</option>
+                    <option value="45 MM" {{ $product->model_size == '45 MM' ? 'selected' : '' }}>45 MM</option>
+                    <option value="46 MM" {{ $product->model_size == '46 MM' ? 'selected' : '' }}>46 MM</option>
+                    <option value="47 MM" {{ $product->model_size == '47 MM' ? 'selected' : '' }}>47 MM</option>
+                    <option value='11"' {{ $product->model_size == '11"' ? 'selected' : '' }}>11"</option>
+                    <option value='12.9"' {{ $product->model_size == '12.9"' ? 'selected' : '' }}>12.9"</option>
+                    <option value='13"' {{ $product->model_size == '13"' ? 'selected' : '' }}>13"</option>
+                    <option value="Mixed" {{ $product->model_size == 'Mixed' ? 'selected' : '' }}>Mixed</option>
+                </select>
             </div>
 
             <!-- Material -->
             <div class="form-group">
                 <label for="material">Material *</label>
-                <input type="text" class="form-control" id="material" name="material" value="{{ $product->material }}"
-                    required>
+                <input type="text" class="form-control" id="material" name="material"
+                    value="{{ $product->material }}" required>
             </div>
 
             <!-- Device Generation -->
@@ -151,8 +175,11 @@
             <!-- Connectivity -->
             <div class="form-group">
                 <label for="connectivity">Connectivity *</label>
-                <input type="text" class="form-control" id="connectivity" name="connectivity"
-                    value="{{ $product->connectivity }}" required>
+                <select name="connectivity" id="connectivity" class="form-control">
+                <option value="Cellular" {{ $product->network_status == 'Cellular' ? 'selected' : '' }}>Cellular</option>
+                <option value="Wifi" {{ $product->network_status == 'Wifi' ? 'selected' : '' }}>Wifi</option>
+                <option value="GPS" {{ $product->network_status == 'GPS' ? 'selected' : '' }}>GPS</option>
+            </select>
             </div>
 
             <!-- Network Status -->
@@ -214,36 +241,36 @@
 
             <!-- Lot Location -->
             <div class="form-group">
-                <label for="lot_location">Lot Address *</label>
-                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                <label for="lot_address">Lot Address *</label>
+                <input type="text" class="form-control" id="lot_address" name="lot_address"
                     value="{{ $product->lot_location }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
-                <label for="lot_location">Lot City *</label>
-                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                <label for="lot_city">Lot City *</label>
+                <input type="text" class="form-control" id="lot_city" name="lot_city"
                     value="{{ $product->lot_location }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
-                <label for="lot_location">Lot Province *</label>
-                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                <label for="lot_state">Lot Province *</label>
+                <input type="text" class="form-control" id="lot_state" name="lot_state"
                     value="{{ $product->lot_location }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
-                <label for="lot_location">Lot Zip / Postal Code *</label>
-                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                <label for="lot_zip">Lot Zip / Postal Code *</label>
+                <input type="text" class="form-control" id="lot_zip" name="lot_zip"
                     value="{{ $product->lot_location }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
-                <label for="lot_location">Lot Country *</label>
-                <input type="text" class="form-control" id="lot_location" name="lot_location"
+                <label for="lot_country">Lot Country *</label>
+                <input type="text" class="form-control" id="lot_country" name="lot_country"
                     value="{{ $product->lot_location }}" required>
             </div>
 
@@ -252,14 +279,14 @@
                 <label>International Buyers *</label>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="international_buyers" id="international_yes"
-                        value="Yes" {{ $product->international_buyers == 'Yes' ? 'checked' : '' }} required>
+                        value="1" {{ $product->international_buyers == '1' ? 'checked' : '' }} required>
                     <label class="form-check-label" for="international_yes">
                         Yes
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="international_buyers" id="international_no"
-                        value="No" {{ $product->international_buyers == 'No' ? 'checked' : '' }} required>
+                        value="0" {{ $product->international_buyers == '0' ? 'checked' : '' }} required>
                     <label class="form-check-label" for="international_no">
                         No
                     </label>
@@ -397,6 +424,26 @@
                         file</label>
                 </div>
             </div>
+
+            <!-- Status Field -->
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="1" {{ $product->status == 1 ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ $product->status == 0 ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+
+            @if (Auth::user()->isAdmin())
+                <!-- admin_approval Field -->
+                <div class="form-group">
+                    <label for="admin_approval">Approve</label>
+                    <select class="form-control" id="admin_approval" name="admin_approval" required>
+                        <option value="1" {{ $product->admin_approval == 1 ? 'selected' : '' }}>Approve</option>
+                        <option value="0" {{ $product->admin_approval == 0 ? 'selected' : '' }}>Not Approve</option>
+                    </select>
+                </div>
+            @endif
 
             <button type="submit" class="btn btn-primary">Update Product</button>
         </form>

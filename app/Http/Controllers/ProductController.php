@@ -184,8 +184,8 @@ class ProductController extends Controller
             'bids'
         ])->findOrFail($id);
 
-        $categories = Category::all();
-        $subcategories = Subcategory::where('category_id', $product->category_id)->get();
+        $products = Product::all();
+        $categories = Category::get();
         $capacity = Capacity::get();
         $colors = Color::get();
         $manufacturer = Manufacturer::get();
@@ -194,24 +194,14 @@ class ProductController extends Controller
         $lockStatus = LockStatus::get();
         $grade = Grade::get();
         $carrier = Carrier::get();
+        $rams = Ram::get();
+        $sizes = Size::get();
+        $modelNames = ModelName::get();
         $auctionSlots = AuctionSlot::get();
 
         return view(
             'admin.products.edit',
-            compact(
-                'product',
-                'categories',
-                'subcategories',
-                'capacity',
-                'colors',
-                'manufacturer',
-                'regions',
-                'modelNumber',
-                'lockStatus',
-                'grade',
-                'carrier',
-                'auctionSlots'
-            )
+            compact('product', 'categories', 'capacity', 'colors', 'manufacturer', 'regions', 'modelNumber', 'lockStatus', 'grade', 'carrier', 'rams', 'sizes', 'modelNames', 'auctionSlots')
         );
     }
 
@@ -305,6 +295,9 @@ class ProductController extends Controller
         $product->rams()->sync($request->input('ram_id', []));
         $product->sizes()->sync($request->input('size_id', []));
         $product->modelNames()->sync($request->input('model_name_id', []));
+
+        // $products = Product::with('rams')->find(22);
+        // dd($products->toArray(), $request->toArray());
 
         $products = Product::all();
         $table_html = view('admin.products.table', compact('products'))->render();
