@@ -17,6 +17,7 @@ use App\Http\Controllers\WishListController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Api\BuyerDashboardController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,3 +123,6 @@ Route::prefix('buyer')->group(function () {
 });
 
 Route::get('/home_page', [HomeController::class, 'homePage']);
+
+Route::get('auth/google/redirect', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
