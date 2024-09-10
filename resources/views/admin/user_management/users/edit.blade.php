@@ -34,10 +34,10 @@
                         <div class="col-12 text-center my-3">
                             <button type="button"
                                 class="btn btn-outline-success admin-approval-btn @if ($user->admin_approval == 1) active @endif"
-                                data-value="1">Success</button>
+                                data-value="1">Active</button>
                             <button type="button"
                                 class="btn btn-outline-danger admin-approval-btn @if ($user->admin_approval == 0) active @endif"
-                                data-value="0">Danger</button>
+                                data-value="0">Inactive</button>
                             <input type="hidden" name="admin_approval" id="admin-approval"
                                 value="{{ $user->admin_approval }}">
                         </div>
