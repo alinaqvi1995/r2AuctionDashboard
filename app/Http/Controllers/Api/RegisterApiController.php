@@ -177,7 +177,7 @@ class RegisterApiController extends Controller
         if ($request->has('password')) {
             $data['password'] = bcrypt($request->input('password'));
         }
-        
+
         $data['full_name'] = trim(($request->input('name') ?? '') . ' ' . ($request->input('middle_name') ?? '') . ' ' . ($request->input('last_name') ?? ''));
 
         $user->update($data);
@@ -298,25 +298,25 @@ class RegisterApiController extends Controller
             if ($request->has('policy_grade_title') && $request->has('policy_grade_description')) {
                 $policyTitles = $request->input('policy_grade_title');
                 $policyDescriptions = $request->input('policy_grade_description');
-            
+
                 $policyIdsToKeep = [];
-            
+
                 foreach ($policyTitles as $index => $title) {
                     $description = $policyDescriptions[$index];
-            
+
                     $gradingPolicy = SellerGradingPolicy::updateOrCreate(
                         ['seller_id' => $seller->id, 'grade' => $title],
                         ['description' => $description]
                     );
-            
+
                     $policyIdsToKeep[] = $gradingPolicy->id;
                 }
-            
+
                 SellerGradingPolicy::where('seller_id', $seller->id)
                     ->whereNotIn('id', $policyIdsToKeep)
                     ->delete();
             }
-            
+
         }
 
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
