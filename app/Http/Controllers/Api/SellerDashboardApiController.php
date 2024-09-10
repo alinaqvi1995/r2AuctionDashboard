@@ -63,7 +63,16 @@ class SellerDashboardApiController extends Controller
     }
     public function bid_accept($id)
     {
-        $bid = Bid::findOrFail($id);
+        $bid = Bid::with('product')->findOrFail($id);
+
+        $order['bid_id'] = $id;
+        $order['status'] = 0;
+        $order['product_id'] = $bid->product->id;
+        $order['amount'] = $bid->bid_amount;
+        $order['order_type'] = 'bid';
+
+        $order = Order::create($order);
+
         $bid->update(['status' => 1]);
 
         return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
