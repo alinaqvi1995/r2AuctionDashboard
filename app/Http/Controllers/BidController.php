@@ -15,7 +15,7 @@ class BidController extends Controller
     public function index()
     {
         // $products = Product::activeBidProducts()->get();
-        $bids = Bid::activeBids()->get();
+        $bids = Bid::activeBids()->with('product')->get();
         // dd($bids->toArray());
 
         return view('admin.bids.index', compact('bids'));

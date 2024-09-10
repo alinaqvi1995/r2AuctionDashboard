@@ -51,29 +51,30 @@
                                 </thead>
                                 <tbody>
                                     @php $counter = 1 @endphp
-                                    @foreach ($bids as $bid->product)
+                                    @foreach ($bids as $bid)
                                         {{-- @if ($bid->product->role != 'admin') --}}
-                                            <tr>
-                                                <td>{{ $counter++ }}</td>
-                                                <td>
-                                                    {{ $bid->product->user->full_name }}
-                                                </td>
-                                                <td>{{ $bid->product->title }}</td>
-                                                <td>{{ $bid->user->name }}</td>
-                                                <td>
-                                                    <b>Minimum bid price:</b> {{ $bid->product->minimum_bid_price }} <br>
-                                                    <b>Buy now price:</b> {{ $bid->product->buy_now_price }} <br>
-                                                    <b>Reserve price: </b>{{ $bid->product->reserve_price }}
-                                                </td>
-                                                {{-- <td>
+                                        <tr>
+                                            <td>{{ $counter++ }}</td>
+                                            <td>
+                                                {{ $bid->product->user->full_name }}
+                                            </td>
+                                            <td>{{ $bid->product->title }}</td>
+                                            <td>{{ $bid->user->name }}</td>
+                                            <td>
+                                                <b>Minimum bid price:</b> {{ $bid->product->minimum_bid_price }} <br>
+                                                <b>Buy now price:</b> {{ $bid->product->buy_now_price }} <br>
+                                                <b>Reserve price: </b>{{ $bid->product->reserve_price }}
+                                            </td>
+                                            {{-- <td>
                                                     @if ($bid->product->status == 1)
                                                         <span class="badge badge-success">Active</span>
                                                     @else
                                                         <span class="badge badge-danger">Inactive</span>
                                                     @endif
                                                 </td> --}}
-                                                <td>{{ $bid->product->auctionSlot->auction_date . ' ' . $bid->product->auctionSlot->auction_date_end }}</td>
-                                                {{-- <td>
+                                            <td>{{ $bid->product->auctionSlot->auction_date . ' ' . $bid->product->auctionSlot->auction_date_end }}
+                                            </td>
+                                            {{-- <td>
                                                     <button
                                                         class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted"
                                                         type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -93,7 +94,7 @@
                                                     </form>
                                                     </div>
                                                 </td> --}}
-                                            </tr>
+                                        </tr>
                                         {{-- @endif --}}
                                     @endforeach
                                 </tbody>
