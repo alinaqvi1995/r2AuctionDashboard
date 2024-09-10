@@ -7,6 +7,7 @@ use Google\Client as GoogleClient;
 use Google\Service\Oauth2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class GoogleAuthController extends Controller
 {
