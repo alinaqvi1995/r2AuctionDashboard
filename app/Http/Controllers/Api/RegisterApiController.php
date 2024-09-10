@@ -177,6 +177,8 @@ class RegisterApiController extends Controller
         if ($request->has('password')) {
             $data['password'] = bcrypt($request->input('password'));
         }
+        
+        $data['full_name'] = trim(($request->input('name') ?? '') . ' ' . ($request->input('middle_name') ?? '') . ' ' . ($request->input('last_name') ?? ''));
 
         $user->update($data);
 
