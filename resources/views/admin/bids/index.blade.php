@@ -18,6 +18,7 @@
                                         <th>Bidder</th>
                                         <th>Bid Amount</th>
                                         <th>Bid Date</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -37,6 +38,15 @@
                                             </td>
                                             <td>{{ $bid->product->auctionSlot->auction_date . ' ' . $bid->product->auctionSlot->auction_date_end }}
                                             </td>
+                                            <td>
+                                                @if ($bid->status == 0)
+                                                    <span class="badge badge-warning">Pending</span>
+                                                @elseif ($bid->status == 1)
+                                                    <span class="badge badge-success">Accepted</span>
+                                                @elseif ($bid->status == 2)
+                                                    <span class="badge badge-danger">Cancelled</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -50,6 +60,5 @@
 @endsection
 
 @section('bottom_script')
-    <script>
-    </script>
+    <script></script>
 @endsection

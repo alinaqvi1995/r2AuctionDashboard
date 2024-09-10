@@ -167,9 +167,9 @@
 
             <!-- Device Generation -->
             <div class="form-group">
-                <label for="device_generation">Device Generation *</label>
-                <input type="text" class="form-control" id="device_generation" name="device_generation"
-                    value="{{ $product->device_generation }}" required>
+                <label for="generation">Device Generation *</label>
+                <input type="text" class="form-control" id="generation" name="generation"
+                    value="{{ $product->generation }}" required>
             </div>
 
             <!-- Connectivity -->
@@ -243,35 +243,35 @@
             <div class="form-group">
                 <label for="lot_address">Lot Address *</label>
                 <input type="text" class="form-control" id="lot_address" name="lot_address"
-                    value="{{ $product->lot_location }}" required>
+                    value="{{ $product->lot_address }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
                 <label for="lot_city">Lot City *</label>
                 <input type="text" class="form-control" id="lot_city" name="lot_city"
-                    value="{{ $product->lot_location }}" required>
+                    value="{{ $product->lot_city }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
                 <label for="lot_state">Lot Province *</label>
                 <input type="text" class="form-control" id="lot_state" name="lot_state"
-                    value="{{ $product->lot_location }}" required>
+                    value="{{ $product->lot_state }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
                 <label for="lot_zip">Lot Zip / Postal Code *</label>
                 <input type="text" class="form-control" id="lot_zip" name="lot_zip"
-                    value="{{ $product->lot_location }}" required>
+                    value="{{ $product->lot_zip }}" required>
             </div>
 
             <!-- Lot Location -->
             <div class="form-group">
                 <label for="lot_country">Lot Country *</label>
                 <input type="text" class="form-control" id="lot_country" name="lot_country"
-                    value="{{ $product->lot_location }}" required>
+                    value="{{ $product->lot_country }}" required>
             </div>
 
             <!-- International Buyers -->
