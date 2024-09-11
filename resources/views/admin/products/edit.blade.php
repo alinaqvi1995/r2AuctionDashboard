@@ -185,10 +185,10 @@
 
             <!-- Network Status -->
             <div class="form-group">
-                <label for="network_status">Network Status *</label>
-                <select class="form-control" id="network_status" name="network_status" required>
-                    <option value="Locked" {{ $product->network_status == 'Locked' ? 'selected' : '' }}>Locked</option>
-                    <option value="Unlocked" {{ $product->network_status == 'Unlocked' ? 'selected' : '' }}>Unlocked
+                <label for="lock_status_id">Network Status *</label>
+                <select class="form-control" id="lock_status_id" name="lock_status_id" required>
+                    <option value="Locked" {{ $product->lock_status_id == 'Locked' ? 'selected' : '' }}>Locked</option>
+                    <option value="Unlocked" {{ $product->lock_status_id == 'Unlocked' ? 'selected' : '' }}>Unlocked
                     </option>
                 </select>
             </div>
