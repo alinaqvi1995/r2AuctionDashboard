@@ -177,19 +177,22 @@
             <div class="form-group">
                 <label for="connectivity">Connectivity *</label>
                 <select name="connectivity" id="connectivity" class="form-control">
-                <option value="Cellular" {{ $product->network_status == 'Cellular' ? 'selected' : '' }}>Cellular</option>
-                <option value="Wifi" {{ $product->network_status == 'Wifi' ? 'selected' : '' }}>Wifi</option>
-                <option value="GPS" {{ $product->network_status == 'GPS' ? 'selected' : '' }}>GPS</option>
+                <option value="Cellular" {{ $product->connectivity == 'Cellular' ? 'selected' : '' }}>Cellular</option>
+                <option value="Wifi" {{ $product->connectivity == 'Wifi' ? 'selected' : '' }}>Wifi</option>
+                <option value="GPS" {{ $product->connectivity == 'GPS' ? 'selected' : '' }}>GPS</option>
             </select>
             </div>
 
             <!-- Network Status -->
             <div class="form-group">
-                <label for="lock_status_id">Network Status *</label>
-                <select class="form-control" id="lock_status_id" name="lock_status_id" required>
-                    <option value="Locked" {{ $product->lock_status_id == 'Locked' ? 'selected' : '' }}>Locked</option>
-                    <option value="Unlocked" {{ $product->lock_status_id == 'Unlocked' ? 'selected' : '' }}>Unlocked
-                    </option>
+                <label for="lock_status_id">Lock Status *</label>
+                <select class="form-control select2" multiple id="lock_status_id" name="lock_status_id" required>
+                    @foreach ($lockStatus as $row)
+                        <option value="{{ $row->id }}"
+                            {{ in_array($row->id, $product->rows->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
