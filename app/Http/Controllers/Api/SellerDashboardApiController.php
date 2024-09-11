@@ -61,28 +61,28 @@ class SellerDashboardApiController extends Controller
 
         return response()->json(['data' => $data], 200);
     }
-    
-    public function bid_accept($id)
-    {
-        try {
-            $bid = Bid::with('product')->findOrFail($id);
 
-            $order = new Order;
-            $order->user_id = $bid->user_id;
-            $order->product_id = $bid->product->id;
-            $order->bid_id = $id;
-            $order->amount = $bid->bid_amount;
-            $order->order_type = 'bid';
-            $order->status = 0;
-            $order->save();
+    // public function bid_accept($id)
+    // {
+    //     try {
+    //         $bid = Bid::with('product')->findOrFail($id);
 
-            $bid->update(['status' => 1]);
+    //         $order = new Order;
+    //         $order->user_id = $bid->user_id;
+    //         $order->product_id = $bid->product->id;
+    //         $order->bid_id = $id;
+    //         $order->amount = $bid->bid_amount;
+    //         $order->order_type = 'bid';
+    //         $order->status = 0;
+    //         $order->save();
 
-            return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
+    //         $bid->update(['status' => 1]);
+
+    //         return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => $e->getMessage()], 500);
+    //     }
+    // }
 
     public function mySales($user_id)
     {
