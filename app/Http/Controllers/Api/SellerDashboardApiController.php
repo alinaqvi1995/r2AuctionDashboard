@@ -66,16 +66,14 @@ class SellerDashboardApiController extends Controller
         try {
             $bid = Bid::with('product')->findOrFail($id);
 
-            $orderData = [
-                'user_id' => $bid->user_id,
-                'product_id' => $bid->product->id,
-                'bid_id' => $id,
-                'amount' => $bid->bid_amount,
-                'order_type' => 'bid',
-                'status' => 0,
-            ];
-
-            $order = Order::create($orderData);
+            $order = new Order;
+            $order->user_id = $bid->user_id;
+            $order->product_id = $bid->product->id;
+            $order->bid_id = $id;
+            $order->amount = $bid->bid_amount;
+            $order->order_type = 'bid';
+            $order->status = 0;
+            $order->save();
 
             $bid->update(['status' => 1]);
 
