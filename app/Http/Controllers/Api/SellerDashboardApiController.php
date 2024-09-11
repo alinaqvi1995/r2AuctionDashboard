@@ -61,6 +61,7 @@ class SellerDashboardApiController extends Controller
 
         return response()->json(['data' => $data], 200);
     }
+    
     public function bid_accept($id)
     {
         try {
