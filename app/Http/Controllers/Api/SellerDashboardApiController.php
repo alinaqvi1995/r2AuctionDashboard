@@ -63,19 +63,26 @@ class SellerDashboardApiController extends Controller
     }
     public function bid_accept($id)
     {
-        $bid = Bid::with('product')->findOrFail($id);
+        try {
+            $bid = Bid::with('product')->findOrFail($id);
 
-        $order['bid_id'] = $id;
-        $order['status'] = 0;
-        $order['product_id'] = $bid->product->id;
-        $order['amount'] = $bid->bid_amount;
-        $order['order_type'] = 'bid';
+            $orderData = [
+                'user_id' => $bid->product->user_id,
+                'product_id' => $bid->product->id,
+                'bid_id' => $id,
+                'amount' => $bid->bid_amount,
+                'order_type' => 'bid',
+                'status' => 0,
+            ];
 
-        $order = Order::create($order);
+            $order = Order::create($orderData);
 
-        $bid->update(['status' => 1]);
+            $bid->update(['status' => 1]);
 
-        return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
+            return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function mySales($user_id)

@@ -6,10 +6,8 @@
         <p class="card-text">Products table.</p>
         <div class="row my-4">
             <div class="col-md-12">
-                <a href="{{ route('products.create') }}" type="button" class="btn btn-primary"><span
-                        class="fe fe-plus fe-16 mr-3"></span>New Product</a>
-                {{-- <button type="button" class="btn btn-primary" id="openProductModal"><span
-                        class="fe fe-plus fe-16 mr-3"></span>New Product</button> --}}
+                {{-- <a href="{{ route('products.create') }}" type="button" class="btn btn-primary"><span
+                        class="fe fe-plus fe-16 mr-3"></span>New Product</a> --}}
                 <div class="card shadow">
                     <div class="card-body">
                         <!-- Product Messages -->
