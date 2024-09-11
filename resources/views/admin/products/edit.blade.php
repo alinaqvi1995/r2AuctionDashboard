@@ -31,8 +31,8 @@
                 <label for="listing_type">Listing Type *</label>
                 <select class="form-control" id="listing_type" name="listing_type" required>
                     <option value="">Select Listing Type</option>
-                    <option value="Type A" {{ $product->listing_type == 'Type A' ? 'selected' : '' }}>Type A</option>
-                    <option value="Type B" {{ $product->listing_type == 'Type B' ? 'selected' : '' }}>Type B</option>
+                    <option value="1" {{ $product->listing_type == '1' ? 'selected' : '' }}>Type A</option>
+                    <option value="2" {{ $product->listing_type == '2' ? 'selected' : '' }}>Type B</option>
                 </select>
             </div>
 
@@ -358,8 +358,8 @@
 
             <!-- Note Field -->
             <div class="form-group">
-                <label for="description">Note</label>
-                <textarea class="form-control" id="description" name="description" required>{{ $product->description }}</textarea>
+                <label for="notes">Note</label>
+                <textarea class="form-control" id="notes" name="notes" required>{{ $product->notes }}</textarea>
             </div>
 
             <!-- Auction Date -->
