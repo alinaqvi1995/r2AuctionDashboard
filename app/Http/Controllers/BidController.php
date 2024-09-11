@@ -106,11 +106,23 @@ class BidController extends Controller
 
     public function acceptBid($bidId)
     {
-        $bid = Bid::findOrFail($bidId);
+        try {
+            $bid = Bid::with('product')->findOrFail($bidId);
 
-        $bid->status = 1;
-        $bid->save();
+            $order = new Order;
+            $order->user_id = $bid->user_id;
+            $order->product_id = $bid->product->id;
+            $order->bid_id = $bidId;
+            $order->amount = $bid->bid_amount;
+            $order->order_type = 'bid';
+            $order->status = 0;
+            $order->save();
 
-        return response()->json(['message' => 'Bid accepted successfully.', 'bid' => $bid], 200);
+            $bid->update(['status' => 1]);
+
+            return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
