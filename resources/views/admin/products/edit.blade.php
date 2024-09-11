@@ -9,6 +9,7 @@
         <form id="editProductForm" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            {{-- {{ dd($product->toArray()) }} --}}
             <input type="hidden" id="id" name="id" value="{{ $product->id }}">
 
             <!-- Listing Title -->
@@ -295,16 +296,16 @@
 
             <!-- Shipping Requirements -->
             <div class="form-group">
-                <label for="condition">Shipping Requirements *</label>
-                <select class="form-control" id="condition" name="condition" required>
-                    <option value="Buyer responsible for packaging materials and shipping costs"
-                        {{ $product->condition == 'Buyer responsible for packaging materials and shipping costs' ? 'selected' : '' }}>
+                <label for="shipping_requirements">Shipping Requirements *</label>
+                <select class="form-control" id="shipping_requirements" name="shipping_requirements" required>
+                    <option value="buyer_packaging_buyer_shipping"
+                        {{ $product->shipping_requirements == 'buyer_packaging_buyer_shipping' ? 'selected' : '' }}>
                         Buyer responsible for packaging materials and shipping costs</option>
-                    <option value="Buyer responsible for shipping costs. Seller responsible for packaging materials"
-                        {{ $product->condition == 'Buyer responsible for shipping costs. Seller responsible for packaging materials' ? 'selected' : '' }}>
+                    <option value="buyer_shipping_seller_packaging"
+                        {{ $product->shipping_requirements == 'buyer_shipping_seller_packaging' ? 'selected' : '' }}>
                         Buyer responsible for shipping costs. Seller responsible for packaging materials</option>
-                    <option value="Seller responsible for packaging and shipping costs"
-                        {{ $product->condition == 'Seller responsible for packaging and shipping costs' ? 'selected' : '' }}>
+                    <option value="seller_packaging_seller_shipping"
+                        {{ $product->shipping_requirements == 'seller_packaging_seller_shipping' ? 'selected' : '' }}>
                         Seller responsible for packaging and shipping costs</option>
                 </select>
             </div>

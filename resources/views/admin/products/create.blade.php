@@ -113,11 +113,11 @@
                 <select class="form-control fs-14 h-50px" name="shipping_requirements" id="shipping_requirements"
                     required>
                     <option value="">Select</option>
-                    <option value="Buyer responsible for packaging materials and shipping costs.">Buyer responsible for
+                    <option value="buyer_packaging_buyer_shipping">Buyer responsible for
                         packaging materials and shipping costs.</option>
-                    <option value="Shipper responsible for packaging materials and shipping costs.">Shipper responsible for
+                    <option value="seller_packaging_seller_shipping">Shipper responsible for
                         packaging materials and shipping costs.</option>
-                    <option value="Buyer responsible for shipping costs. Seller responsible for packaging materials.">Buyer
+                    <option value="buyer_shipping_seller_packaging">Buyer
                         responsible for shipping costs. Seller responsible for packaging materials.</option>
                 </select>
             </div>
