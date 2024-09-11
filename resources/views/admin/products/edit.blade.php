@@ -189,7 +189,7 @@
                 <select class="form-control select2" multiple id="lock_status_id" name="lock_status_id" required>
                     @foreach ($lockStatus as $row)
                         <option value="{{ $row->id }}"
-                            {{ in_array($row->id, $product->rows->pluck('id')->toArray()) ? 'selected' : '' }}>
+                            {{ in_array($row->id, $product->lockStatuses->pluck('id')->toArray()) ? 'selected' : '' }}>
                             {{ $row->name }}
                         </option>
                     @endforeach
