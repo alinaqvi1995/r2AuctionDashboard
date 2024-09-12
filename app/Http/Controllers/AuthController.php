@@ -45,8 +45,13 @@ class AuthController extends Controller
                 $user->setRememberToken(Str::random(60));
                 $user->save();
 
-                // Send email after the user is saved
-                Mail::to($user->email)->send(new PasswordChanged($user->name));
+                try {
+                    // Attempt to send email
+                    Mail::to($user->email)->send(new PasswordChanged($user->name));
+                } catch (\Exception $e) {
+                    // Log the error for debugging
+                    \Log::error('Failed to send password changed email: ' . $e->getMessage());
+                }
             }
         );
 
@@ -56,4 +61,5 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Failed to reset password'], 400);
     }
+
 }
