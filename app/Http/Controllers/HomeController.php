@@ -30,7 +30,7 @@ class HomeController extends Controller
         }
         else
         {
-            return redirect()->route('colors.index');
+            return redirect()->route('login');
         }
         
     }
