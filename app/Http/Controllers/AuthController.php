@@ -44,6 +44,7 @@ class AuthController extends Controller
                 $user->password = Hash::make($password);
                 $user->setRememberToken(Str::random(60));
                 $user->save();
+                dd($user->name);
 
                 try {
                     // Sending email after password is reset
