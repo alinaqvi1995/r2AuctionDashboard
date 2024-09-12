@@ -22,6 +22,7 @@ use App\Http\Controllers\ModelNameController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ClientsFeedbackController;
+use App\Http\Controllers\AuthController;
 
 Auth::routes();
 
@@ -44,7 +45,7 @@ Route::middleware([
 
 // Admin Routes
 Route::middleware('admin')->prefix('admin')->group(function () {
-// Route::prefix('admin')->group(function () {
+    // Route::prefix('admin')->group(function () {
 
     Route::get('/', [AdminController::class, 'index'])->name('admin');
     ;
@@ -182,4 +183,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
         Route::put('/update/{feedback}', [ClientsFeedbackController::class, 'update'])->name('clients.feedback.update');
         Route::delete('/destroy/{feedback}', [ClientsFeedbackController::class, 'destroy'])->name('clients.feedback.destroy');
     });
+
+    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('update.password');
 });
