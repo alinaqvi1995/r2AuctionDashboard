@@ -32,6 +32,7 @@ class AuthController extends Controller
     // Reset Password
     public function resetPassword(Request $request)
     {
+        dd($request->toArray());
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
