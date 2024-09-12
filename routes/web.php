@@ -184,5 +184,5 @@ Route::middleware('admin')->prefix('admin')->group(function () {
         Route::delete('/destroy/{feedback}', [ClientsFeedbackController::class, 'destroy'])->name('clients.feedback.destroy');
     });
 
-    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('update.password');
+    // Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('update.password');
 });
