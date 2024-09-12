@@ -46,10 +46,9 @@ class AuthController extends Controller
                 $user->save();
 
                 try {
-                    // Attempt to send email
+                    // Sending email after password is reset
                     Mail::to($user->email)->send(new PasswordChanged($user->name));
                 } catch (\Exception $e) {
-                    // Log the error for debugging
                     \Log::error('Failed to send password changed email: ' . $e->getMessage());
                 }
             }
@@ -61,5 +60,4 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Failed to reset password'], 400);
     }
-
 }
