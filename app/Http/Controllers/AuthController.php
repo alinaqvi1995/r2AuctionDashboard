@@ -32,7 +32,6 @@ class AuthController extends Controller
     // Reset Password
     public function resetPassword(Request $request)
     {
-        \Log::debug('Reset Password Route Accessed');
         dd($request->toArray());
         $request->validate([
             'token' => 'required',
