@@ -10,19 +10,16 @@ class PasswordChanged extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $userName;
+    public $name;
 
-    public function __construct($userName)
+    public function __construct($name)
     {
-        $this->userName = $userName;
+        $this->name = $name;
     }
 
     public function build()
     {
-        return $this->subject('Your Password Has Been Changed!')
-            ->view('emails.password_changed')
-            ->with([
-                'userName' => $this->userName,
-            ]);
+        return $this->subject('Your Password Has Been Changed')
+                    ->view('emails.password_changed'); // Ensure this view exists
     }
 }
