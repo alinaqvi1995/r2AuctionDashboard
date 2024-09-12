@@ -188,7 +188,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('/test-password-changed-email', function () {
         $user = (object) [
-            'email' => 'recipient@example.com',
+            'email' => 'alinaqvif@gmail.com',
             'name' => 'Test User'
         ];
 
