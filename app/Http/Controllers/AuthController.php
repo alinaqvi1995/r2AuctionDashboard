@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
-use App\Mail\PasswordChanged;
-use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -32,27 +30,19 @@ class AuthController extends Controller
     // Reset Password
     public function resetPassword(Request $request)
     {
-        dd($request->toArray());
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|confirmed|min:8',
         ]);
 
+        // Reset the password
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->password = Hash::make($password);
                 $user->setRememberToken(Str::random(60));
                 $user->save();
-                dd($user->name);
-
-                try {
-                    // Sending email after password is reset
-                    Mail::to($user->email)->send(new PasswordChanged($user->name));
-                } catch (\Exception $e) {
-                    \Log::error('Failed to send password changed email: ' . $e->getMessage());
-                }
             }
         );
 
