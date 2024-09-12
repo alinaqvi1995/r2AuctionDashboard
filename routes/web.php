@@ -23,6 +23,8 @@ use App\Http\Controllers\BidController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ClientsFeedbackController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordChanged;
 
 Auth::routes();
 
@@ -182,6 +184,20 @@ Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/{feedback}/edit', [ClientsFeedbackController::class, 'edit'])->name('clients.feedback.edit');
         Route::put('/update/{feedback}', [ClientsFeedbackController::class, 'update'])->name('clients.feedback.update');
         Route::delete('/destroy/{feedback}', [ClientsFeedbackController::class, 'destroy'])->name('clients.feedback.destroy');
+    });
+
+    Route::get('/test-password-changed-email', function () {
+        $user = (object) [
+            'email' => 'recipient@example.com',
+            'name' => 'Test User'
+        ];
+
+        try {
+            Mail::to($user->email)->send(new PasswordChanged($user->name));
+            return 'Email sent to ' . $user->email;
+        } catch (\Exception $e) {
+            return 'Failed to send email: ' . $e->getMessage();
+        }
     });
 
     // Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('update.password');
