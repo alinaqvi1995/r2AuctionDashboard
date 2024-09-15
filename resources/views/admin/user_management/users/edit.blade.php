@@ -47,7 +47,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('First Name') }}</label>
                             <input id="name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px @error('name') is-invalid @enderror"
-                                name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
+                                name="name" value="{{ $user->name }}" autocomplete="name" autofocus>
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -60,7 +60,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Middle Name') }}</label>
                             <input id="middle_name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="middle_name"
-                                value="{{ $user->middle_name }}" required>
+                                value="{{ $user->middle_name }}">
                         </div>
 
                         <div class="col-md-4">
@@ -68,7 +68,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Last Name') }}</label>
                             <input id="last_name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="last_name"
-                                value="{{ $user->last_name }}" required>
+                                value="{{ $user->last_name }}">
                         </div>
 
                         <!-- Contact Information -->
@@ -81,7 +81,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('E-Mail Address') }}</label>
                             <input id="email" type="email"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px @error('email') is-invalid @enderror"
-                                name="email" value="{{ $user->email }}" required autocomplete="email">
+                                name="email" value="{{ $user->email }}" autocomplete="email">
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -93,28 +93,28 @@
                             <label for="phone"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Phone') }}</label>
                             <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="phone" value="{{ $user->phone }}" required>
+                                name="phone" value="{{ $user->phone }}">
                         </div>
 
                         <div class="col-md-3">
                             <label for="state"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('State') }}</label>
                             <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="state" value="{{ $user->state }}" required>
+                                name="state" value="{{ $user->state }}">
                         </div>
 
                         <div class="col-md-3">
                             <label for="city"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('City') }}</label>
                             <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="city" value="{{ $user->city }}" required>
+                                name="city" value="{{ $user->city }}">
                         </div>
 
                         <div class="col-md-6">
                             <label for="address"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Address') }}</label>
                             <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="address" value="{{ $user->address }}" required>
+                                name="address" value="{{ $user->address }}">
                         </div>
 
                         @if ($user->role == 'seller')
@@ -273,39 +273,67 @@
                                 <label for="business_license"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business License') }}</label>
                                 <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="business_license"
+                                    name="business_license" id="business_license"
                                     value="{{ old('business_license', $user->seller->business_license) }}">
+                                <div>
+                                    <img id="business_license_preview"
+                                        src="{{ old('business_license', $user->seller->business_license) }}"
+                                        alt=""
+                                        style="max-width: 100%; height: auto;">
+                                </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="address_proof"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Address Proof') }}</label>
                                 <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="address_proof"
+                                    name="address_proof" id="address_proof"
                                     value="{{ old('address_proof', $user->seller->address_proof) }}">
+                                <div>
+                                    <img id="address_proof_preview"
+                                        src="{{ $user->seller->address_proof }}" alt=""
+                                        style="max-width: 100%; height: auto;">
+                                </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="owner_eid"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Owner EID') }}</label>
                                 <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="owner_eid" value="{{ old('owner_eid', $user->seller->owner_eid) }}">
+                                    name="owner_eid" id="owner_eid"
+                                    value="{{ old('owner_eid', $user->seller->owner_eid) }}">
+                                <div>
+                                    <img id="owner_eid_preview" src="{{ old('owner_eid', $user->seller->owner_eid) }}"
+                                        alt=""
+                                        style="max-width: 100%; height: auto;">
+                                </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="tra_certificate"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('TRA Certificate') }}</label>
                                 <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="tra_certificate"
+                                    name="tra_certificate" id="tra_certificate"
                                     value="{{ old('tra_certificate', $user->seller->tra_certificate) }}">
+                                <div>
+                                    <img id="tra_certificate_preview"
+                                        src="{{ old('tra_certificate', $user->seller->tra_certificate) }}" alt=""
+                                        style="max-width: 100%; height: auto;">
+                                </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="bank_swift_letter"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank SWIFT Letter') }}</label>
                                 <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="bank_swift_letter"
+                                    name="bank_swift_letter" id="bank_swift_letter"
                                     value="{{ old('bank_swift_letter', $user->seller->bank_swift_letter) }}">
+                                <div>
+                                    <img id="bank_swift_letter_preview"
+                                        src="{{ old('bank_swift_letter', $user->seller->bank_swift_letter) }}"
+                                        alt=""
+                                        style="max-width: 100%; height: auto;">
+                                </div>
                             </div>
                         @elseif($user->role == 'buyer')
                             <!-- Buyer Details -->
