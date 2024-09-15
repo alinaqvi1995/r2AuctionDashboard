@@ -8,19 +8,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;  // Import the User model
 
 class ProductAdded extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $user; // Declare user property
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user = $user; // Set the user property
     }
 
     /**
@@ -43,7 +46,10 @@ class ProductAdded extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.product_added',
+            with: [
+                'user' => $this->user, // Pass user to the view
+            ]
         );
     }
 

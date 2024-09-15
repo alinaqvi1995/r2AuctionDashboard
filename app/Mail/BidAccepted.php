@@ -13,14 +13,17 @@ class BidAccepted extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user; // Public variable to hold the user data
+
     /**
      * Create a new message instance.
      *
+     * @param $user
      * @return void
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user; // Assign the user data
     }
 
     /**
@@ -43,7 +46,7 @@ class BidAccepted extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.bid_accepted',
         );
     }
 

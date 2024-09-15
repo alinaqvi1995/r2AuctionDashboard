@@ -19,8 +19,11 @@ use App\Models\ModelName;
 use App\Models\Category;
 use App\Models\Manufacturer;
 use App\Models\AuctionSlot;
+use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
+use App\Mail\ProductAdded;
+use Illuminate\Support\Facades\Mail;
 
 class ProductApiController extends Controller
 {
@@ -88,12 +91,9 @@ class ProductApiController extends Controller
 
         $product = Product::create($requestData);
 
-        // Handle file uploads
-        // if ($request->hasFile('image')) {
-        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
-        //     $product->image = $imagePath;
-        //     $product->save();
-        // }
+        $user = User::findOrFail($request['user_id']);
+
+        Mail::to($request->email)->send(new ProductAdded($user));
 
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $media) {
