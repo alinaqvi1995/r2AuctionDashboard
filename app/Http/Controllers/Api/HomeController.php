@@ -24,7 +24,9 @@ class HomeController extends Controller
             'rams',
             'sizes',
             'modelNames',
-            'images'
+            'images',
+            'category',
+            'manufacturer',
         ])->whereHas('auctionSlot', function ($query) {
             $query->where('auction_date', '<=', now())
                 ->where('auction_date_end', '>=', now());
