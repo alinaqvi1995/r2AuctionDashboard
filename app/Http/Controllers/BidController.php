@@ -9,6 +9,8 @@ use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
 use Stripe\Charge;
+use App\Mail\BidAccepted;
+use Illuminate\Support\Facades\Mail;
 
 class BidController extends Controller
 {
@@ -104,10 +106,34 @@ class BidController extends Controller
         return response()->json(['message' => 'All pending bids have been cancelled successfully.'], 200);
     }
 
+    // public function acceptBid($bidId)
+    // {
+    //     try {
+    //         $bid = Bid::with('product')->findOrFail($bidId);
+
+    //         $order = new Order;
+    //         $order->user_id = $bid->user_id;
+    //         $order->product_id = $bid->product->id;
+    //         $order->bid_id = $bidId;
+    //         $order->amount = $bid->bid_amount;
+    //         $order->order_type = 'bid';
+    //         $order->status = 0;
+    //         $order->save();
+
+    //         $bid->update(['status' => 1]);
+
+    //         Mail::to($user->email)->send(new BidAccepted($user));
+
+    //         return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => $e->getMessage()], 500);
+    //     }
+    // }
+
     public function acceptBid($bidId)
     {
         try {
-            $bid = Bid::with('product')->findOrFail($bidId);
+            $bid = Bid::with('product', 'user')->findOrFail($bidId);
 
             $order = new Order;
             $order->user_id = $bid->user_id;
@@ -120,9 +146,13 @@ class BidController extends Controller
 
             $bid->update(['status' => 1]);
 
+            $user = $bid->user;
+            Mail::to($user->email)->send(new BidAccepted());
+
             return response()->json(['message' => 'Bid accepted successfully', 'bid_products' => $bid], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 }
