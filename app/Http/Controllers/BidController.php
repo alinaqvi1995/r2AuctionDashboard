@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Bid;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
 use Stripe\Charge;
 use App\Mail\BidAccepted;
+use App\Mail\BidLive;
 use Illuminate\Support\Facades\Mail;
 
 class BidController extends Controller
@@ -32,6 +34,7 @@ class BidController extends Controller
         ]);
 
         $product = Product::findOrFail($request->product_id);
+        $user = User::findOrFail($request->user_id);
         $status = 0;
 
         DB::beginTransaction();
@@ -39,10 +42,11 @@ class BidController extends Controller
         try {
             if ($request->bid_amount >= $product->reserve_price) {
                 $status = 1;
-                // $order = $this->createOrder($request, $product);
             }
 
             $bid = Bid::create(array_merge($request->all(), ['status' => $status]));
+
+            Mail::to($user->email)->send(new BidLive());
 
             DB::commit();
 
