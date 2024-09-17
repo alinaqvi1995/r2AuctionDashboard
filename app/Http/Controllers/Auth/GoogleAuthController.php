@@ -36,12 +36,12 @@ class GoogleAuthController extends Controller
             $this->client->fetchAccessTokenWithAuthCode($request->code);
             $oauth2 = new Oauth2($this->client);
             $userInfo = $oauth2->userinfo->get();
-            dd($request->toArray(), $oauth2, $userInfo);
-
+            
             $user = User::firstOrCreate(
                 ['email' => $userInfo->email],
                 ['name' => $userInfo->name, 'password' => bcrypt(Str::random(16))]
             );
+            dd('ok', $request->toArray(), $oauth2, $userInfo);
 
             Auth::login($user);
 
