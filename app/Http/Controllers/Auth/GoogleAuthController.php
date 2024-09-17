@@ -42,7 +42,11 @@ class GoogleAuthController extends Controller
 
             $user = User::firstOrCreate(
                 ['email' => $userInfo->email],
-                ['name' => $userInfo->name, 'password' => bcrypt(Str::random(16))]
+                [
+                    'name' => $userInfo->name,
+                    'password' => bcrypt(Str::random(16)),
+                    'role' => 'user'
+                ]
             );
 
             Auth::login($user);
@@ -51,15 +55,19 @@ class GoogleAuthController extends Controller
 
             if ($user->wasRecentlyCreated) {
                 Mail::to($user->email)->send(new UserSignedUp($user));
+                return response()->json([
+                    'message' => 'User registered successfully',
+                    'token' => $token,
+                    'user' => $user
+                ], 201);
             } else {
                 Mail::to($user->email)->send(new UserSignedIn($user));
+                return response()->json([
+                    'message' => 'User logged in successfully',
+                    'token' => $token,
+                    'user' => $user
+                ], 200);
             }
-
-            return response()->json([
-                'message' => 'User logged in successfully',
-                'token' => $token,
-                'user' => $user
-            ], 200);
         }
 
         return response()->json(['error' => 'Authentication failed'], 401);
