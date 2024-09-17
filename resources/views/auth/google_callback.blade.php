@@ -14,7 +14,8 @@
             console.error('window.opener is null.');
         } else {
             const userData = @json($userData);
-            window.opener.postMessage(userData, window.location.origin);
+            // window.opener.postMessage(userData, window.location.origin);
+            window.opener.postMessage(userData, "http://localhost:3000");
             // setTimeout(() => {
             //     window.close();
             // }, 1000);
