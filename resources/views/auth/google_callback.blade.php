@@ -9,6 +9,7 @@
 <body>
     <script>
         console.log('Window Opener:', window.opener);
+        console.log('userData:', $userData);
         if (!window.opener) {
             console.error('window.opener is null.');
         } else {
