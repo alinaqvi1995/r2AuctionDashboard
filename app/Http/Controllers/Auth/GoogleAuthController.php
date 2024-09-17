@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Mail\UserSignedIn;
+use App\Mail\UserSignedUp;
+use Illuminate\Support\Facades\Mail;
 
 class GoogleAuthController extends Controller
 {
@@ -36,16 +39,27 @@ class GoogleAuthController extends Controller
             $this->client->fetchAccessTokenWithAuthCode($request->code);
             $oauth2 = new Oauth2($this->client);
             $userInfo = $oauth2->userinfo->get();
-            
+
             $user = User::firstOrCreate(
                 ['email' => $userInfo->email],
                 ['name' => $userInfo->name, 'password' => bcrypt(Str::random(16))]
             );
-            dd('ok', $request->toArray(), $oauth2, $userInfo);
 
             Auth::login($user);
 
-            return response()->json(['message' => 'User logged in successfully', 'user' => $user]);
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            if ($user->wasRecentlyCreated) {
+                Mail::to($user->email)->send(new UserSignedUp($user));
+            } else {
+                Mail::to($user->email)->send(new UserSignedIn($user));
+            }
+
+            return response()->json([
+                'message' => 'User logged in successfully',
+                'token' => $token,
+                'user' => $user
+            ], 200);
         }
 
         return response()->json(['error' => 'Authentication failed'], 401);
