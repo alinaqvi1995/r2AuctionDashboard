@@ -8,16 +8,16 @@
 
 <body>
     <script>
-        // User data passed from the backend
-        const userData = @json($userData);
-
-        // Send the user data to the original window
-        window.opener.postMessage(userData, window.location.origin);
-
-        // Close this window after sending the message
-        setTimeout(() => {
-            window.close();
-        }, 1000);
+        console.log('Window Opener:', window.opener);
+        if (!window.opener) {
+            console.error('window.opener is null.');
+        } else {
+            const userData = @json($userData);
+            window.opener.postMessage(userData, window.location.origin);
+            setTimeout(() => {
+                window.close();
+            }, 1000);
+        }
     </script>
 </body>
 
