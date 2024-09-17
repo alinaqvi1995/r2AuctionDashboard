@@ -32,11 +32,11 @@ class GoogleAuthController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
-        dd($request->toArray());
         if ($request->has('code')) {
             $this->client->fetchAccessTokenWithAuthCode($request->code);
             $oauth2 = new Oauth2($this->client);
             $userInfo = $oauth2->userinfo->get();
+            dd($request->toArray(), $oauth2, $userInfo);
 
             $user = User::firstOrCreate(
                 ['email' => $userInfo->email],
