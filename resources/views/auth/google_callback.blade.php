@@ -8,18 +8,20 @@
 
 <body>
     <script>
-        console.log('Window Opener:', window.opener);
-        console.log('userData:', '{{ $userData }}');
-        if (!window.opener) {
-            console.error('window.opener is null.');
-        } else {
-            const userData = @json($userData);
-            // window.opener.postMessage(userData, window.location.origin);
-            window.opener.postMessage(userData, "http://localhost:3000");
-            // setTimeout(() => {
-            //     window.close();
-            // }, 1000);
-        }
+        const allowedOrigins = [
+            "http://localhost:3000",
+            "https://prj-r2auction.vercel.app/"
+        ];
+
+        allowedOrigins.forEach(origin => {
+            if (window.opener) {
+                window.opener.postMessage(userData, origin);
+            }
+        });
+
+        setTimeout(() => {
+            window.close();
+        }, 1000);
     </script>
 </body>
 
