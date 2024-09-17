@@ -56,32 +56,20 @@ class GoogleAuthController extends Controller
 
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            $redirectUrl = 'http://localhost:3000/buyer/dashboard';
-            
             if ($user->wasRecentlyCreated) {
                 Mail::to($user->email)->send(new UserSignedUp($user));
-                // return response()->json([
-                //     'message' => 'User registered successfully',
-                //     'token' => $token,
-                //     'user' => $user,
-                // ], 201);
-                return redirect($redirectUrl)->with([
+                return response()->json([
                     'message' => 'User registered successfully',
                     'token' => $token,
                     'user' => $user
-                ]);
+                ], 201);
             } else {
                 Mail::to($user->email)->send(new UserSignedIn($user));
-                // return redirect()->url($redirectUrl)->response()->json([
-                //     'message' => 'User logged in successfully',
-                //     'token' => $token,
-                //     'user' => $user,
-                // ], 200);
-                return redirect($redirectUrl)->with([
+                return response()->json([
                     'message' => 'User logged in successfully',
                     'token' => $token,
                     'user' => $user
-                ]);
+                ], 200);
             }
         }
 
