@@ -40,8 +40,6 @@ class GoogleAuthController extends Controller
             $oauth2 = new Oauth2($this->client);
             $userInfo = $oauth2->userinfo->get();
 
-            dd($userInfo, $userInfo->picture);
-
             $user = User::firstOrCreate(
                 ['email' => $userInfo->email],
                 [
