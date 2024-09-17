@@ -8,6 +8,7 @@ use Google\Service\Oauth2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class GoogleAuthController extends Controller
 {
@@ -36,13 +37,11 @@ class GoogleAuthController extends Controller
             $oauth2 = new Oauth2($this->client);
             $userInfo = $oauth2->userinfo->get();
 
-            // Check if user exists, if not create a new user
             $user = User::firstOrCreate(
                 ['email' => $userInfo->email],
-                ['name' => $userInfo->name, 'password' => bcrypt(str_random(16))]
+                ['name' => $userInfo->name, 'password' => bcrypt(Str::random(16))]
             );
 
-            // Log in the user
             Auth::login($user);
 
             return response()->json(['message' => 'User logged in successfully', 'user' => $user]);
