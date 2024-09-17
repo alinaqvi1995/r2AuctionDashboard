@@ -45,7 +45,10 @@ class GoogleAuthController extends Controller
                 [
                     'name' => $userInfo->name,
                     'password' => bcrypt(Str::random(16)),
-                    'role' => 'user'
+                    'role' => 'user',
+                    'status' => 0,
+                    'avatar' => $userInfo->picture,,
+                    'admin_approval' => 0
                 ]
             );
 
