@@ -14,9 +14,9 @@
         } else {
             const userData = @json($userData);
             window.opener.postMessage(userData, window.location.origin);
-            setTimeout(() => {
-                window.close();
-            }, 1000);
+            // setTimeout(() => {
+            //     window.close();
+            // }, 1000);
         }
     </script>
 </body>
