@@ -32,6 +32,7 @@ class GoogleAuthController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
+        dd($request->toArray());
         if ($request->has('code')) {
             $this->client->fetchAccessTokenWithAuthCode($request->code);
             $oauth2 = new Oauth2($this->client);
