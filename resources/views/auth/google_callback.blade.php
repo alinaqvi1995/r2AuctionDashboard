@@ -8,6 +8,9 @@
 
 <body>
     <script>
+        
+        const userData = @json($userData);
+        
         const allowedOrigins = [
             "http://localhost:3000",
             "https://prj-r2auction.vercel.app/"
