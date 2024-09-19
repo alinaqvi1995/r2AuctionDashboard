@@ -93,7 +93,7 @@ class ProductApiController extends Controller
 
         $user = User::findOrFail($request['user_id']);
 
-        // Mail::to($request->email)->send(new ProductAdded($user));
+        Mail::to($user->email)->send(new ProductAdded($user));
 
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $media) {
