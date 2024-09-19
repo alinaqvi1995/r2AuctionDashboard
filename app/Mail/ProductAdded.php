@@ -26,40 +26,49 @@ class ProductAdded extends Mailable
         $this->user = $user; // Set the user property
     }
 
-    /**
-     * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
-    public function envelope()
-    {
-        return new Envelope(
-            subject: 'Product Added',
-        );
-    }
+    // /**
+    //  * Get the message envelope.
+    //  *
+    //  * @return \Illuminate\Mail\Mailables\Envelope
+    //  */
+    // public function envelope()
+    // {
+    //     return new Envelope(
+    //         subject: 'Product Added',
+    //     );
+    // }
 
-    /**
-     * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
-    public function content()
-    {
-        return new Content(
-            view: 'emails.product_added',
-            with: [
-                'user' => $this->user, // Pass user to the view
-            ]
-        );
-    }
+    // /**
+    //  * Get the message content definition.
+    //  *
+    //  * @return \Illuminate\Mail\Mailables\Content
+    //  */
+    // public function content()
+    // {
+    //     return new Content(
+    //         view: 'emails.product_added',
+    //         with: [
+    //             'user' => $this->user, // Pass user to the view
+    //         ]
+    //     );
+    // }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array
-     */
-    public function attachments()
+    // /**
+    //  * Get the attachments for the message.
+    //  *
+    //  * @return array
+    //  */
+    // public function attachments()
+    // {
+    //     return [];
+    // }
+
+    public function build()
     {
-        return [];
+        return $this->subject('Welcome to ' . config('app.name') . '!')
+            ->view('emails.product_added')
+            ->with([
+                'user' => $this->user->name,
+            ]);
     }
 }
