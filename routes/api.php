@@ -129,4 +129,4 @@ Route::get('auth/google/redirect', [GoogleAuthController::class, 'redirectToGoog
 Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
 Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
-// Route::post('reset-password', [AuthController::class, 'resetPassword']);
+Route::post('reset-password', [AuthController::class, 'resetPassword']);

@@ -14,7 +14,7 @@ class UserManagementController extends Controller
 {
     public function index()
     {
-        $users = User::with(['buyer', 'seller'])->get();
+        $users = User::with(['buyer', 'seller'])->orderBy('created_at', 'desc')->get();
         return view('admin.user_management.users.index', compact('users'));
     }
 
