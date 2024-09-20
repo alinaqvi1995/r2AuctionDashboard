@@ -24,7 +24,7 @@
         };
         ?>
         {{-- <x-mail::button :url="$actionUrl" :color="$color"> --}}
-        <x-mail::button :url="url('/update-password?token=' . $token . '&email=' . $email)" :color="$color">
+        <x-mail::button :url="url('https://prj-r2auction.vercel.app/update-password?token=' . $token . '&email=' . $email)" :color="$color">
             {{ $actionText }}
         </x-mail::button>
     @endisset
