@@ -136,7 +136,7 @@ class SellerDashboardApiController extends Controller
         ]);
     }
 
-    public function filterOrders(Request $request, $seller_id)
+    public function filterMySales(Request $request, $seller_id)
     {
         $seller = Seller::where('user_id', $seller_id)->firstOrFail();
 
@@ -146,7 +146,9 @@ class SellerDashboardApiController extends Controller
             $keyword = $request->input('search_keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->whereHas('user', function ($query) use ($keyword) {
-                    $query->where('name', 'like', '%' . $keyword . '%');
+                    $query->where('name', 'like', '%' . $keyword . '%')
+                    ->where('middle_name', 'like', '%' . $keyword . '%')
+                    ->where('last_name', 'like', '%' . $keyword . '%');
                 })->orWhereHas('product', function ($query) use ($keyword) {
                     $query->where('name', 'like', '%' . $keyword . '%');
                 })->orWhere('status', 'like', '%' . $keyword . '%')
