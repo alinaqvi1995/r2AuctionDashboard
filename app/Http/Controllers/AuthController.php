@@ -15,7 +15,6 @@ class AuthController extends Controller
     {
         $request->validate(['email' => 'required|email']);
 
-        // Send password reset link to email
         $status = Password::sendResetLink(
             $request->only('email')
         );
@@ -24,8 +23,18 @@ class AuthController extends Controller
             return response()->json(['message' => 'Password reset link sent'], 200);
         }
 
+        if ($status === Password::INVALID_USER) {
+            return response()->json(['message' => 'No user found with that email address'], 404);
+        }
+
+        if ($status === Password::RESET_THROTTLED) {
+            $waitTime = config('auth.passwords.' . config('auth.defaults.passwords') . '.throttle') / 60;
+            return response()->json(['message' => "Too many attempts. Please wait for {$waitTime} minutes before trying again."], 429);
+        }
+
         return response()->json(['message' => 'Unable to send reset link'], 400);
     }
+
 
     // Reset Password
     public function resetPassword(Request $request)
