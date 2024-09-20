@@ -25,6 +25,18 @@ use App\Http\Controllers\ClientsFeedbackController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordChanged;
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    Artisan::call('optimize:clear');
+    Artisan::call('event:clear');
+
+   return "Cache cleared successfully";
+});
 
 Auth::routes();
 

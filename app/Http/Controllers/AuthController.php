@@ -49,7 +49,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Password reset successfully'], 200);
         }
 
+        if ($status === Password::INVALID_TOKEN) {
+            return response()->json(['message' => 'This link has expired.'], 400);
+        }
+
         return response()->json(['message' => 'Failed to reset password'], 400);
     }
-
 }
