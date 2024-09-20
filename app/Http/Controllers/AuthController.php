@@ -36,7 +36,6 @@ class AuthController extends Controller
             'password' => 'required|min:8',
         ]);
 
-        // Reset the password
         $status = Password::reset(
             $request->only('email', 'password', 'token'),
             function ($user, $password) {
@@ -52,4 +51,5 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Failed to reset password'], 400);
     }
+
 }
