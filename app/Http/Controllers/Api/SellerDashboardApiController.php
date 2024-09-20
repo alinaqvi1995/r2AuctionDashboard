@@ -140,15 +140,18 @@ class SellerDashboardApiController extends Controller
     {
         $seller = Seller::where('user_id', $seller_id)->firstOrFail();
 
-        $query = Order::with(['user', 'product']);
+        $query = Order::with(['user', 'product'])
+            ->whereHas('product', function ($query) use ($seller) {
+                $query->where('user_id', $seller->id);
+            });
 
         if ($request->filled('search_keyword')) {
             $keyword = $request->input('search_keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->whereHas('user', function ($query) use ($keyword) {
                     $query->where('name', 'like', '%' . $keyword . '%')
-                    ->where('middle_name', 'like', '%' . $keyword . '%')
-                    ->where('last_name', 'like', '%' . $keyword . '%');
+                        ->where('middle_name', 'like', '%' . $keyword . '%')
+                        ->where('last_name', 'like', '%' . $keyword . '%');
                 })->orWhereHas('product', function ($query) use ($keyword) {
                     $query->where('name', 'like', '%' . $keyword . '%');
                 })->orWhere('status', 'like', '%' . $keyword . '%')
