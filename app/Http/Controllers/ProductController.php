@@ -314,15 +314,16 @@ class ProductController extends Controller
     {
         try {
             $product->load('category', 'user');
-            $product->delete();
 
             Notification::create([
                 'user_id' => Auth::id(),
                 'title' => 'Product Deleted',
-                'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been deleted by ' . $product->user->name,
+                'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been deleted by Admin',
                 'link' => route('products.index'),
                 'is_read' => 0,
             ]);
+            $product->delete();
+
             $products = Product::all();
             $view = view('admin.products.table', compact('products'))->render();
             return back()->with('message', 'Product deleted successfully');

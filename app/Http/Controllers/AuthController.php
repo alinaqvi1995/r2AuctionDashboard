@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Models\User;
+use App\Models\Notification;
 
 class AuthController extends Controller
 {
@@ -51,6 +51,14 @@ class AuthController extends Controller
                 $user->password = Hash::make($password);
                 $user->setRememberToken(Str::random(60));
                 $user->save();
+
+                Notification::create([
+                    'user_id' => $user->id,
+                    'title' => 'Password Reset',
+                    'description' => $user->full_name . ' has reset password successfully.',
+                    'link' => route('users.index'),
+                    'is_read' => 0,
+                ]);
             }
         );
 

@@ -8,6 +8,7 @@ use Google\Service\Oauth2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Support\Str;
 use App\Mail\UserSignedIn;
 use App\Mail\UserSignedUp;
@@ -52,17 +53,21 @@ class GoogleAuthController extends Controller
                 ]
             );
 
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'New User Registration',
+                'description' => 'A new user has registered: ' . $user->email . 'with Google Auth',
+                'link' => route('users.index'),
+                'is_read' => 0,
+            ]);
+
             Auth::login($user);
 
             $token = $user->createToken('auth_token')->plainTextToken;
 
             if ($user->wasRecentlyCreated) {
                 Mail::to($user->email)->send(new UserSignedUp($user));
-                // return response()->json([
-                //     'message' => 'User registered successfully',
-                //     'token' => $token,
-                //     'user' => $user
-                // ], 201);
+
                 $userData = [
                     'message' => 'User registered successfully',
                     'token' => $token,
@@ -72,12 +77,7 @@ class GoogleAuthController extends Controller
                 return response()->view('auth.google_callback', ['userData' => json_encode($userData)]);
             } else {
                 Mail::to($user->email)->send(new UserSignedIn($user));
-                // return response()->json([
-                //     'message' => 'User logged in successfully',
-                //     'token' => $token,
-                //     'user' => $user
-                // ], 200);
-                
+
                 $userData = [
                     'message' => 'User logged in successfully',
                     'token' => $token,
