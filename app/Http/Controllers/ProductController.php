@@ -19,6 +19,7 @@ use App\Models\ProductImage;
 use App\Models\Ram;
 use App\Models\Size;
 use App\Models\ModelName;
+use App\Models\Notification;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -127,13 +128,15 @@ class ProductController extends Controller
         $productData['certificate_hardware_destruction'] = $request->has('certificate_hardware_destruction') ? 1 : 0;
         $productData['buy_now'] = $request->has('buy_now') ? 1 : 0;
 
-        $product = Product::create($productData);
+        $product = Product::with('user', 'category')->create($productData);
 
-        // if ($request->hasFile('image')) {
-        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
-        //     $product->image = url('/') . '/' . 'products/' . $imagePath;
-        //     $product->save();
-        // }
+        Notification::create([
+            'user_id' => $product->user_id,
+            'title' => 'New Product',
+            'description' => 'A new ' . $product->category->name . ' ' . $product->name . ' has been added by' . $product->user->name,
+            'link' => route('products.index'),
+            'is_read' => 0,
+        ]);
 
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $media) {
@@ -266,12 +269,15 @@ class ProductController extends Controller
 
         $product->update($request->except(['image', 'media']));
 
-        // if ($request->hasFile('image')) {
-        //     $this->deleteImage($product->image);
-        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
-        //     $product->image = $imagePath;
-        //     $product->save();
-        // }
+        $product->load('category', 'user');
+
+        Notification::create([
+            'user_id' => $product->user_id,
+            'title' => 'Product Updated',
+            'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been updated by ' . $product->user->name,
+            'link' => route('products.index'),
+            'is_read' => 0,
+        ]);
 
         if ($request->hasFile('media')) {
             $product->images()->delete();
@@ -307,7 +313,16 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
+            $product->load('category', 'user');
             $product->delete();
+
+            Notification::create([
+                'user_id' => $product->user_id,
+                'title' => 'Product Deleted',
+                'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been deleted by ' . $product->user->name,
+                'link' => route('products.index'),
+                'is_read' => 0,
+            ]);
             $products = Product::all();
             $view = view('admin.products.table', compact('products'))->render();
             return back()->with('message', 'Product deleted successfully');
@@ -360,6 +375,20 @@ class ProductController extends Controller
         }
     }
 
+    // public function toggleFeatured(Request $request)
+    // {
+    //     $product = Product::find($request->id);
+
+    //     if ($product) {
+    //         $product->featured = $request->featured;
+    //         $product->save();
+
+    //         return response()->json(['success' => true]);
+    //     }
+
+    //     return response()->json(['success' => false]);
+    // }
+
     public function toggleFeatured(Request $request)
     {
         $product = Product::find($request->id);
@@ -367,6 +396,15 @@ class ProductController extends Controller
         if ($product) {
             $product->featured = $request->featured;
             $product->save();
+
+            $statusText = $product->featured == 1 ? 'Featured' : 'Unfeatured';
+            Notification::create([
+                'user_id' => $product->user_id,
+                'title' => 'Product ' . $statusText,
+                'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been ' . $statusText . ' by ' . $product->user->name,
+                'link' => route('products.index'),
+                'is_read' => 0,
+            ]);
 
             return response()->json(['success' => true]);
         }

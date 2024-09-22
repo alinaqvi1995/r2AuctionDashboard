@@ -20,6 +20,7 @@ use App\Models\Category;
 use App\Models\Manufacturer;
 use App\Models\AuctionSlot;
 use App\Models\User;
+use App\Models\Notification;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 use App\Mail\ProductAdded;
@@ -89,9 +90,17 @@ class ProductApiController extends Controller
         $requestData = $request->except(['image', 'media']);
         $requestData['lot_no'] = $lotNo;
 
-        $product = Product::create($requestData);
+        $product = Product::with('user', 'category')->create($requestData);
 
         $user = User::findOrFail($request['user_id']);
+
+        Notification::create([
+            'user_id' => $product->user_id,
+            'title' => 'New Product',
+            'description' => 'A new ' . $product->category->name . ' ' . $product->name . ' has been added by' . $product->user->name,
+            'link' => route('products.index'),
+            'is_read' => 0,
+        ]);
 
         Mail::to($user->email)->send(new ProductAdded($user));
 
@@ -226,15 +235,15 @@ class ProductApiController extends Controller
 
         $product->update($request->except(['image', 'media']));
 
-        // Handle file uploads
-        // if ($request->hasFile('image')) {
-        //     if ($product->image) {
-        //         $this->deleteImage($product->image);
-        //     }
-        //     $imagePath = $this->uploadImage($request->file('image'), 'products');
-        //     $product->image = $imagePath;
-        //     $product->save();
-        // }
+        $product->load('category', 'user');
+
+        Notification::create([
+            'user_id' => $product->user_id,
+            'title' => 'Product Updated',
+            'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been updated by ' . $product->user->name,
+            'link' => route('products.index'),
+            'is_read' => 0,
+        ]);
 
         if ($request->hasFile('media')) {
             $product->images()->delete();
@@ -266,7 +275,17 @@ class ProductApiController extends Controller
     public function destroy(Product $product)
     {
         try {
+            $product->load('category', 'user');
             $product->delete();
+
+            Notification::create([
+                'user_id' => $product->user_id,
+                'title' => 'Product Deleted',
+                'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been deleted by ' . $product->user->name,
+                'link' => route('products.index'),
+                'is_read' => 0,
+            ]);
+
             return response()->json(['message' => 'Product deleted successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete product: ' . $e->getMessage()], 500);
@@ -325,6 +344,20 @@ class ProductApiController extends Controller
         }
     }
 
+    // public function toggleStatus(Request $request)
+    // {
+    //     $product = Product::find($request->id);
+
+    //     if ($product) {
+    //         $product->status = $request->status;
+    //         $product->save();
+
+    //         return response()->json(['success' => true]);
+    //     }
+
+    //     return response()->json(['success' => false]);
+    // }
+
     public function toggleStatus(Request $request)
     {
         $product = Product::find($request->id);
@@ -332,6 +365,17 @@ class ProductApiController extends Controller
         if ($product) {
             $product->status = $request->status;
             $product->save();
+
+            $product->load('category', 'user');
+
+            $statusText = $product->status == 1 ? 'Activated' : 'Deactivated';
+            Notification::create([
+                'user_id' => $product->user_id,
+                'title' => 'Product Status Changed' . ucfirst($statusText),
+                'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been ' . $statusText . ' by ' . $product->user->name,
+                'link' => route('products.index'),
+                'is_read' => 0,
+            ]);
 
             return response()->json(['success' => true]);
         }
@@ -362,7 +406,7 @@ class ProductApiController extends Controller
         if ($request->filled('min_price') && $request->filled('max_price')) {
             $minPrice = (float) $request->min_price;
             $maxPrice = (float) $request->max_price;
-        
+
             $query->whereBetween(\DB::raw('CAST(minimum_bid_price AS DECIMAL)'), [$minPrice, $maxPrice]);
         } elseif ($request->filled('min_price')) {
             $minPrice = (float) $request->min_price;
