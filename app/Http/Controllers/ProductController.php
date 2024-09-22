@@ -131,7 +131,7 @@ class ProductController extends Controller
         $product = Product::with('user', 'category')->create($productData);
 
         Notification::create([
-            'user_id' => $product->user_id,
+            'user_id' => Auth::id(),
             'title' => 'New Product',
             'description' => 'A new ' . $product->category->name . ' ' . $product->name . ' has been added by' . $product->user->name,
             'link' => route('products.index'),
@@ -272,7 +272,7 @@ class ProductController extends Controller
         $product->load('category', 'user');
 
         Notification::create([
-            'user_id' => $product->user_id,
+            'user_id' => Auth::id(),
             'title' => 'Product Updated',
             'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been updated by ' . $product->user->name,
             'link' => route('products.index'),
@@ -317,7 +317,7 @@ class ProductController extends Controller
             $product->delete();
 
             Notification::create([
-                'user_id' => $product->user_id,
+                'user_id' => Auth::id(),
                 'title' => 'Product Deleted',
                 'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been deleted by ' . $product->user->name,
                 'link' => route('products.index'),
@@ -391,15 +391,15 @@ class ProductController extends Controller
 
     public function toggleFeatured(Request $request)
     {
-        $product = Product::find($request->id);
-
+        $product = Product::with('category', 'user')->find($request->id);
+        
         if ($product) {
             $product->featured = $request->featured;
             $product->save();
 
             $statusText = $product->featured == 1 ? 'Featured' : 'Unfeatured';
             Notification::create([
-                'user_id' => $product->user_id,
+                'user_id' => Auth::id(),
                 'title' => 'Product ' . $statusText,
                 'description' => 'The product ' . $product->category->name . ' ' . $product->name . ' has been ' . $statusText . ' by ' . $product->user->name,
                 'link' => route('products.index'),

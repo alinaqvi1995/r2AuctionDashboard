@@ -17,12 +17,12 @@
                 <span class="fe fe-grid fe-16"></span>
             </a>
         </li>
-        {{-- <li class="nav-item nav-notif">
+        <li class="nav-item nav-notif">
             <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-notif">
                 <span class="fe fe-bell fe-16"></span>
                 <span class="dot dot-md dot-anim bg-success"></span>
             </a>
-        </li> --}}
+        </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink"
                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

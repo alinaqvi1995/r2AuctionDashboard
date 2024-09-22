@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Buyer;
 use App\Models\Seller;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -47,18 +48,18 @@ class UserManagementController extends Controller
             'admin_approval' => ['required'],
             // Add other validation rules for buyer and seller fields as necessary
         ]);
-        
+
         if ($validator->fails()) {
             // dd($validator);
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         // Update user data
         $data = $request->except('password');
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->input('password'));
         }
-        
+
         $user->update($data);
 
         // Handle Buyer or Seller update
@@ -109,6 +110,15 @@ class UserManagementController extends Controller
             ]);
 
             $buyer = Buyer::updateOrCreate(['user_id' => $user->id], $buyerData);
+
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title' => 'Buyer Updated',
+                'description' => 'Buyer information has been updated: ' . $user->full_name . ' by Admin',
+                'link' => route('users.index'),
+                'is_read' => 0,
+            ]);
+
         } elseif ($user->role === 'seller') {
             $sellerData = $request->only([
                 'company_name',
@@ -139,12 +149,41 @@ class UserManagementController extends Controller
             ]);
 
             $seller = Seller::updateOrCreate(['user_id' => $user->id], $sellerData);
+
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title' => 'Seller Updated',
+                'description' => 'Seller information has been updated: ' . $user->full_name . ' by Admin',
+                'link' => route('users.index'),
+                'is_read' => 0,
+            ]);
         }
 
         if ($user->role == 'admin') {
             return redirect()->route('admin')->with('success', 'Profile updated successfully');
         } else {
             return redirect()->route('users.index')->with('success', 'User updated successfully');
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        try {
+            $user = User::find($request->user_id);
+            
+            Notification::create([
+                'user_id' => auth()->user()->id,
+                'title' => 'User Deleted',
+                'description' => 'User has been deleted: ' . $user->email . ' by Admin',
+                'link' => route('users.index'),
+                'is_read' => 0,
+            ]);
+
+            $user->delete();
+
+            return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('users.index')->with('error', 'User did not delete successfully');
         }
     }
 }

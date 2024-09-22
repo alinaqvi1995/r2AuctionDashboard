@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
+use App\Models\Notification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -64,6 +65,14 @@ class UserApiController extends Controller
             'business_website' => $validatedData['business_website'],
             'business_desc' => $validatedData['business_desc'],
             'role' => $validatedData['role'],
+        ]);
+
+        Notification::create([
+            'user_id' => $user->id,
+            'title' => 'New User Registration',
+            'description' => 'A new user has registered: ' . $user->name,
+            'link' => route('users.index'),
+            'is_read' => 0,
         ]);
 
         return response()->json($user, 201);

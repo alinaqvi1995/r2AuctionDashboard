@@ -21,6 +21,7 @@ use App\Http\Controllers\AuctionSlotController;
 use App\Http\Controllers\ModelNameController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ClientsFeedbackController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
@@ -159,7 +160,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('users/{product}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
     Route::put('users/{product}', [UserManagementController::class, 'update'])->name('users.update');
     // Route::post('users', [UserManagementController::class, 'store'])->name('users.store');
-    // Route::delete('users/{product}', [UserManagementController::class, 'destroy'])->name('users.destroy');
+    Route::delete('users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
 
     // Ram
     Route::get('rams', [RamController::class, 'index'])->name('rams.index');
@@ -213,5 +214,5 @@ Route::middleware('admin')->prefix('admin')->group(function () {
         }
     });
 
-    // Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('update.password');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });

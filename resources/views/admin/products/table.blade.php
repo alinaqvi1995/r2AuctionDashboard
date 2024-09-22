@@ -68,7 +68,7 @@
                     @endif
                 </td>
                 <td id="btn{{ $product->id }}">
-                    <a href="{{ route('products.edit', $product->id) }}"
+                    {{-- <a href="{{ route('products.edit', $product->id) }}"
                         class="btn btn-sm rounded dropdown-toggle more-horizontal text-mute" type="button"
                         data-id="{{ $product->id }}">
                         <span class="text-muted sr-only">Edit</span>
@@ -82,7 +82,22 @@
                             <span class="fe fe-trash fe-12 mr-3"></span>
                             <span class="text-muted sr-only">Remove</span>
                         </button>
-                    </form>
+                    </form> --}}
+                    <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="text-muted sr-only">Action</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right shadow">
+                        <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}"><i
+                                class="fe fe-edit-2 fe-12 mr-3 text-muted"></i>Edit</a>
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="user_id" value="{{ $product->id }}">
+                            <button type="submit" class="dropdown-item"><i
+                                    class="fe fe-trash fe-12 mr-3 text-muted"></i>Remove</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         @endforeach

@@ -59,62 +59,36 @@
                         </div>
                         <div class="modal-body">
                             <div class="list-group list-group-flush my-n3">
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="fe fe-box fe-24"></span>
-                                        </div>
-                                        <div class="col">
-                                            <small><strong>Package has uploaded successfull</strong></small>
-                                            <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                                            <small class="badge badge-pill badge-light text-muted">1m ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="fe fe-download fe-24"></span>
-                                        </div>
-                                        <div class="col">
-                                            <small><strong>Widgets are updated successfull</strong></small>
-                                            <div class="my-0 text-muted small">Just create new layout Index, form, table
+                                @php
+                                    $notifications = App\Models\Notification::where('is_read', 0)
+                                        ->orderBy('created_at', 'desc')
+                                        ->take(7)
+                                        ->get();
+                                @endphp
+                                @foreach ($notifications as $notification)
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            {{-- <div class="col-auto">
+                                                <span class="fe fe-box fe-24"></span>
+                                            </div> --}}
+                                            <div class="col">
+                                                <small><strong>{{ $notification->title }}</strong></small>
+                                                <div class="my-0 text-muted small">{{ $notification->description }}
+                                                </div>
+                                                <small class="badge badge-pill badge-light text-muted">
+                                                    {{ $notification->created_at->diffForHumans() }}
+                                                </small>
                                             </div>
-                                            <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="fe fe-inbox fe-24"></span>
-                                        </div>
-                                        <div class="col">
-                                            <small><strong>Notifications have been sent</strong></small>
-                                            <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo
-                                            </div>
-                                            <small class="badge badge-pill badge-light text-muted">30m ago</small>
                                         </div>
                                     </div> <!-- / .row -->
-                                </div>
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="fe fe-link fe-24"></span>
-                                        </div>
-                                        <div class="col">
-                                            <small><strong>Link was attached to menu</strong></small>
-                                            <div class="my-0 text-muted small">New layout has been attached to the menu
-                                            </div>
-                                            <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                                        </div>
-                                    </div>
-                                </div> <!-- / .row -->
+                                @endforeach
                             </div> <!-- / .list-group -->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear
-                                All</button>
+                            {{-- <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">See All
+                                Notifications</button> --}}
+                            <a href="{{ route('notifications.index') }}" class="btn btn-secondary btn-block">See All
+                                Notifications</a>
                         </div>
                     </div>
                 </div>

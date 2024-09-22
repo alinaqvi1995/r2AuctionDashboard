@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Buyer;
 use App\Models\Seller;
 use App\Models\SellerGradingPolicy;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\UserSignedUp;
@@ -142,6 +143,14 @@ class RegisterApiController extends Controller
 
         Mail::to($user->email)->send(new UserSignedUp($user));
 
+        Notification::create([
+            'user_id' => $user->id,
+            'title' => 'New User Registration',
+            'description' => 'A new user has registered: ' . $user->email,
+            'link' => route('users.index'),
+            'is_read' => 0,
+        ]);
+
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,
@@ -246,6 +255,15 @@ class RegisterApiController extends Controller
             }
 
             $buyer->save();
+
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'Buyer Updated',
+                'description' => 'Buyer information has been updated: ' . $user->full_name,
+                'link' => route('users.index'),
+                'is_read' => 0,
+            ]);
+
         } elseif ($user->role === 'seller') {
             $sellerData = $request->only([
                 'company_name',
@@ -294,6 +312,14 @@ class RegisterApiController extends Controller
             }
 
             $seller->save();
+
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'Seller Updated',
+                'description' => 'Seller information has been updated: ' . $user->full_name,
+                'link' => route('users.index'),
+                'is_read' => 0,
+            ]);
 
             if ($request->has('policy_grade_title') && $request->has('policy_grade_description')) {
                 $policyTitles = $request->input('policy_grade_title');
