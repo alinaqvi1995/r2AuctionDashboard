@@ -181,6 +181,8 @@ class UserManagementController extends Controller
 
             $user->delete();
 
+            $user->products()->delete();
+
             return redirect()->route('users.index')->with('success', 'User deleted successfully');
         } catch (\Exception $e) {
             return redirect()->route('users.index')->with('error', 'User did not delete successfully');
