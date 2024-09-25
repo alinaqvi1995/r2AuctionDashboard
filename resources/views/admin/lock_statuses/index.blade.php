@@ -133,7 +133,7 @@
             $(document).on('click', '.editLockStatusBtn', function() {
                 var lockStatusId = $(this).data('id');
                 $.ajax({
-                    url: "/lock_statuses/" + lockStatusId + "/edit",
+                    url: "{{ route('lockstatuses.edit', ':lockStatusId') }}".replace(':lockStatusId', lockStatusId), // Generate the edit URL dynamically
                     method: "GET",
                     success: function(response) {
                         $('#edit_id').val(response.lockStatus.id);
@@ -185,12 +185,17 @@
             // Delete lock status
             $(document).on('click', '.deleteLockStatusBtn', function() {
                 var lockStatusId = $(this).data('id');
+                var deleteUrl = "{{ route('lockstatuses.destroy', ':id') }}";
+                deleteUrl = deleteUrl.replace(':id', lockStatusId);
                 if (confirm("Are you sure you want to delete this Lock Status?")) {
                     $.ajax({
-                        url: "/lock_statuses/" + lockStatusId,
+                        url: deleteUrl,
                         method: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(response) {
-                            $('#tableData').html(response.table_html);
+                            $('#tableData').html(response.lockStatuses);
 
                             $('#lockStatusMessage').html(
                                 '<div class="alert alert-success" role="alert">Lock Status deleted successfully.</div>'
