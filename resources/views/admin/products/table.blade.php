@@ -60,9 +60,8 @@
                     @endif
                 </td>
                 <td id="image{{ $product->id }}">
-                    @if ($product->image)
-                        <img src="{{ asset('products/' . $product->image) }}" alt="Product Image"
-                            style="max-width: 100px;">
+                    @if ($product['images'] && isset($product['images'][0]['path']))
+                        <img src="{{ $product['images'][0]['path'] }}" alt="Product Image" style="max-width: 100px;">
                     @else
                         No Image Available
                     @endif

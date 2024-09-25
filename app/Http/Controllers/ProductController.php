@@ -30,7 +30,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with('user')->get();
+        $products = Product::with('user', 'images')->get();
         $categories = Category::get();
         $capacity = Capacity::get();
         $colors = Color::get();
