@@ -21,7 +21,6 @@
                             </ul>
                         </div>
                     @endif
-
                     <form method="POST" action="{{ route('users.update', $user->id) }}" class="row g-3">
                         @csrf
                         @method('PUT')
@@ -272,67 +271,80 @@
                             <div class="col-md-6">
                                 <label for="business_license"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business License') }}</label>
-                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="business_license" id="business_license"
-                                    value="{{ old('business_license', $user->seller->business_license) }}">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="business_license"
+                                        name="business_license" required>
+                                    <label class="custom-file-label" for="image" id="business_license_label">Choose
+                                        file</label>
+                                </div>
                                 <div>
-                                    <img id="business_license_preview"
-                                        src="{{ old('business_license', $user->seller->business_license) }}"
-                                        alt=""
-                                        style="max-width: 100%; height: auto;">
+                                    <a href="{{ $user->seller->business_license }}" target="_blank">
+                                        View
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="address_proof"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Address Proof') }}</label>
-                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="address_proof" id="address_proof"
-                                    value="{{ old('address_proof', $user->seller->address_proof) }}">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="address_proof"
+                                        name="address_proof" required>
+                                    <label class="custom-file-label" for="image" id="address_proof_label">Choose
+                                        file</label>
+                                </div>
                                 <div>
-                                    <img id="address_proof_preview"
-                                        src="{{ $user->seller->address_proof }}" alt=""
-                                        style="max-width: 100%; height: auto;">
+                                    <a href="{{ $user->seller->address_proof }}" target="_blank">
+                                        View
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="owner_eid"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Owner EID') }}</label>
-                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="owner_eid" id="owner_eid"
-                                    value="{{ old('owner_eid', $user->seller->owner_eid) }}">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="owner_eid" name="owner_eid"
+                                        required>
+                                    <label class="custom-file-label" for="image" id="owner_eid_label">Choose
+                                        file</label>
+                                </div>
                                 <div>
-                                    <img id="owner_eid_preview" src="{{ old('owner_eid', $user->seller->owner_eid) }}"
-                                        alt=""
-                                        style="max-width: 100%; height: auto;">
+                                    <a href="{{ $user->seller->owner_eid }}" target="_blank">
+                                        View
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="tra_certificate"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('TRA Certificate') }}</label>
-                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="tra_certificate" id="tra_certificate"
-                                    value="{{ old('tra_certificate', $user->seller->tra_certificate) }}">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="tra_certificate"
+                                        name="tra_certificate" required>
+                                    <label class="custom-file-label" for="image" id="tra_certificate_label">Choose
+                                        file</label>
+                                </div>
                                 <div>
-                                    <img id="tra_certificate_preview"
-                                        src="{{ old('tra_certificate', $user->seller->tra_certificate) }}" alt=""
-                                        style="max-width: 100%; height: auto;">
+                                    <a href="{{ $user->seller->tra_certificate }}" target="_blank">
+                                        View
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="bank_swift_letter"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank SWIFT Letter') }}</label>
-                                <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                    name="bank_swift_letter" id="bank_swift_letter"
-                                    value="{{ old('bank_swift_letter', $user->seller->bank_swift_letter) }}">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="bank_swift_letter"
+                                        name="bank_swift_letter" required>
+                                    <label class="custom-file-label" for="image" id="bank_swift_letter_label">Choose
+                                        file</label>
+                                </div>
                                 <div>
-                                    <img id="bank_swift_letter_preview"
-                                        src="{{ old('bank_swift_letter', $user->seller->bank_swift_letter) }}"
-                                        alt=""
-                                        style="max-width: 100%; height: auto;">
+                                    <a href="{{ $user->seller->bank_swift_letter }}" target="_blank">
+                                        View
+                                    </a>
                                 </div>
                             </div>
                         @elseif($user->role == 'buyer')
