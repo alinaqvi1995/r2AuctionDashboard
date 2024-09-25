@@ -72,6 +72,10 @@ class RegisterApiController extends Controller
             $existingUser->save();
 
             $user = $existingUser;
+        } elseif ($existingUser && !$existingUser->trashed()) {
+            return response()->json([
+                'message' => 'User with this email already exists.',
+            ], 422);
         } else {
             $user = User::create([
                 'email' => $validatedData['email'],
@@ -93,11 +97,12 @@ class RegisterApiController extends Controller
         ]);
 
         return response()->json([
-            'message' => $existingUser ? 'User restored successfully' : 'User registered successfully',
+            'message' => $existingUser && $existingUser->trashed() ? 'User restored successfully' : 'User registered successfully',
             'user' => $user,
             'token' => $token
         ], 201);
     }
+
 
     public function update(Request $request, User $user)
     {
