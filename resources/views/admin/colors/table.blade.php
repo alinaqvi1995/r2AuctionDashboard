@@ -2,7 +2,6 @@
 <table class="table datatables" id="dataTable-1">
     <thead>
         <tr>
-            <th></th>
             <th>Sr#</th>
             <th>Name</th>
             <th>Model</th>
@@ -16,12 +15,6 @@
         @php $counter = 1 @endphp <!-- Initialize counter -->
         @foreach ($colors as $color)
             <tr>
-                <td>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input">
-                        <label class="custom-control-label"></label>
-                    </div>
-                </td>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
                 <td id="name{{ $color->id }}">{{ $color->name }}</td>
                 <td id="name{{ $color->id }}">{{ isset($color->model) ? $color->model->name : null }}</td>

@@ -2,7 +2,6 @@
 <table class="table datatables" id="dataTable-1">
     <thead>
         <tr>
-            <th></th>
             <th>Sr#</th>
             <th>Posted By</th>
             <th>Name</th>
@@ -18,12 +17,6 @@
         @php $counter = 1 @endphp
         @foreach ($products as $product)
             <tr>
-                <td>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input">
-                        <label class="custom-control-label"></label>
-                    </div>
-                </td>
                 <td>{{ $counter++ }}</td>
                 <td id="name{{ $product->id }}">{{ $product->name }}</td>
                 <td id="user{{ $product->id }}">

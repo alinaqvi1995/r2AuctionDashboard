@@ -66,12 +66,11 @@ class RegisterApiController extends Controller
         $existingUser = User::withTrashed()->where('email', $validatedData['email'])->first();
 
         if ($existingUser && $existingUser->trashed()) {
-            $existingUser->restore();
-            $existingUser->password = Hash::make($validatedData['password']);
-            $existingUser->role = $role;
-            $existingUser->save();
 
-            $user = $existingUser;
+            return response()->json([
+                'message' => $existingUser && $existingUser->trashed() ? 'User restored successfully' : 'User registered successfully',
+            ], 201);
+
         } elseif ($existingUser && !$existingUser->trashed()) {
             return response()->json([
                 'message' => 'User with this email already exists.',

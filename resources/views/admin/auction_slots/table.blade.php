@@ -2,7 +2,6 @@
 <table class="table datatables" id="dataTable-1">
     <thead>
         <tr>
-            <th></th>
             <th>Sr#</th>
             <th>Auction Days</th>
             <th>Action</th>
@@ -12,12 +11,6 @@
         @php $counter = 1 @endphp <!-- Initialize counter -->
         @foreach ($auctionSlots as $slot)
             <tr>
-                <td>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input">
-                        <label class="custom-control-label"></label>
-                    </div>
-                </td>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
                 <td id="description{{ $slot->id }}">{{ $slot->auction_date }} - {{ $slot->auction_date_end }}</td>
                 <td id="btn{{ $slot->id }}">

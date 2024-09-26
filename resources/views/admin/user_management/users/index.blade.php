@@ -43,7 +43,6 @@
                             <table class="table datatables" id="dataTable-1">
                                 <thead>
                                     <tr>
-                                        <th></th>
                                         <th>Sr#</th>
                                         <th>Name</th>
                                         <th>Email</th>
@@ -60,12 +59,6 @@
                                     @foreach ($users as $user)
                                         @if ($user->role != 'admin')
                                             <tr>
-                                                <td>
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input">
-                                                        <label class="custom-control-label"></label>
-                                                    </div>
-                                                </td>
                                                 <td>{{ $counter++ }}</td>
                                                 <td>{{ $user->name . ' ' . $user->middle_name . ' ' . $user->last_name }}
                                                 </td>
