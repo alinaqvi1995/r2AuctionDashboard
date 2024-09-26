@@ -67,9 +67,9 @@ class RegisterApiController extends Controller
 
         if ($existingUser && $existingUser->trashed()) {
 
-            return response()->json([
-                'message' => $existingUser && $existingUser->trashed() ? 'User restored successfully' : 'User registered successfully',
-            ], 201);
+            // return response()->json([
+            //     'message' => $existingUser && $existingUser->trashed() ? 'User restored successfully' : 'User registered successfully',
+            // ], 201);
 
         } elseif ($existingUser && !$existingUser->trashed()) {
             return response()->json([
@@ -96,7 +96,7 @@ class RegisterApiController extends Controller
         ]);
 
         return response()->json([
-            'message' => $existingUser && $existingUser->trashed() ? 'User restored successfully' : 'User registered successfully',
+            'message' => $existingUser && $existingUser->trashed() ? 'User already exists please contact admin for new signup' : 'User registered successfully',
             'user' => $user,
             'token' => $token
         ], 201);
