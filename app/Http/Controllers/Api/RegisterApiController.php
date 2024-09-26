@@ -66,22 +66,22 @@ class RegisterApiController extends Controller
         $existingUser = User::withTrashed()->where('email', $validatedData['email'])->first();
 
         if ($existingUser && $existingUser->trashed()) {
+            return response()->json([
+                'message' => 'This account has been deactivated. Please contact the admin for further assistance.',
+            ], 422);
+        }
 
-            // return response()->json([
-            //     'message' => $existingUser && $existingUser->trashed() ? 'User restored successfully' : 'User registered successfully',
-            // ], 201);
-
-        } elseif ($existingUser && !$existingUser->trashed()) {
+        if ($existingUser && !$existingUser->trashed()) {
             return response()->json([
                 'message' => 'User with this email already exists.',
             ], 422);
-        } else {
-            $user = User::create([
-                'email' => $validatedData['email'],
-                'password' => Hash::make($validatedData['password']),
-                'role' => $role,
-            ]);
         }
+
+        $user = User::create([
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'role' => $role,
+        ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -96,12 +96,11 @@ class RegisterApiController extends Controller
         ]);
 
         return response()->json([
-            'message' => $existingUser && $existingUser->trashed() ? 'User already exists please contact admin for new signup' : 'User registered successfully',
+            'message' => 'User registered successfully',
             'user' => $user,
             'token' => $token
         ], 201);
     }
-
 
     public function update(Request $request, User $user)
     {
