@@ -2,7 +2,6 @@
 <table class="table datatables" id="dataTable-1">
     <thead>
         <tr>
-            <th></th>
             <th>Sr#</th>
             <th>Title</th>
             <th>Date</th>
@@ -14,12 +13,6 @@
         @php $counter = 1 @endphp <!-- Initialize counter -->
         @foreach ($news as $item)
             <tr>
-                <td>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input">
-                        <label class="custom-control-label"></label>
-                    </div>
-                </td>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
                 <td id="title{{ $item->id }}">{{ $item->title }}</td>
                 <td id="date{{ $item->id }}">{{ $item->date }}</td>

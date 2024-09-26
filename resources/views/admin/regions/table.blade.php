@@ -2,7 +2,6 @@
 <table class="table datatables" id="dataTable-1">
     <thead>
         <tr>
-            <th></th>
             <th>Sr#</th>
             <th>Name</th>
             <th>Description</th>
@@ -14,12 +13,6 @@
         @php $counter = 1 @endphp <!-- Initialize counter -->
         @foreach ($regions as $region)
             <tr>
-                <td>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input">
-                        <label class="custom-control-label"></label>
-                    </div>
-                </td>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
                 <td id="name{{ $region->id }}">{{ $region->name }}</td>
                 <td id="description{{ $region->id }}">{{ $region->description }}</td>
