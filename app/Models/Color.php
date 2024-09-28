@@ -14,6 +14,6 @@ class Color extends Model
 
     public function model()
     {
-        return $this->belongsTo(ModelNumber::class, 'model_id');
+        return $this->belongsTo(ModelName::class, 'model_id');
     }
 }

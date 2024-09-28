@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Color;
-use App\Models\ModelNumber;
+use App\Models\ModelName;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller
 {
     public function index()
     {
-        $models = ModelNumber::all();
+        $models = ModelName::all();
         $colors = Color::with('model')->get();
         return view('admin.colors.index', compact('colors', 'models'));
     }
