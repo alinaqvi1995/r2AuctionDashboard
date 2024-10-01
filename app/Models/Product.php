@@ -127,6 +127,21 @@ class Product extends Model
         return $this->belongsTo(AuctionSlot::class, 'auction_slot_id', 'id');
     }
 
+    public function connectivity()
+    {
+        return $this->belongsTo(Connectivity::class, 'connectivity', 'id');
+    }
+
+    public function generation()
+    {
+        return $this->belongsTo(Generation::class, 'generation', 'id');
+    }
+
+    public function material()
+    {
+        return $this->belongsTo(Material::class, 'material', 'id');
+    }
+
     public function rams()
     {
         return $this->belongsToMany(Ram::class, 'pivot_product_ram', 'product_id', 'ram_id');

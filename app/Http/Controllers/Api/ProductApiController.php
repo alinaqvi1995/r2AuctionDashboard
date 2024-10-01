@@ -21,6 +21,9 @@ use App\Models\Manufacturer;
 use App\Models\AuctionSlot;
 use App\Models\User;
 use App\Models\Notification;
+use App\Models\Connectivity;
+use App\Models\Generation;
+use App\Models\Material;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 use App\Mail\ProductAdded;
@@ -166,7 +169,10 @@ class ProductApiController extends Controller
             'auctionSlot',
             'images',
             'manufacturer',
-            'bids'
+            'bids',
+            'connectivity',
+            'generation',
+            'material',
         ]);
 
         return response()->json(['product' => $product], 200);
@@ -320,6 +326,9 @@ class ProductApiController extends Controller
         $size = Size::with('model')->get();
         $modelName = ModelName::with('category', 'manufacturer')->get();
         $auction_slot = AuctionSlot::get();
+        $connectivity = Connectivity::get();
+        $generation = Generation::get();
+        $material = Material::get();
 
         $data = [
             'categories' => $categories,
@@ -335,6 +344,9 @@ class ProductApiController extends Controller
             'size' => $size,
             'modelName' => $modelName,
             'auction_slot' => $auction_slot,
+            'connectivity' => $connectivity,
+            'generation' => $generation,
+            'material' => $material,
         ];
 
         if ($data) {
@@ -467,7 +479,10 @@ class ProductApiController extends Controller
             'auctionSlot',
             'images',
             'manufacturer',
-            'bids'
+            'bids',
+            'connectivity',
+            'generation',
+            'material',
         ])->get();
 
         $products;

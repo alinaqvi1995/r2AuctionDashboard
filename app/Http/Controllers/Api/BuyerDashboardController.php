@@ -12,7 +12,7 @@ class BuyerDashboardController extends Controller
 {
     public function dashboard($id)
     {
-        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user')
+        $featured = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user', 'connectivity', 'generation', 'material')
             ->where('status', 1)
             ->where('admin_approval', 1)
             ->where('featured', 1)
@@ -46,7 +46,7 @@ class BuyerDashboardController extends Controller
 
     public function buyer_bid_products($id)
     {
-        $products = Product::with('bids', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot')
+        $products = Product::with('bids', 'images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'connectivity', 'generation', 'material')
             ->whereHas('bids', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })
@@ -75,7 +75,7 @@ class BuyerDashboardController extends Controller
 
     public function wishlist_products($id)
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids')
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'connectivity', 'generation', 'material')
             ->whereHas('wishlist', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })->with('wishlist')->get();
@@ -89,7 +89,7 @@ class BuyerDashboardController extends Controller
 
     public function buyer_dashboard_products()
     {
-        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user')
+        $products = Product::with('images', 'storages', 'category', 'lockStatuses', 'manufacturer', 'auctionSlot', 'bids', 'bids.user', 'connectivity', 'generation', 'material')
             ->where('admin_approval', 1)
             ->where('status', 1)
             ->get();
