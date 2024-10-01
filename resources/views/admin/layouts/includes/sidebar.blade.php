@@ -191,6 +191,24 @@
                     <span class="ml-3 item-text">Feedback</span>
                 </a>
             </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('materials.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Materials</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('generations.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Generation</span>
+                </a>
+            </li>
+            <li class="nav-item w-100">
+                <a class="nav-link" href="{{ route('connectivity.index') }}">
+                    <i class="fe fe-layers fe-16"></i>
+                    <span class="ml-3 item-text">Connectivity</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </aside>

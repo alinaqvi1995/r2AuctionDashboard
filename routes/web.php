@@ -23,7 +23,9 @@ use App\Http\Controllers\BidController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ClientsFeedbackController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\GenerationController;
+use App\Http\Controllers\ConnectivityController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordChanged;
 use Illuminate\Support\Facades\Artisan;
@@ -215,4 +217,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     });
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+    // Materials
+    Route::resource('materials', MaterialController::class);
+
+    // Generation
+    Route::resource('generations', GenerationController::class);
+
+    // Connectivity
+    Route::resource('connectivity', ConnectivityController::class);
 });

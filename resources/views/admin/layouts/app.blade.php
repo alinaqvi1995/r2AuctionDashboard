@@ -207,7 +207,14 @@
             "lengthMenu": [
                 [16, 32, 64, -1],
                 [16, 32, 64, "All"]
-            ]
+            ],
+            drawCallback: function(settings) {
+                if (settings._iDisplayLength >= settings.fnRecordsTotal()) {
+                    $('#dataTable-1_wrapper .dataTables_length').hide();
+                } else {
+                    $('#dataTable-1_wrapper .dataTables_length').show();
+                }
+            }
         });
         $('#dataTable-2').DataTable({
             autoWidth: true,
@@ -228,6 +235,13 @@
                 "<'col-sm-12 col-md-6 text-muted mb-2'f>>" +
                 "<'row mb-4'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-5 text-muted'l><'col-sm-12 col-md-7'p>>",
+            drawCallback: function(settings) {
+                if (settings._iDisplayLength >= settings.fnRecordsTotal()) {
+                    $('#dataTable-2_wrapper .dataTables_length').hide();
+                } else {
+                    $('#dataTable-2_wrapper .dataTables_length').show();
+                }
+            }
         });
 
         //custom search input
