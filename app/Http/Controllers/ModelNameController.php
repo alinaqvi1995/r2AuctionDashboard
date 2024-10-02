@@ -22,6 +22,7 @@ class ModelNameController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'index' => 'nullable|integer|unique:model_names,index',
             'category_id' => 'required',
             'manufacturer_id' => 'required',
         ]);
@@ -53,6 +54,7 @@ class ModelNameController extends Controller
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
             'category_id' => 'required',
+            'index' => 'nullable|integer|unique:model_names,index',
             'manufacturer_id' => 'required',
         ]);
 

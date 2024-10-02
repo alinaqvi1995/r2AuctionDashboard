@@ -41,6 +41,10 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="index">Index</label>
+                            <input type="number" class="form-control" id="index" name="index">
+                        </div>
+                        <div class="form-group">
                             <label for="category_id">Category</label>
                             <select class="form-control" id="category_id" name="category_id" required>
                                 <option value="" disabled selected>Select</option>
@@ -91,6 +95,10 @@
                         <div class="form-group">
                             <label for="edit_name">Name</label>
                             <input type="text" class="form-control" id="edit_name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_index">Index</label>
+                            <input type="number" class="form-control" id="edit_index" name="index">
                         </div>
                         <div class="form-group">
                             <label for="edit_category">Category</label>
@@ -175,6 +183,7 @@
                     success: function(response) {
                         $('#edit_id').val(response.modelName.id);
                         $('#edit_name').val(response.modelName.name);
+                        $('#edit_index').val(response.modelName.index);
                         $('#edit_status').val(response.modelName.status);
                         $('#edit_category').val(response.modelName.category_id);
                         $('#edit_manufacturer').val(response.modelName.manufacturer_id);

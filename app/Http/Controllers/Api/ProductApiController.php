@@ -324,7 +324,7 @@ class ProductApiController extends Controller
         $carrier = Carrier::get();
         $ram = Ram::get();
         $size = Size::with('model')->get();
-        $modelName = ModelName::with('category', 'manufacturer')->get();
+        $modelName = ModelName::with('category', 'manufacturer')->orderBy('index')->get();
         $auction_slot = AuctionSlot::get();
         $connectivity = Connectivity::get();
         $generation = Generation::get();

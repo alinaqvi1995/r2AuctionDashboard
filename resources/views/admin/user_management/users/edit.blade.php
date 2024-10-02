@@ -273,7 +273,7 @@
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Business License') }}</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="business_license"
-                                        name="business_license" required>
+                                        name="business_license">
                                     <label class="custom-file-label" for="image" id="business_license_label">Choose
                                         file</label>
                                 </div>
@@ -289,7 +289,7 @@
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Address Proof') }}</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="address_proof"
-                                        name="address_proof" required>
+                                        name="address_proof">
                                     <label class="custom-file-label" for="image" id="address_proof_label">Choose
                                         file</label>
                                 </div>
@@ -304,8 +304,7 @@
                                 <label for="owner_eid"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Owner EID') }}</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="owner_eid" name="owner_eid"
-                                        required>
+                                    <input type="file" class="custom-file-input" id="owner_eid" name="owner_eid">
                                     <label class="custom-file-label" for="image" id="owner_eid_label">Choose
                                         file</label>
                                 </div>
@@ -321,7 +320,7 @@
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('TRA Certificate') }}</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="tra_certificate"
-                                        name="tra_certificate" required>
+                                        name="tra_certificate">
                                     <label class="custom-file-label" for="image" id="tra_certificate_label">Choose
                                         file</label>
                                 </div>
@@ -337,7 +336,7 @@
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('Bank SWIFT Letter') }}</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="bank_swift_letter"
-                                        name="bank_swift_letter" required>
+                                        name="bank_swift_letter">
                                     <label class="custom-file-label" for="image" id="bank_swift_letter_label">Choose
                                         file</label>
                                 </div>
@@ -356,8 +355,7 @@
                             <div class="col-12">
                                 <label for="user_type"
                                     class="form-label fs-14 text-theme-primary fw-bold">{{ __('user_type') }}</label>
-                                <select class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="user_type"
-                                    required>
+                                <select class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="user_type">
                                     <option value="Company" @if ($user->user_type == 'Company') selected @endif>Company
                                     </option>
                                     <option value="Individual" @if ($user->user_type == 'Individual') selected @endif>

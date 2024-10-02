@@ -4,6 +4,7 @@
         <tr>
             <th>Sr#</th>
             <th>Name</th>
+            <th>Index</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -14,6 +15,7 @@
             <tr>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
                 <td id="name{{ $modelName->id }}">{{ $modelName->name }}</td>
+                <td id="index{{ $modelName->id }}">{{ $modelName->index }}</td>
                 <td id="status{{ $modelName->id }}">{{ $modelName->status }}</td>
                 <td id="btn{{ $modelName->id }}">
                     <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted editModelNameBtn"
