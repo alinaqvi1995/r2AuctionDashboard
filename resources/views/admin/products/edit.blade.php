@@ -15,14 +15,14 @@
             <!-- Listing Title -->
             <div class="form-group">
                 <label for="name">Listing Title *</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}"
+                <input type="text" readonly class="form-control" id="name" name="name" value="{{ $product->name }}"
                     required>
             </div>
 
             <!-- Reference -->
             <div class="form-group">
                 <label for="reference">Reference *</label>
-                <input type="text" class="form-control" id="reference" name="reference" value="{{ $product->reference }}"
+                <input type="text" readonly class="form-control" id="reference" name="reference" value="{{ $product->reference }}"
                     required>
             </div>
 
