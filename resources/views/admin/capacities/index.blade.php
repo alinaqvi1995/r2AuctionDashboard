@@ -41,9 +41,9 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="brand_id">Manufacturer</label>
+                            <label for="brand_id">Model Name</label>
                             <select class="form-control" id="brand_id" name="brand_id" required>
-                                <option value="" selected disabled>Select Manufacturer</option>
+                                <option value="" selected disabled>Select Model Name</option>
                                 @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                 @endforeach
@@ -88,9 +88,9 @@
                             <input type="text" class="form-control" id="edit_name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="edit_brand_id">Manufacturer</label>
+                            <label for="edit_brand_id">Model Name</label>
                             <select class="form-control" id="edit_brand_id" name="brand_id" required>
-                                <option value="" selected disabled>Select Manufacturer</option>
+                                <option value="" selected disabled>Select Model Name</option>
                                 @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                 @endforeach

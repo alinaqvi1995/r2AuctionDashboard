@@ -41,6 +41,15 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
+                            <label for="model_id">Models</label>
+                            <select class="form-control" id="model_id" name="model_id" required>
+                                <option value="" selected disabled>Select Models</option>
+                                @foreach ($models as $model)
+                                    <option value="{{ $model->id }}">{{ $model->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="status">Status</label>
                             <select class="form-control" id="status" name="status" required>
                                 <option value="1">Active</option>
@@ -73,6 +82,15 @@
                         <div class="form-group">
                             <label for="edit_name">Name</label>
                             <input type="text" class="form-control" id="edit_name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_model_id">Models</label>
+                            <select class="form-control" id="edit_model_id" name="model_id" required>
+                                <option value="" selected disabled>Select Models</option>
+                                @foreach ($models as $model)
+                                    <option value="{{ $model->id }}">{{ $model->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="edit_status">Status</label>
@@ -137,8 +155,10 @@
                         ramId),
                     method: "GET",
                     success: function(response) {
+                        console.log('okokok', response);
                         $('#edit_id').val(response.ram.id);
                         $('#edit_name').val(response.ram.name);
+                        $('#edit_model_id').val(response.ram.model_id);
                         $('#edit_status').val(response.ram.status);
                         $('#editRamModal').modal('show');
 

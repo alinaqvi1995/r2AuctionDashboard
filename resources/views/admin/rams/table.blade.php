@@ -4,6 +4,7 @@
         <tr>
             <th>Sr#</th>
             <th>Name</th>
+            <th>Model Name</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -14,6 +15,7 @@
             <tr>
                 <td>{{ $counter++ }}</td> <!-- Increment and display counter -->
                 <td id="name{{ $ram->id }}">{{ $ram->name }}</td>
+                <td id="model{{ $ram->id }}">{{ isset($ram->model) ? $ram->model->name : null }}</td>
                 <td id="status{{ $ram->id }}">{{ $ram->status }}</td>
                 <td id="btn{{ $ram->id }}">
                     <button class="btn btn-sm rounded dropdown-toggle more-horizontal text-muted editRamBtn"

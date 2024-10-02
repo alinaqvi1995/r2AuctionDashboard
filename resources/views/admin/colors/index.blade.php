@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label for="model_id">Models</label>
                             <select class="form-control" id="model_id" name="model_id" required>
-                                <option value="" selected disabled>Select Manufacturer</option>
+                                <option value="" selected disabled>Select Models</option>
                                 @foreach ($models as $model)
                                     <option value="{{ $model->id }}">{{ $model->name }}</option>
                                 @endforeach
@@ -94,7 +94,7 @@
                         <div class="form-group">
                             <label for="edit_model_id">Models</label>
                             <select class="form-control" id="edit_model_id" name="model_id" required>
-                                <option value="" selected disabled>Select Manufacturer</option>
+                                <option value="" selected disabled>Select Models</option>
                                 @foreach ($models as $model)
                                     <option value="{{ $model->id }}">{{ $model->name }}</option>
                                 @endforeach

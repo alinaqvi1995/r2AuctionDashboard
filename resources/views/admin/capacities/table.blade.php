@@ -4,7 +4,7 @@
         <tr>
             <th>Sr#</th>
             <th>Name</th>
-            <th>Manufacturer</th>
+            <th>Model Name</th>
             <th>Description</th>
             <th>Status</th>
             <th>Action</th>

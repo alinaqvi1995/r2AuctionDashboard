@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ram;
+use App\Models\ModelName;
 
 class RamController extends Controller
 {
     public function index()
     {
         $rams = Ram::all();
-        return view('admin.rams.index', compact('rams'));
+        $models = ModelName::all();
+        return view('admin.rams.index', compact('rams', 'models'));
     }
 
     public function store(Request $request)
@@ -19,6 +21,7 @@ class RamController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'model_id' => 'required',
         ]);
 
         $ram = Ram::create($request->all());
@@ -48,6 +51,7 @@ class RamController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'status' => 'required|boolean',
+            'model_id' => 'required',
         ]);
 
         try {

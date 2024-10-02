@@ -29,11 +29,12 @@
             <!-- Listing Type -->
             <div class="form-group">
                 <label for="listing_type">Listing Type *</label>
-                <select class="form-control" id="listing_type" name="listing_type" required>
+                <input type="text" class="form-control" value="{{ $product->listing_type }}" readonly>
+                {{-- <select class="form-control" id="listing_type" name="listing_type" required>
                     <option value="">Select Listing Type</option>
                     <option value="1" {{ $product->listing_type == '1' ? 'selected' : '' }}>Type A</option>
                     <option value="2" {{ $product->listing_type == '2' ? 'selected' : '' }}>Type B</option>
-                </select>
+                </select> --}}
             </div>
 
             <!-- Product Manufacturer -->

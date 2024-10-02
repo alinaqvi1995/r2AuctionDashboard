@@ -10,5 +10,10 @@ class Ram extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'status'];
+    protected $fillable = ['name', 'model_id', 'status'];
+
+    public function model()
+    {
+        return $this->belongsTo(ModelName::class, 'model_id');
+    }
 }

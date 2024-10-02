@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Capacity;
-use App\Models\Manufacturer;
+use App\Models\ModelName;
 
 class CapacityController extends Controller
 {
     public function index()
     {
-        $brands = Manufacturer::all();
+        $brands = ModelName::all();
         $capacities = Capacity::with('brand')->get();
         return view('admin.capacities.index', compact('capacities', 'brands'));
     }

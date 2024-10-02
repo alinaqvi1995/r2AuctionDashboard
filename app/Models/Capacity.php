@@ -16,6 +16,12 @@ class Capacity extends Model
 
     public function brand()
     {
-        return $this->belongsTo(Manufacturer::class);
+        // return $this->belongsTo(Manufacturer::class);
+        return $this->belongsTo(ModelName::class, 'brand_id');
     }
+
+    // public function model()
+    // {
+    //     return $this->belongsTo(ModelName::class, 'brand_id');
+    // }
 }
