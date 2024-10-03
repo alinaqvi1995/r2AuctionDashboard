@@ -46,7 +46,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('First Name') }}</label>
                             <input id="name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px @error('name') is-invalid @enderror"
-                                name="name" value="{{ $user->name }}" autocomplete="name" autofocus>
+                                name="name" value="{{ $user->seller->first_name }}" autocomplete="name" autofocus>
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -54,20 +54,20 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <label for="middle_name"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Middle Name') }}</label>
                             <input id="middle_name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="middle_name"
                                 value="{{ $user->middle_name }}">
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-4">
                             <label for="last_name"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Last Name') }}</label>
                             <input id="last_name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="last_name"
-                                value="{{ $user->last_name }}">
+                                value="{{ $user->seller->last_name }}">
                         </div>
 
                         <!-- Contact Information -->
@@ -88,18 +88,18 @@
                             @enderror
                         </div> --}}
 
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <label for="phone"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Phone') }}</label>
                             <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="phone" value="{{ $user->phone }}">
+                                name="phone" value="{{ $user->seller->phone }}">
                         </div>
 
                         <div class="col-md-3">
                             <label for="state"
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('State') }}</label>
                             <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
-                                name="state" value="{{ $user->state }}">
+                                name="state" value="{{ $user->seller->company_state }}">
                         </div>
 
                         <div class="col-md-3">
@@ -114,7 +114,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Address') }}</label>
                             <input type="text" class="form-control fs-14 bg-theme-secondary border-0 h-50px"
                                 name="address" value="{{ $user->address }}">
-                        </div>
+                        </div> --}}
 
                         @if ($user->role == 'seller')
                             <!-- Seller Business Details -->
