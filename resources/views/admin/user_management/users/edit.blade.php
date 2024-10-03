@@ -278,9 +278,11 @@
                                         file</label>
                                 </div>
                                 <div>
-                                    <a href="{{ $user->seller->business_license }}" target="_blank">
-                                        View
-                                    </a>
+                                    @if ($user->seller->business_license != null)
+                                        <a href="{{ $user->seller->business_license }}" target="_blank">
+                                            View
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -294,9 +296,11 @@
                                         file</label>
                                 </div>
                                 <div>
-                                    <a href="{{ $user->seller->address_proof }}" target="_blank">
-                                        View
-                                    </a>
+                                    @if ($user->seller->address_proof != null)
+                                        <a href="{{ $user->seller->address_proof }}" target="_blank">
+                                            View
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -309,9 +313,11 @@
                                         file</label>
                                 </div>
                                 <div>
-                                    <a href="{{ $user->seller->owner_eid }}" target="_blank">
-                                        View
-                                    </a>
+                                    @if ($user->seller->owner_eid != null)
+                                        <a href="{{ $user->seller->owner_eid }}" target="_blank">
+                                            View
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -325,9 +331,11 @@
                                         file</label>
                                 </div>
                                 <div>
-                                    <a href="{{ $user->seller->tra_certificate }}" target="_blank">
-                                        View
-                                    </a>
+                                    @if ($user->seller->tra_certificate != null)
+                                        <a href="{{ $user->seller->tra_certificate }}" target="_blank">
+                                            View
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -341,9 +349,11 @@
                                         file</label>
                                 </div>
                                 <div>
-                                    <a href="{{ $user->seller->bank_swift_letter }}" target="_blank">
-                                        View
-                                    </a>
+                                    @if ($user->seller->bank_swift_letter != null)
+                                        <a href="{{ $user->seller->bank_swift_letter }}" target="_blank">
+                                            View
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         @elseif($user->role == 'buyer')
