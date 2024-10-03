@@ -70,6 +70,14 @@
                                 value="{{ $user->seller->last_name ?? $user->buyer->last_name ?? 'Enter Last Name' }}">
                         </div>
 
+                        <div class="col-md-4">
+                            <label for="email"
+                                class="form-label fs-14 text-theme-primary fw-bold">{{ __('Email') }}</label>
+                            <input id="email" type="text"
+                                class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="email" readonly
+                                value="{{ $user->email }}">
+                        </div>
+
                         <!-- Contact Information -->
                         {{-- <div class="col-12 mt-4">
                             <h4 class="text-theme-primary fs-16 fw-bold">Contact Information</h4>
