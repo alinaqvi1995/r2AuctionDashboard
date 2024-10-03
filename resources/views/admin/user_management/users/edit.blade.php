@@ -46,7 +46,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('First Name') }}</label>
                             <input id="first_name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px @error('name') is-invalid @enderror"
-                                name="first_name" value="{{ $user->seller->first_name ?? $user->buyer->first_name ?? 'Enter First Name' }}" autocomplete="first_name" autofocus>
+                                name="first_name" value="{{ $user->seller->first_name ?? $user->buyer->first_name ?? '' }}" autocomplete="first_name" autofocus>
                             @error('first_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -67,7 +67,7 @@
                                 class="form-label fs-14 text-theme-primary fw-bold">{{ __('Last Name') }}</label>
                             <input id="last_name" type="text"
                                 class="form-control fs-14 bg-theme-secondary border-0 h-50px" name="last_name"
-                                value="{{ $user->seller->last_name ?? $user->buyer->last_name ?? 'Enter Last Name' }}">
+                                value="{{ $user->seller->last_name ?? $user->buyer->last_name ?? '' }}">
                         </div>
 
                         <div class="col-md-4">
